@@ -24,7 +24,7 @@ Spelling is exact: **optiMEAS**, **optiCLOUD**, **optiCLOUD Sensor**.
 | Master | The platform-neutral specification in `spec/` is the master, not either app. Both apps are peers that implement it. |
 | optiCLOUD API | The optiCLOUD source code is the reference for MQTT and REST behavior. See [Working with the optiCLOUD source](#working-with-the-opticloud-source). |
 | Windows | A Windows desktop app is an idea for later (.NET rather than C++). It is not part of this plan. A PC has few sensors, so it would be a different product. |
-| Predecessor | The earlier "optiCLOUD Demo App" (Expo and React Native) stays in a private company repository. Its history is not imported here. |
+| Predecessor | The earlier "optiCLOUD Demo App" (Expo and React Native) stays in a private company repository. It is not a model for this product: nothing is derived from its code, design, specification, or history. |
 
 ## Functional areas
 
@@ -86,7 +86,7 @@ A button opens the default dashboard from the settings. If none is set, it opens
   - iOS has no general "keep running" mode. The workable route is the location background mode with "Always" permission. Without that permission the app transmits only while it is open. App Review checks this mode closely, so location must be a visible feature with a clear permission text.
   - Android needs a foreground service with a persistent notification. Allowed service types and time limits have tightened in recent Android versions. Check them against the current target SDK.
 - **Store and forward.** Journal entries and photos must not be lost without a network. They need a persistent queue that keeps the original time stamp. Whether telemetry is buffered as well is an open question.
-- **Photos do not travel over MQTT.** Brokers limit message size. The predecessor uploaded photos over HTTPS to an optiCLOUD storage API. Confirm the current, supported way in the optiCLOUD source.
+- **Photos do not travel over MQTT.** The message size is limited. The supported way to upload them is an open question.
 - **Secrets.** The access token is stored in the Keychain (iOS) and the Keystore-backed storage (Android). The user's password is never stored. Session tokens from the REST login are kept only as long as provisioning needs them.
 - **Shared test vectors.** `spec/` contains example payloads and expected results as JSON. Both apps run their protocol tests against the same files.
 
@@ -118,17 +118,9 @@ The assistant working in this repository can read the private optiCLOUD source c
 - Use only interfaces optiMEAS supports for customers. Once the app is public it documents the API in practice. If the source shows an internal or unstable endpoint, ask before using it.
 - Signing keys, provisioning profiles, and local environment files stay out of the repository.
 
-## What the predecessor provides
+## Protocol facts
 
-The private repository `opticloud-mobile-demo-app` contains a working client. Use it as a reference; take ideas and facts from it, not its history.
-
-- **Specification** (`docs/specification.md`): connection rules, states, MQTT protocol, alarm model. The new `spec/` should start from it.
-- **Native MQTT code** in Swift (CocoaMQTT) and Kotlin (Eclipse Paho): a starting point for the service layer. It was written as an Expo module, so the wrapper has to go.
-- **Protocol tests and simulation datasets**: a source for the shared test vectors.
-- **Brand colors** (`src/theme/tokens.ts`).
-- **Photo upload notes** (`docs/image-upload.md`).
-
-Protocol facts from the predecessor, to be verified against the optiCLOUD source:
+Read from the optiCLOUD source. Each one still needs a test against a running server before `spec/` relies on it.
 
 | Purpose | Direction | Topic |
 | --- | --- | --- |
@@ -140,18 +132,15 @@ Protocol facts from the predecessor, to be verified against the optiCLOUD source
 | Server RPC response | publish | `v2/json/devices/me/rpc/response/<requestId>` |
 | Alarm update | publish | `v3/json/devices/me/alarms` |
 
-- The connection is MQTT over TLS on port 8883. The device access token is the MQTT user name, without a password.
+- The connection is MQTT over TLS, by convention on port 8883. The port belongs to the installation, so it is part of the endpoint setting.
+- The device access token is the MQTT user name, without a password.
 - Payloads are UTF-8 JSON.
 
-The predecessor deliberately did things this product must do differently: it ran in the foreground only, used QoS 0, and had no offline queue.
-
-Lessons from its iOS build:
+## Notes for the build
 
 - Apps built with Xcode 27 must use the UIKit scene life cycle. A SwiftUI app life cycle covers this.
 - Keep the repository in a path without spaces.
-- CocoaMQTT is licensed under EPL 1.0 / EDL 1.0 and Eclipse Paho under EPL / EDL. Both need a license notice in the app. CocoaMQTT's socket library is declared public domain, which some jurisdictions do not recognize.
-- The Paho Android client used there (1.2.5) is old. Evaluate the current MQTT client options for both platforms before adopting the predecessor's choice.
-- The predecessor's custom font had no license file. This project uses system fonts instead.
+- No MQTT client library is chosen yet. Evaluate the current options for both platforms, including their licenses and the notices they require in the app.
 
 ## Before a store release
 
