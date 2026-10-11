@@ -1,0 +1,39 @@
+{
+  "description": "Encoding of telemetry samples into the payload of one telemetry message. Input: samples. Expected: topic and payload. See messages.md, Telemetry.",
+  "cases": [
+    {
+      "name": "single sample is sent as an array",
+      "samples": [
+        { "ts": 1760000000000, "values": { "batteryLevel": 0.82 } }
+      ],
+      "topic": "v2/json/devices/me/telemetry",
+      "payload": [
+        { "ts": 1760000000000, "values": { "batteryLevel": 0.82 } }
+      ]
+    },
+    {
+      "name": "number, boolean and string values",
+      "samples": [
+        { "ts": 1760000000000, "values": { "batteryLevel": 0.82, "charging": false, "network": "wifi" } }
+      ],
+      "topic": "v2/json/devices/me/telemetry",
+      "payload": [
+        { "ts": 1760000000000, "values": { "batteryLevel": 0.82, "charging": false, "network": "wifi" } }
+      ]
+    },
+    {
+      "name": "samples are ordered by rising time stamp",
+      "samples": [
+        { "ts": 1760000002000, "values": { "batteryLevel": 0.81 } },
+        { "ts": 1760000000000, "values": { "batteryLevel": 0.82 } },
+        { "ts": 1760000001000, "values": { "batteryLevel": 0.82 } }
+      ],
+      "topic": "v2/json/devices/me/telemetry",
+      "payload": [
+        { "ts": 1760000000000, "values": { "batteryLevel": 0.82 } },
+        { "ts": 1760000001000, "values": { "batteryLevel": 0.82 } },
+        { "ts": 1760000002000, "values": { "batteryLevel": 0.81 } }
+      ]
+    }
+  ]
+}

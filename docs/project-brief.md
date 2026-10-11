@@ -21,19 +21,21 @@ Spelling is exact: **optiMEAS**, **optiCLOUD**, **optiCLOUD Sensor**.
 | Background | The app must keep transmitting in the background when the user has agreed to it. |
 | Source | Open source in this public repository under the MIT license. |
 | Order | iOS is developed first. Android follows each release. |
-| Master | The platform-neutral specification in `spec/` is the master, not either app. Both apps are peers that implement it. |
+| Master | The platform-neutral specification in `docs/spec/` is the master, not either app. Both apps are peers that implement it. |
 | optiCLOUD API | The optiCLOUD source code is the reference for MQTT and REST behavior. See [Working with the optiCLOUD source](#working-with-the-opticloud-source). |
 | Windows | A Windows desktop app is an idea for later (.NET rather than C++). It is not part of this plan. A PC has few sensors, so it would be a different product. |
 | REST interfaces | optiMEAS supports the REST interfaces of the optiCLOUD web application for this app. |
 | Sign-in | The user signs in to optiCLOUD in a form inside the app, not in a browser. Single sign-on is a separate topic and not part of the stages below. |
 | Platform versions | As new as possible. The app targets the newest iOS and Android versions; the exact minimum versions are set when the app projects are created. |
+| Remote control | optiCLOUD may control the phone: the app accepts every RPC command, reacts to changes of shared attributes, and lets optiCLOUD set settings through them. |
+| Sensors | The app offers every sensor the phone has, up to values measured on the body such as heart rate and body temperature. |
 | Predecessor | The earlier "optiCLOUD Demo App" (Expo and React Native) stays in a private company repository. It is not a model for this product: nothing is derived from its code, design, specification, or history. |
 
 ## Functional areas
 
 ### Data the phone sends
 
-- **Sensor values.** Whatever the device offers. The set differs from device to device, so the app discovers at run time what is available.
+- **Sensor values.** Whatever the device offers. The set differs from device to device, so the app discovers at run time what is available. This includes values measured on the body, such as heart rate and body temperature, which reach the phone from a watch or another device.
 - **Location.** Geographic position, sent with the other data.
 - **Journal entries.** Text messages written by the user, with a time stamp. optiCLOUD stores them as notes on the device. The time stamp of a note is the moment the user saved the entry in the app, also when it is delivered later. There are two kinds: general entries, which need no user, and personal entries, for example from a train driver, which belong to a signed-in user.
 - **Photos.** Taken in the app, sent with a time stamp and, where available, the position. The app uploads them through the device storage interface; optiCLOUD stores them, and a dashboard widget shows the latest photo of a series.
@@ -91,15 +93,15 @@ A button opens the default dashboard from the settings. If none is set, it opens
 - **Store and forward.** Journal entries and photos must not be lost without a network. They need a persistent queue that keeps the original time stamp. Telemetry is buffered as well while the phone is offline and is sent later with QoS 1 and its original time stamps.
 - **Photos do not travel over MQTT.** The message size is limited. The app uploads them through the device storage interface, which follows the S3 protocol and signs requests with the device access token.
 - **Secrets.** The access token is stored in the Keychain (iOS) and the Keystore-backed storage (Android). The user's password is never stored. Session tokens from the REST login are kept only as long as provisioning needs them.
-- **Shared test vectors.** `spec/` contains example payloads and expected results as JSON. Both apps run their protocol tests against the same files.
+- **Shared test vectors.** `docs/spec/` contains example payloads and expected results as JSON. Both apps run their protocol tests against the same files.
 
 ## Repository layout
 
 ```
-spec/      platform-neutral specification and test vectors (the master)
-ios/       Swift app
-android/   Kotlin app
-docs/      this brief, setup guides, decisions
+docs/        this brief, setup guides, decisions
+docs/spec/   platform-neutral specification and test vectors (the master)
+ios/         Swift app
+android/     Kotlin app
 ```
 
 ## Stages
@@ -117,13 +119,13 @@ The assistant working in this repository can read the private optiCLOUD source c
 
 - Never copy optiCLOUD source code, comments, or configuration into this repository.
 - Never commit internal host names, credentials, tokens, keys, ticket references, or details of internal defects.
-- Describe interfaces in your own words in `spec/`: topics, endpoints, payloads, and behavior a client needs.
+- Describe interfaces in your own words in `docs/spec/`: topics, endpoints, payloads, and behavior a client needs.
 - Use only interfaces optiMEAS supports for customers. Once the app is public it documents the API in practice. If the source shows an internal or unstable endpoint, ask before using it.
 - Signing keys, provisioning profiles, and local environment files stay out of the repository.
 
 ## Protocol facts
 
-Read from the optiCLOUD source. Each one still needs a test against a running server before `spec/` relies on it.
+Read from the optiCLOUD source. Each one still needs a test against a running server before `docs/spec/` relies on it.
 
 | Purpose | Direction | Topic |
 | --- | --- | --- |
@@ -148,13 +150,14 @@ Read from the optiCLOUD source. Each one still needs a test against a running se
 ## Before a store release
 
 - Apple's reviewers need a working test account and device on an optiCLOUD server.
-- Permission texts for location (including background), motion sensors, and camera must say plainly why the app needs them.
-- The privacy declarations for both stores must list location, photos, and user-written text.
+- Permission texts for location (including background), motion sensors, microphone, camera, and health data must say plainly why the app needs them.
+- Health data needs the user's explicit consent and its own statements in both stores.
+- The privacy declarations for both stores must list location, photos, user-written text, and health data.
 - The app needs a screen with the open-source license notices.
 
 ## Answers from the optiCLOUD source
 
-Read from the optiCLOUD source on 2026-10-12. None of this has been tested against a running server yet. Exact endpoints and payloads go into `spec/`.
+Read from the optiCLOUD source on 2026-10-12. None of this has been tested against a running server yet. Exact endpoints and payloads go into `docs/spec/`.
 
 - **Tenants.** A user account can hold several roles, each bound to one tenant. Sign-in is a two-step exchange: the app sends the user name and password and receives the list of roles with their tenants, then signs in with the chosen role and receives an access token and a refresh token. A signed-in user can list their roles again and switch between them.
 - **Sign-in methods.** There are three. Password sign-in is the basic one. Two-factor sign-in can be switched on per tenant and per role; the server then sends a code by e-mail, and the app confirms it in a separate step before it receives the tokens. Single sign-on uses OAuth2 / OpenID Connect providers configured on the server and ends with a one-time code that is exchanged for the tokens.
