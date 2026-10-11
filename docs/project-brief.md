@@ -149,13 +149,25 @@ Read from the optiCLOUD source. Each one still needs a test against a running se
 - The privacy declarations for both stores must list location, photos, and user-written text.
 - The app needs a screen with the open-source license notices.
 
+## Answers from the optiCLOUD source
+
+Read from the optiCLOUD source on 2026-10-12. None of this has been tested against a running server yet. Exact endpoints and payloads go into `spec/` once it is confirmed that optiMEAS supports these interfaces for customers.
+
+- **Tenants.** A user account can hold several roles, each bound to one tenant. Sign-in is a two-step exchange: the app sends the user name and password and receives the list of roles with their tenants, then signs in with the chosen role and receives an access token and a refresh token. A signed-in user can list their roles again and switch between them.
+- **Sign-in methods.** There are three. Password sign-in is the basic one. Two-factor sign-in can be switched on per tenant and per role; the server then sends a code by e-mail, and the app confirms it in a separate step before it receives the tokens. Single sign-on uses OAuth2 / OpenID Connect providers configured on the server and ends with a one-time code that is exchanged for the tokens.
+- **Registering a device.** The user needs the tenant administrator or tenant user role and the permission to create devices. The server generates the access token when it creates the device. Reading the token is a separate request with its own permission. The tenant's license can limit the number of devices; the server then refuses the registration.
+- **Projects.** A tenant is divided into projects. A new device is placed in the project the user has currently selected and also in the tenant's root project.
+- **Quality of service.** The server grants QoS 1 at most. It acknowledges a QoS 1 message only after it has accepted the message for processing, so an acknowledgment means the data arrived. A retry can produce duplicates.
+- **Time stamps.** A telemetry message can carry its own time stamp and can hold several samples. Buffered data can therefore be delivered later with the original time stamps.
+- **Dashboard URL.** A dashboard opens in the web application at `/dashboards/<dashboard id>` and needs a signed-in user. No URL addresses a tenant; the tenant comes from the signed-in session.
+
 ## Open questions
 
-1. Can one optiCLOUD user belong to several tenants, and how does the REST API list them?
-2. Which sign-in methods does the REST API offer (password only, two-factor, single sign-on)? This decides between an in-app form and a browser-based sign-in.
-3. Which rights does a user need to register a device, and how does the app read the generated token?
-4. What is the supported way to upload photos, and where does optiCLOUD store and show them?
-5. How are journal entries represented in optiCLOUD (telemetry, attribute, or something else)?
-6. Is telemetry buffered while offline, and with which MQTT quality of service?
-7. What does the URL of a dashboard and of a tenant look like for the jump to optiCLOUD?
+1. Does optiMEAS support the REST interfaces of the web application for a customer app? Provisioning depends on them.
+2. Does the app offer an in-app sign-in form, a browser-based sign-in, or both? Two-factor sign-in and single sign-on both have to work for tenants that require them.
+3. Does provisioning ask the user for a project, or does it always use the root project?
+4. What does the jump to optiCLOUD open when no default dashboard is set? A tenant has no URL of its own.
+5. What is the supported way to upload photos, and does optiCLOUD show them? The source contains a storage interface for devices that follows the S3 protocol and signs requests with the device access token. It is not confirmed as supported for customers.
+6. How are journal entries represented? The source has no interface made for them. Candidates are a text value sent as telemetry with its own time stamp, or the notes a user can attach to a device, which need a signed-in user instead of the device token.
+7. Does the app buffer telemetry while offline? The server allows it; this is a product decision.
 8. Which minimum iOS and Android versions does the app support?
