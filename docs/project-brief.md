@@ -24,6 +24,9 @@ Spelling is exact: **optiMEAS**, **optiCLOUD**, **optiCLOUD Sensor**.
 | Master | The platform-neutral specification in `spec/` is the master, not either app. Both apps are peers that implement it. |
 | optiCLOUD API | The optiCLOUD source code is the reference for MQTT and REST behavior. See [Working with the optiCLOUD source](#working-with-the-opticloud-source). |
 | Windows | A Windows desktop app is an idea for later (.NET rather than C++). It is not part of this plan. A PC has few sensors, so it would be a different product. |
+| REST interfaces | optiMEAS supports the REST interfaces of the optiCLOUD web application for this app. |
+| Sign-in | The user signs in to optiCLOUD in a form inside the app, not in a browser. Single sign-on is a separate topic and not part of the stages below. |
+| Platform versions | As new as possible. The app targets the newest iOS and Android versions; the exact minimum versions are set when the app projects are created. |
 | Predecessor | The earlier "optiCLOUD Demo App" (Expo and React Native) stays in a private company repository. It is not a model for this product: nothing is derived from its code, design, specification, or history. |
 
 ## Functional areas
@@ -32,8 +35,8 @@ Spelling is exact: **optiMEAS**, **optiCLOUD**, **optiCLOUD Sensor**.
 
 - **Sensor values.** Whatever the device offers. The set differs from device to device, so the app discovers at run time what is available.
 - **Location.** Geographic position, sent with the other data.
-- **Journal entries.** Text messages written by the user, with a time stamp.
-- **Photos.** Taken in the app, sent with a time stamp and, where available, the position.
+- **Journal entries.** Text messages written by the user, with a time stamp. optiCLOUD stores them as notes on the device. The time stamp of a note is the moment the user saved the entry in the app, also when it is delivered later. There are two kinds: general entries, which need no user, and personal entries, for example from a train driver, which belong to a signed-in user.
+- **Photos.** Taken in the app, sent with a time stamp and, where available, the position. The app uploads them through the device storage interface; optiCLOUD stores them, and a dashboard widget shows the latest photo of a series.
 
 ### Connection and transmission
 
@@ -69,24 +72,24 @@ Settings that stay fixed until the user changes them:
 The goal is that a new user needs no manual token handling:
 
 1. The app proposes a device name, by default the phone's name. The user can change it.
-2. The user signs in to optiCLOUD with their user account through the REST API.
+2. The user signs in to optiCLOUD with their user account in a form inside the app. If the tenant requires two-factor sign-in, the user also enters the code sent by e-mail.
 3. The user picks a tenant they have access to.
-4. If the user has the rights, the app registers the device in that tenant.
+4. If the user has the rights, the app registers the device in the root project of that tenant. The app does not ask for a project.
 5. The app reads the generated access token and stores it in the settings.
 
 After that the user only has to connect and start transmitting.
 
 ### Jump to optiCLOUD
 
-A button opens the default dashboard from the settings. If none is set, it opens the device's tenant in optiCLOUD.
+A button opens the default dashboard from the settings. If none is set, it opens the home view of optiCLOUD.
 
 ## Architecture requirements
 
 - **Background operation shapes the design from the first commit.** Sensor collection and MQTT run in a service layer that does not depend on the user interface, with its own reconnect logic.
   - iOS has no general "keep running" mode. The workable route is the location background mode with "Always" permission. Without that permission the app transmits only while it is open. App Review checks this mode closely, so location must be a visible feature with a clear permission text.
   - Android needs a foreground service with a persistent notification. Allowed service types and time limits have tightened in recent Android versions. Check them against the current target SDK.
-- **Store and forward.** Journal entries and photos must not be lost without a network. They need a persistent queue that keeps the original time stamp. Whether telemetry is buffered as well is an open question.
-- **Photos do not travel over MQTT.** The message size is limited. The supported way to upload them is an open question.
+- **Store and forward.** Journal entries and photos must not be lost without a network. They need a persistent queue that keeps the original time stamp. Telemetry is buffered as well while the phone is offline and is sent later with QoS 1 and its original time stamps.
+- **Photos do not travel over MQTT.** The message size is limited. The app uploads them through the device storage interface, which follows the S3 protocol and signs requests with the device access token.
 - **Secrets.** The access token is stored in the Keychain (iOS) and the Keystore-backed storage (Android). The user's password is never stored. Session tokens from the REST login are kept only as long as provisioning needs them.
 - **Shared test vectors.** `spec/` contains example payloads and expected results as JSON. Both apps run their protocol tests against the same files.
 
@@ -151,7 +154,7 @@ Read from the optiCLOUD source. Each one still needs a test against a running se
 
 ## Answers from the optiCLOUD source
 
-Read from the optiCLOUD source on 2026-10-12. None of this has been tested against a running server yet. Exact endpoints and payloads go into `spec/` once it is confirmed that optiMEAS supports these interfaces for customers.
+Read from the optiCLOUD source on 2026-10-12. None of this has been tested against a running server yet. Exact endpoints and payloads go into `spec/`.
 
 - **Tenants.** A user account can hold several roles, each bound to one tenant. Sign-in is a two-step exchange: the app sends the user name and password and receives the list of roles with their tenants, then signs in with the chosen role and receives an access token and a refresh token. A signed-in user can list their roles again and switch between them.
 - **Sign-in methods.** There are three. Password sign-in is the basic one. Two-factor sign-in can be switched on per tenant and per role; the server then sends a code by e-mail, and the app confirms it in a separate step before it receives the tokens. Single sign-on uses OAuth2 / OpenID Connect providers configured on the server and ends with a one-time code that is exchanged for the tokens.
@@ -159,15 +162,12 @@ Read from the optiCLOUD source on 2026-10-12. None of this has been tested again
 - **Projects.** A tenant is divided into projects. A new device is placed in the project the user has currently selected and also in the tenant's root project.
 - **Quality of service.** The server grants QoS 1 at most. It acknowledges a QoS 1 message only after it has accepted the message for processing, so an acknowledgment means the data arrived. A retry can produce duplicates.
 - **Time stamps.** A telemetry message can carry its own time stamp and can hold several samples. Buffered data can therefore be delivered later with the original time stamps.
-- **Dashboard URL.** A dashboard opens in the web application at `/dashboards/<dashboard id>` and needs a signed-in user. No URL addresses a tenant; the tenant comes from the signed-in session.
+- **Dashboard URL.** A dashboard opens in the web application at `/dashboards/<dashboard id>` and the home view at `/home`. Both need a signed-in user. No URL addresses a tenant; the tenant comes from the signed-in session.
+- **Notes.** A note belongs to an entity such as a device and has a name, a text, a status, and a priority. Writing one needs a signed-in user with the permission to create notes; the device access token is not enough.
 
 ## Open questions
 
-1. Does optiMEAS support the REST interfaces of the web application for a customer app? Provisioning depends on them.
-2. Does the app offer an in-app sign-in form, a browser-based sign-in, or both? Two-factor sign-in and single sign-on both have to work for tenants that require them.
-3. Does provisioning ask the user for a project, or does it always use the root project?
-4. What does the jump to optiCLOUD open when no default dashboard is set? A tenant has no URL of its own.
-5. What is the supported way to upload photos, and does optiCLOUD show them? The source contains a storage interface for devices that follows the S3 protocol and signs requests with the device access token. It is not confirmed as supported for customers.
-6. How are journal entries represented? The source has no interface made for them. Candidates are a text value sent as telemetry with its own time stamp, or the notes a user can attach to a device, which need a signed-in user instead of the device token.
-7. Does the app buffer telemetry while offline? The server allows it; this is a product decision.
-8. Which minimum iOS and Android versions does the app support?
+1. How are general journal entries stored as notes? Writing a note needs a signed-in user today, and a general entry has none. This needs either a way for a device to write notes in optiCLOUD or another carrier for general entries.
+2. How does a user sign in for personal journal entries? The user needs their own session, separate from the device access token and from the account that provisioned the device. The brief so far keeps session tokens only as long as provisioning needs them.
+3. Who provides the dashboard widget for the latest photo of a series? The source has an image widget and a file explorer widget; a widget for the latest photo of a series was not found. Building it is work in optiCLOUD, not in this repository.
+4. Can the app set the time stamp of a note? The source suggests the time comes from the request; this needs a test against a running server.
