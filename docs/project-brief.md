@@ -20,13 +20,13 @@ Spelling is exact: **optiMEAS**, **optiCLOUD**, **optiCLOUD Sensor**.
 | Design | Each app follows its platform's design standards (Apple Human Interface Guidelines, Material Design) and uses the system font. The optiMEAS brand shows in colors and logo only. |
 | Background | The app must keep transmitting in the background when the user has agreed to it. |
 | Source | Open source in this public repository under the MIT license. |
-| Order | iOS is developed first. Android follows each release. |
+| Order | Both apps are developed in parallel, each in its own working session and on its own branches. Open questions are settled in `docs/spec/` before either app implements them, not in one app ahead of the other. |
 | Master | The platform-neutral specification in `docs/spec/` is the master, not either app. Both apps are peers that implement it. |
 | optiCLOUD API | The optiCLOUD source code is the reference for MQTT and REST behavior. See [Working with the optiCLOUD source](#working-with-the-opticloud-source). |
 | Windows | A Windows desktop app is an idea for later (.NET rather than C++). It is not part of this plan. A PC has few sensors, so it would be a different product. |
 | REST interfaces | optiMEAS supports the REST interfaces of the optiCLOUD web application for this app. |
 | Sign-in | The user signs in to optiCLOUD in a form inside the app, not in a browser. Single sign-on is a separate topic and not part of the stages below. |
-| Platform versions | As new as possible. The app targets the newest iOS and Android versions; the exact minimum versions are set when the app projects are created. |
+| Platform versions | As new as possible. Both apps target the newest iOS and Android versions. The minimum versions are set in `ios/CLAUDE.md` and `android/CLAUDE.md`. On Android the minimum is provisionally API 26 (Android 8.0), because the only test device at the moment is a Samsung Galaxy S7; it is raised when a current phone replaces it. |
 | Remote control | optiCLOUD may control the phone: the app accepts every RPC command, reacts to changes of shared attributes, and lets optiCLOUD set settings through them. |
 | Sensors | The app offers every sensor the phone has, up to values measured on the body such as heart rate and body temperature. |
 | Predecessor | The earlier "optiCLOUD Demo App" (Expo and React Native) stays in a private company repository. It is not a model for this product: nothing is derived from its code, design, specification, or history. |
@@ -100,9 +100,11 @@ A button opens the default dashboard from the settings. If none is set, it opens
 ```
 docs/        this brief, setup guides, decisions
 docs/spec/   platform-neutral specification and test vectors (the master)
-ios/         Swift app
-android/     Kotlin app
+ios/         Swift app, with its own CLAUDE.md for platform rules
+android/     Kotlin app, with its own CLAUDE.md for platform rules
 ```
+
+The two apps are developed in separate working sessions, usually on separate computers. Each session works only in its own app directory and in `docs/`, on branches named `ios/<topic>` or `android/<topic>`, and merges into `main` through pull requests.
 
 ## Stages
 
@@ -111,7 +113,7 @@ android/     Kotlin app
 3. **Journal entries** with the offline queue.
 4. **Photos.**
 
-Each stage is finished on iOS first and then brought to Android.
+Both apps work through the stages in parallel. A stage is finished when both apps implement it and pass the shared test vectors.
 
 ## Working with the optiCLOUD source
 
