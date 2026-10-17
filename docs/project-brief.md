@@ -20,7 +20,8 @@ Spelling is exact: **optiMEAS**, **optiCLOUD**, **optiCLOUD Sensor**.
 | Design | Each app follows its platform's design standards (Apple Human Interface Guidelines, Material Design) and uses the system font. The optiMEAS brand shows in colors and logo only. |
 | Background | The app must keep transmitting in the background when the user has agreed to it. |
 | Source | Open source in this public repository under the MIT license. |
-| Order | Both apps are developed in parallel, each in its own working session and on its own branches. Open questions are settled in `docs/spec/` before either app implements them, not in one app ahead of the other. |
+| Order | One app leads, the other follows. The leading app implements a stage first; the following app catches up from `docs/spec/`. The lead can change between the apps; a change is recorded here. **The iOS app leads since 2026-10-17.** Each app is developed in its own working session and on its own branches. |
+| Lead | The leading app settles open questions in `docs/spec/` and the shared test vectors, in the same pull request as its code. The following app implements from the specification, not by translating the other app's code, and solves platform questions such as background operation and design on its own. Behavior the following app finds missing or wrong in the specification goes into `docs/spec/` first, whichever app leads. |
 | Master | The platform-neutral specification in `docs/spec/` is the master, not either app. Both apps are peers that implement it. |
 | optiCLOUD API | The optiCLOUD source code is the reference for MQTT and REST behavior. See [Working with the optiCLOUD source](#working-with-the-opticloud-source). |
 | Windows | A Windows desktop app is an idea for later (.NET rather than C++). It is not part of this plan. A PC has few sensors, so it would be a different product. |
@@ -113,7 +114,7 @@ The two apps are developed in separate working sessions, usually on separate com
 3. **Journal entries** with the offline queue.
 4. **Photos.**
 
-Both apps work through the stages in parallel. A stage is finished when both apps implement it and pass the shared test vectors.
+The leading app works through a stage first, and the following app catches up (see the decision on order). A stage is finished when both apps implement it and pass the shared test vectors.
 
 ## Working with the optiCLOUD source
 

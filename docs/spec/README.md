@@ -35,4 +35,4 @@ Payloads are compared as JSON values, not as text: the order of object members a
 
 ## Changing the specification
 
-Change the specification, the test vectors, and both apps together. A change to the behavior of one app without a change here is a defect.
+Change the specification and the test vectors in the same pull request as the app that needs the change. One app leads at a time (see the [project brief](../project-brief.md#decisions)); the other app follows from the specification. A change to the behavior of one app without a change here is a defect.
