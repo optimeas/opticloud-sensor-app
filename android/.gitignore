@@ -1,0 +1,19 @@
+# Gradle and build output
+.gradle/
+.kotlin/
+build/
+/captures/
+
+# Machine-specific SDK path
+local.properties
+
+# Android Studio
+*.iml
+.idea/
+.cxx/
+.externalNativeBuild/
+
+# Signing material never goes into the repository
+*.jks
+*.keystore
+keystore.properties
