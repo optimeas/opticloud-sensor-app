@@ -13,4 +13,5 @@ Read [docs/project-brief.md](docs/project-brief.md) before doing anything else. 
 - **Follow each platform's design standards** and use the system font. Do not port one platform's look to the other.
 - **Spelling is exact:** optiMEAS, optiCLOUD, optiCLOUD Sensor.
 - **Keep the documentation true.** Describe only what exists; mark plans as plans.
+- **Stay in your lane.** The iOS app and the Android app are developed in separate sessions. `ios/CLAUDE.md` and `android/CLAUDE.md` hold the platform rules. Work on branches named `ios/<topic>` or `android/<topic>`, change only your own app directory and `docs/`, and merge into `main` through pull requests.
 - Use [Conventional Commits](https://www.conventionalcommits.org/). Commit and push only when asked.
