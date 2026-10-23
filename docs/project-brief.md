@@ -27,7 +27,7 @@ Spelling is exact: **optiMEAS**, **optiCLOUD**, **optiCLOUD Sensor**.
 | Windows | A Windows desktop app is an idea for later (.NET rather than C++). It is not part of this plan. A PC has few sensors, so it would be a different product. |
 | REST interfaces | optiMEAS supports the REST interfaces of the optiCLOUD web application for this app. |
 | Sign-in | The user signs in to optiCLOUD in a form inside the app, not in a browser. Single sign-on is a separate topic and not part of the stages below. |
-| Platform versions | As new as possible. Both apps target the newest iOS and Android versions. The minimum versions are set in `ios/CLAUDE.md` and `android/CLAUDE.md`. On Android the minimum is provisionally API 26 (Android 8.0), because the only test device at the moment is a Samsung Galaxy S7; it is raised when a current phone replaces it. |
+| Platform versions | As new as possible. Both apps target the newest iOS and Android versions. The minimum versions are set in `ios/CLAUDE.md` and `android/CLAUDE.md`. On Android the minimum is API 31 (Android 12) since 2026-10-23, when a Samsung Galaxy A17 5G with Android 16 replaced the Galaxy S7 as the test device. |
 | Remote control | optiCLOUD may control the phone: the app accepts every RPC command, reacts to changes of shared attributes, and lets optiCLOUD set settings through them. |
 | Sensors | The app offers every sensor the phone has, up to values measured on the body such as heart rate and body temperature. |
 | Predecessor | The earlier "optiCLOUD Demo App" (Expo and React Native) stays in a private company repository. It is not a model for this product: nothing is derived from its code, design, specification, or history. |
