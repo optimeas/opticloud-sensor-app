@@ -7,7 +7,7 @@ This directory holds the Android app. The rules in the repository root `CLAUDE.m
 - Kotlin with Jetpack Compose. No other UI toolkit, no cross-platform framework.
 - Android Studio, current stable release. Gradle with the Kotlin DSL and a version catalog (`gradle/libs.versions.toml`).
 - `compileSdk` and `targetSdk` follow the newest stable Android release.
-- `minSdk` is **26** (Android 8.0). This is provisional: the only test device at the moment is a Samsung Galaxy S7, which ends at Android 8.0. Do not write workarounds for this device. When a current phone replaces it, raise `minSdk` and record the change in the project brief.
+- `minSdk` is **31** (Android 12). From Android 12 on, the current rules for foreground services and permissions apply, so the app needs no special cases for older versions. The test device is a Samsung Galaxy A17 5G with Android 16. A change of `minSdk` is recorded in the project brief.
 - Application id: `com.optimeas.opticloudsensor` (proposal, to be confirmed before the first release).
 
 ## Architecture
