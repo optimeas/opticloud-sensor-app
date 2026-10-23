@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">optiCLOUD Sensor</string>
+    <string name="toolchain_check">Toolchain check</string>
+    <string name="app_version">App version: %1$s</string>
+    <string name="device">Device: %1$s %2$s</string>
+    <string name="android_version">Android %1$s (API %2$d)</string>
+    <string name="tap_count">Tapped %1$d times</string>
 </resources>
