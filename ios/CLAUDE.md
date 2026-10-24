@@ -20,7 +20,7 @@ This directory holds the iOS app. The rules in the repository root `CLAUDE.md` a
 
 ## MQTT client
 
-No MQTT client library is chosen yet. Do not add one on your own. The choice is made for both platforms together and recorded in the project brief, including the license notices the app must show.
+Use **MQTTNIO** 3.x (`swift-server-community/mqtt-nio`, Apache 2.0). Do not add another MQTT library. A change of the library is decided for both platforms together and recorded in the project brief. The app shows the license texts of MQTTNIO and its dependencies.
 
 ## Working in this repository
 

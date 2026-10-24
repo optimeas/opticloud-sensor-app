@@ -8,6 +8,7 @@ Read [docs/project-brief.md](docs/project-brief.md) before doing anything else. 
 
 - **This repository is public.** Everything pushed here, including history, is visible to everyone.
 - **Never copy from the private optiCLOUD source.** No code, comments, configuration, internal host names, credentials, ticket references, or details of internal defects. Describe interfaces in your own words in `docs/spec/`. The full rules are in the [project brief](docs/project-brief.md#working-with-the-opticloud-source).
+- **MIT license.** All code in this repository is under the MIT license. Add only dependencies with a permissive, MIT-compatible license (MIT, BSD, Apache 2.0); no copyleft (GPL, LGPL, EPL, MPL).
 - **Never commit secrets:** access tokens, passwords, signing keys, provisioning profiles, local environment files.
 - **`docs/spec/` is the master.** One app leads at a time and records its decisions in the specification and the shared test vectors; the other app follows from there. Neither app is the reference for the other. The current lead is in the [project brief](docs/project-brief.md#decisions).
 - **Follow each platform's design standards** and use the system font. Do not port one platform's look to the other.

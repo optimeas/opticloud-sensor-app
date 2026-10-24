@@ -1,19 +1,22 @@
 # Connection
 
-**Status: draft.** Not yet tested against a server.
+**Status: draft.** Signing on with a device token, the subscriptions, and an attribute request were tested against an optiCLOUD test server on 2026-10-24. The other results of signing on are not yet tested.
 
 The app talks to optiCLOUD as a device over MQTT. This document describes how it connects, which states it has, and how it recovers from a lost connection. The messages themselves are in [messages.md](messages.md).
 
 ## Endpoint
 
-- The endpoint is a host name and a port from the settings.
-- The transport is MQTT 3.1.1 over TLS. The default port is 8883.
+- The user enters one address: the address of the optiCLOUD web application, for example `https://cloud.example.com`. It must start with `https://`.
+- The REST interface is at this address (see [sign-in.md](sign-in.md)).
+- The MQTT endpoint is derived from it: the same host name, port 8883. optiCLOUD has no interface that tells a client its MQTT endpoint, and port 8883 with TLS is the convention of optiCLOUD installations.
+- The hidden support option (see [sign-in.md](sign-in.md#support-option)) can set host name and port of the MQTT endpoint by hand.
+- The transport is MQTT 3.1.1 over TLS. The server does not support MQTT 5.
 - The app must verify the server certificate against the system trust store. It must not offer a setting that switches this check off.
 - The app must not connect without TLS.
 
 ## Signing on as a device
 
-The device identifies itself with its access token.
+The device identifies itself with its access token. The app reads the token after the user has picked the device (see [sign-in.md](sign-in.md#reading-the-access-token)).
 
 | CONNECT field | Value |
 | --- | --- |
@@ -32,7 +35,7 @@ The server answers with one of these results:
 | --- | --- | --- |
 | Accepted | The token is valid | Continues with the subscriptions |
 | Bad user name or password | No token was sent | Stops and reports a configuration error |
-| Not authorized | The token is unknown or disabled | Stops and reports that the token was refused |
+| Not authorized | The token is unknown or disabled, or the tenant has expired | Stops and reports that the token was refused |
 | Server unavailable | The server could not check the token | Retries as after a lost connection |
 
 After "bad user name or password" and "not authorized" the app must not retry on its own. A retry needs a changed setting or an action by the user.
@@ -47,9 +50,22 @@ After the connect was accepted, the app subscribes with QoS 1 to:
 | `v2/json/devices/me/attributes/response/+` | Answers to attribute requests |
 | `v2/json/devices/me/rpc/request/+` | Commands from the server |
 
-The app is connected when the server has confirmed all three subscriptions. If the server refuses one, the app disconnects and treats this as a lost connection.
+If the server refuses one, the app disconnects and treats this as a lost connection.
 
 The server accepts only these exact filters. It grants QoS 1 at most.
+
+## Checking the binding
+
+After the subscriptions are confirmed, the app requests the shared attribute `sensorAppInstallation` together with the other shared attributes it uses (see [messages.md](messages.md#requesting-attributes)) and compares it with its installation identifier (see [sign-in.md](sign-in.md#binding-to-the-phone)).
+
+| Answer | What the app does |
+| --- | --- |
+| Same identifier | The app is connected. |
+| Other identifier | The app disconnects, switches transmission off, and goes to Refused with the reason "bound to another phone". |
+| Missing | If the user is signed in, the app binds the device through the REST interface and is connected. Otherwise it disconnects and goes to Refused with the reason "not bound". |
+| No answer | The app treats this as a lost connection. |
+
+The app is connected when the subscriptions are confirmed and the binding is checked. When a change of `sensorAppInstallation` arrives later with another identifier, the app acts as for "other identifier". In the support mode the app does not check the binding.
 
 ## States
 
@@ -63,7 +79,21 @@ Connection and transmission are two separate states with separate controls.
 | Connecting | The app is opening the connection, signing on, or subscribing. |
 | Connected | The subscriptions are confirmed. |
 | Waiting | The connection was lost or failed. The app retries after a delay. |
-| Refused | The server refused the token. The app does not retry. |
+| Refused | The server refused the token, or the device belongs to another phone. The app does not retry. |
+
+The app shows why it is waiting or refused, as one of these reasons:
+
+| State | Reason |
+| --- | --- |
+| Waiting | No network |
+| Waiting | Server not reachable |
+| Waiting | Certificate not trusted |
+| Waiting | Connection lost |
+| Refused | Token refused |
+| Refused | Bound to another phone |
+| Refused | Not bound |
+
+The reason is also shown in the test area, with the time it occurred.
 
 - The user starts with "connect": Disconnected or Refused → Connecting.
 - The user stops with "disconnect": any state → Disconnected. The app sends DISCONNECT if a connection exists.
@@ -83,7 +113,7 @@ Connection and transmission are two separate states with separate controls.
 
 ## Keeping the connection alive
 
-- The app sends a PINGREQ when it has sent nothing for the keep-alive time.
+- The app sends a PINGREQ when it has sent nothing for the keep-alive time of 60 seconds. The server ends a session that has shown no activity for five minutes, so the keep-alive must stay well below that.
 - The server does not close a silent connection on its own. The app must therefore detect a dead connection itself: if a PINGRESP does not arrive within 20 seconds, the app closes the connection and treats it as lost.
 
 ## Reconnecting
@@ -99,6 +129,4 @@ The service layer does this without the user interface, also in the background.
 
 ## Open points
 
-1. Does the app need a second endpoint setting for the REST interface and the web application, or is it derived from the MQTT host name?
-2. Should the app show the reason for Waiting (no network, server not reachable, certificate not trusted) as separate conditions?
-3. Is 60 seconds the right keep-alive for background operation on a mobile network, or should it be longer to save battery?
+None at the moment.

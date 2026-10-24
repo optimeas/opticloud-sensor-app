@@ -2,23 +2,24 @@
 
 This directory is the master for the behavior of optiCLOUD Sensor. The iOS app and the Android app both implement it. Neither app is the reference for the other.
 
-**Status: draft.** The specification is being worked out. No app implements it yet. Protocol facts were read from the optiCLOUD source and are not yet tested against a server.
+**Status: draft.** The specification is being worked out. No app implements it yet. Protocol facts were read from the optiCLOUD source; each document says which parts were tested against an optiCLOUD test server.
 
 ## Documents
 
 | Document | Content | Status |
 | --- | --- | --- |
+| [sign-in.md](sign-in.md) | Sign-in of the user, tenant, project, device selection, binding of the device to the phone | Draft |
 | [connection.md](connection.md) | Endpoint, sign-on of the device, the two states "connected" and "transmitting", reconnecting | Draft |
 | [messages.md](messages.md) | MQTT topics and payloads: telemetry, attributes, RPC, alarms | Draft |
-| [sensors.md](sensors.md) | How sensors are found, selected, and sampled; the catalog of keys and units | Draft, catalog is a first proposal |
+| [sensors.md](sensors.md) | How sensors are found, selected, and sampled; the catalog of keys and units | Draft |
+| [journal.md](journal.md) | Journal entries as notes | Draft |
 | [vectors/](vectors/) | Test vectors shared by both apps | First proposal |
 
 Planned, not yet written:
 
 - configuration: the settings and their allowed ranges
 - offline queue: buffering and delivery order
-- provisioning: sign-in and device registration through the REST interface
-- journal entries and photos
+- photos
 
 ## Conventions
 
