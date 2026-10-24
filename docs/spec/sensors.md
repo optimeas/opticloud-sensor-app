@@ -11,7 +11,7 @@ The app offers every sensor the phone has. This document defines how sensors are
 - **Same meaning on both platforms.** A key has the same unit, the same sign, and the same axes on iOS and Android. Each app converts what its platform delivers.
 - **Not every value on every platform.** Some items exist on one platform only. The catalog says so; discovery at run time leaves them out on the other platform.
 - **No invented values.** If a value is not available at the moment, its key is left out of the sample. The app does not send a placeholder.
-- **Units.** Values use SI units and the common units derived from them. The unit is not part of the key.
+- **Units.** Values use SI units and the common units derived from them, and units that are usual in practice, such as km/h for speed. The unit is not part of the key. Each app converts what its platform delivers into the unit of the catalog.
 
 ## Axes
 
@@ -27,11 +27,30 @@ A phone that lies flat on a table with the screen up reports an acceleration of 
 
 There are three kinds of values.
 
-**Sampled values** exist at any moment, such as acceleration or battery level. While transmission is on, the app takes one sample of all selected sampled values at every tick of the send rate. All values of one tick share one time stamp and form one sample.
+**Sampled values** exist at any moment, such as battery level or air pressure. While transmission is on, the app takes one sample of all selected sampled values at every tick of the send rate. Which of them it sends depends on the send mode (see [Sending on change](#sending-on-change)). All values of one tick share one time stamp and form one sample.
 
 **Aggregated values** change faster than any send rate, such as acceleration. A single value at a tick would miss shocks and vibration between two ticks. While transmission is on, the app therefore measures them continuously at 50 Hz and, at every tick, sends the mean, the minimum, and the maximum of the measurements since the previous tick. The mean has the plain key, for example `accelX`; minimum and maximum add `Min` and `Max`, for example `accelXMin` and `accelXMax`. They belong to the sample of that tick. If the platform delivers fewer measurements than 50 Hz, the app uses those it has; if there was none, the keys are left out.
 
 **Event values** appear when something is measured or changes, such as a heart rate reading from a watch. The app sends each one when it arrives, with the time stamp of the measurement. The send rate does not apply.
+
+## Sending on change
+
+The send mode is a setting (see [configuration.md](configuration.md)). There are two modes.
+
+**On change** is the default. At every tick the app sends only the sampled and aggregated values that have changed since they were last sent:
+
+1. The app rounds every number to the resolution of its key in the catalog, half away from zero. It sends the rounded value, with no more decimals than the resolution has.
+2. A value has changed when its rounded value differs from the rounded value last sent for the same key. Booleans and strings have changed when they differ.
+3. Each key is compared on its own, also the `Min` and `Max` keys of aggregated values and the single axes of an item.
+4. If no value has changed, the app sends no sample at that tick.
+
+Every 60 seconds the app sends a **full sample** with all selected values, changed or not. This gives optiCLOUD a regular reference point. The first full sample is taken at the first tick after transmission is switched on; then at the first tick that is at least 60 seconds after the previous full sample. A change of the selection also leads to a full sample at the next tick.
+
+**Every tick** sends all selected values at every tick, rounded as above.
+
+- "Last sent" means last handed to the offline queue, not last acknowledged by the server. Values buffered while offline follow the same rules.
+- Event values are sent when they arrive, in both modes. They are rounded but not compared.
+- The 60 seconds of the full sample are fixed. They are not a setting.
 
 ## Selection
 
@@ -46,60 +65,61 @@ The catalog below defines groups and items. An item is the smallest unit that ca
 
 ## Catalog
 
-The column "Kind" says whether a value is sampled (S), aggregated (A), or an event (E).
+The column "Kind" says whether a value is sampled (S), aggregated (A), or an event (E). The column "Resolution" is the step to which the app rounds the value (see [Sending on change](#sending-on-change)); "–" means the value is not a number and is sent as it is.
 
 ### `motion`
 
-| Item | Key | Unit | Kind | Meaning |
-| --- | --- | --- | --- | --- |
-| `accel` | `accelX`, `accelY`, `accelZ` | m/s² | A | Acceleration including gravity |
-| `accelMagnitude` | `accelMagnitude` | m/s² | A | Magnitude of the acceleration vector, independent of how the phone is held. About 9.81 at rest. |
-| `gyro` | `gyroX`, `gyroY`, `gyroZ` | rad/s | A | Rotation rate |
-| `mag` | `magX`, `magY`, `magZ` | µT | S | Magnetic field |
-| `orientation` | `roll`, `pitch`, `yaw` | degree | S | Orientation of the phone |
+| Item | Key | Unit | Resolution | Kind | Meaning |
+| --- | --- | --- | --- | --- | --- |
+| `accel` | `accelX`, `accelY`, `accelZ` | m/s² | 0.01 | A | Acceleration including gravity |
+| `accelMagnitude` | `accelMagnitude` | m/s² | 0.01 | A | Magnitude of the acceleration vector, independent of how the phone is held. About 9.81 at rest. |
+| `gyro` | `gyroX`, `gyroY`, `gyroZ` | rad/s | 0.001 | A | Rotation rate |
+| `mag` | `magX`, `magY`, `magZ` | µT | 0.1 | S | Magnetic field |
+| `orientation` | `roll`, `pitch`, `yaw` | degree | 0.1 | S | Orientation of the phone |
 
 Aggregation applies only to the `motion` group, and within it only to acceleration and rotation rate. The magnetic field changes slowly, and a mean of angles such as `yaw` is not meaningful where the angle wraps around, so these stay sampled values. All other groups stay at one value per tick.
 
 ### `environment`
 
-| Item | Key | Unit | Kind | Meaning |
-| --- | --- | --- | --- | --- |
-| `pressure` | `pressure` | hPa | S | Air pressure |
-| `light` | `light` | lx | S | Ambient light |
+| Item | Key | Unit | Resolution | Kind | Meaning |
+| --- | --- | --- | --- | --- | --- |
+| `pressure` | `pressure` | hPa | 0.1 | S | Air pressure |
+| `light` | `light` | lx | 1 | S | Ambient light |
 
 ### `location`
 
-| Item | Key | Unit | Kind | Meaning |
-| --- | --- | --- | --- | --- |
-| `position` | `latitude`, `longitude` | degree | S | Position, WGS 84 |
-| `altitude` | `altitude` | m | S | Height above sea level |
-| `speed` | `speed` | m/s | S | Speed over ground |
-| `course` | `course` | degree | S | Direction of travel, clockwise from north |
-| `locationAccuracy` | `locationAccuracy` | m | S | Horizontal accuracy of the position |
+| Item | Key | Unit | Resolution | Kind | Meaning |
+| --- | --- | --- | --- | --- | --- |
+| `position` | `latitude`, `longitude` | degree | 0.00001 | S | Position, WGS 84 |
+| `altitude` | `altitude` | m | 0.1 | S | Height above sea level |
+| `speed` | `speed` | km/h | 0.1 | S | Speed over ground |
+| `course` | `course` | degree | 1 | S | Direction of travel, clockwise from north |
+| `locationAccuracy` | `locationAccuracy` | m | 1 | S | Horizontal accuracy of the position |
 
 ### `activity`
 
-| Item | Key | Unit | Kind | Meaning |
-| --- | --- | --- | --- | --- |
-| `steps` | `steps` | count | S | Steps since midnight, local time |
-| `activityType` | `activityType` | string | E | `stationary`, `walking`, `running`, `cycling`, `automotive`, or `unknown` |
+| Item | Key | Unit | Resolution | Kind | Meaning |
+| --- | --- | --- | --- | --- | --- |
+| `steps` | `steps` | count | 1 | S | Steps since midnight, local time |
+| `activityType` | `activityType` | string | – | E | `stationary`, `walking`, `running`, `cycling`, `automotive`, or `unknown` |
 
 ### `device`
 
-| Item | Key | Unit | Kind | Meaning |
-| --- | --- | --- | --- | --- |
-| `batteryLevel` | `batteryLevel` | 0 to 1 | S | Charge of the battery |
-| `charging` | `charging` | boolean | S | The phone is being charged |
-| `network` | `network` | string | S | `wifi`, `cellular`, `other`, or `none` |
-| `thermalState` | `thermalState` | string | S | `nominal`, `fair`, `serious`, or `critical` |
-| `powerSaving` | `powerSaving` | boolean | S | The power saving mode of the system is on |
-| `cellularSignal` | `cellularSignal` | dBm | S | Signal strength of the mobile network. Android only: iOS offers no public interface for it. |
+| Item | Key | Unit | Resolution | Kind | Meaning |
+| --- | --- | --- | --- | --- | --- |
+| `batteryLevel` | `batteryLevel` | 0 to 1 | 0.01 | S | Charge of the battery |
+| `charging` | `charging` | boolean | – | S | The phone is being charged |
+| `network` | `network` | string | – | S | `wifi`, `cellular`, `other`, or `none` |
+| `thermalState` | `thermalState` | string | – | S | `nominal`, `fair`, `serious`, or `critical` |
+| `powerSaving` | `powerSaving` | boolean | – | S | The power saving mode of the system is on |
+| `cellularSignal` | `cellularSignal` | dBm | 1 | S | Signal strength of the mobile network. Android only: iOS offers no public interface for it. |
+| `dataVolume` | `dataMobileToday`, `dataWifiToday`, `dataMobileMonth`, `dataWifiMonth` | byte | 1000 | S | Data volume of the app over the mobile network and over Wi-Fi, today and in the current month. See [connection.md](connection.md#data-volume). |
 
 ### `sound`
 
-| Item | Key | Unit | Kind | Meaning |
-| --- | --- | --- | --- | --- |
-| `soundLevel` | `soundLevel` | dB | S | Loudness measured by the microphone. No audio is recorded or sent. |
+| Item | Key | Unit | Resolution | Kind | Meaning |
+| --- | --- | --- | --- | --- | --- |
+| `soundLevel` | `soundLevel` | dB | 1 | S | Loudness measured by the microphone. No audio is recorded or sent. |
 
 The app measures the sound level only while it is in the foreground. In the background the key is left out, also when the item is selected. Both platforms restrict the microphone in the background and show the user that it is in use.
 
@@ -109,12 +129,12 @@ The app measures the sound level only while it is in the foreground. In the back
 
 Values measured on the body. A phone does not measure them itself. They come from a watch or another device through the health store of the platform.
 
-| Item | Key | Unit | Kind | Meaning |
-| --- | --- | --- | --- | --- |
-| `heartRate` | `heartRate` | 1/min | E | Heart rate |
-| `bodyTemperature` | `bodyTemperature` | °C | E | Body temperature |
-| `oxygenSaturation` | `oxygenSaturation` | % | E | Oxygen saturation of the blood |
-| `respiratoryRate` | `respiratoryRate` | 1/min | E | Breaths per minute |
+| Item | Key | Unit | Resolution | Kind | Meaning |
+| --- | --- | --- | --- | --- | --- |
+| `heartRate` | `heartRate` | 1/min | 1 | E | Heart rate |
+| `bodyTemperature` | `bodyTemperature` | °C | 0.1 | E | Body temperature |
+| `oxygenSaturation` | `oxygenSaturation` | % | 1 | E | Oxygen saturation of the blood |
+| `respiratoryRate` | `respiratoryRate` | 1/min | 1 | E | Breaths per minute |
 
 Health values are personal data of a special kind. The group is never selected by default. Selecting it needs the user's explicit consent on the phone, with a text that says the values are sent to optiCLOUD. Selecting it through a shared attribute does not replace this consent: without it the app does not send health values.
 

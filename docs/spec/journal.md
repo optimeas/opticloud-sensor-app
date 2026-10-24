@@ -64,5 +64,5 @@ The server sets the time of a note itself, when the note arrives. It ignores a t
 
 ## Open points
 
-1. The offline queue for entries: order, retries, and what happens when the session has expired. This goes into the planned chapter on the offline queue.
+1. The offline queue for entries: order, retries, and what happens when the session has expired. This goes into [offline-queue.md](offline-queue.md) with stage 2.
 2. optiMEAS is asked whether a note can carry a time stamp set by the client, and for a history of changes to notes. With a client time stamp, the text addition can go.
