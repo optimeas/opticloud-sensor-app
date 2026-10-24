@@ -1,0 +1,5 @@
+// Settings shared by all configurations of the app target.
+// Signing settings stay out of the repository: copy Local.xcconfig.example
+// to Local.xcconfig and enter your development team there.
+
+#include? "Local.xcconfig"
