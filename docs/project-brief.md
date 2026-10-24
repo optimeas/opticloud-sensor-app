@@ -31,6 +31,7 @@ Spelling is exact: **optiMEAS**, **optiCLOUD**, **optiCLOUD Sensor**.
 | Devices of the app | Devices used by the app have the device type `optiCLOUD Sensor App`. The app creates devices with this type and offers only devices of this type. |
 | One phone, one device | A device belongs to one phone; a new phone is a new device. The app binds a device to its phone through the shared attribute `sensorAppInstallation` and refuses to send to a device bound to another phone. A user with the right permission can take a device over after an explicit confirmation, for example after reinstalling the app. |
 | Server address | The user enters only the address of the optiCLOUD web application. The MQTT endpoint is derived from it (same host, port 8883, TLS). There is no built-in list of installations, because optiCLOUD is hosted in many ways. |
+| Data volume | Sending over the mobile network is always allowed; there is no Wi-Fi-only setting. The app counts its own data volume by mobile network and Wi-Fi, shows it for the day, the week, and the month, and sends the daily and monthly totals to optiCLOUD. |
 | Support option | A hidden setting lets support enter the MQTT endpoint and a device access token by hand, without sign-in. |
 | MQTT client | iOS: MQTTNIO 3.x (Apache 2.0). Android: HiveMQ MQTT Client 1.4.x (Apache 2.0). Chosen on 2026-10-24 after checking maintenance and licenses; Eclipse Paho is no longer maintained and CocoaMQTT has a copyleft license. |
 | Platform versions | As new as possible. Both apps target the newest iOS and Android versions. The minimum versions are set in `ios/CLAUDE.md` and `android/CLAUDE.md`. On Android the minimum is API 31 (Android 12) since 2026-10-23, when a Samsung Galaxy A17 5G with Android 16 replaced the Galaxy S7 as the test device. |
@@ -71,9 +72,12 @@ It doubles as the diagnostic tool for support.
 Settings that stay fixed until the user changes them:
 
 - which of the available sensor values are sent
-- the send rate
-- the address of the optiCLOUD web application
+- the send rate, by default 2 seconds
+- the send mode: by default only changed values, with a full sample every 60 seconds
+- the address of the optiCLOUD web application, by default the official optiCLOUD server `https://dashboard.opticloud.io`
 - an optional default dashboard
+
+The details are in [docs/spec/configuration.md](spec/configuration.md).
 
 The tenant, the project, and the device come from sign-in and device selection.
 
@@ -99,7 +103,7 @@ A button opens the default dashboard from the settings. If none is set, it opens
 - **Background operation shapes the design from the first commit.** Sensor collection and MQTT run in a service layer that does not depend on the user interface, with its own reconnect logic.
   - iOS has no general "keep running" mode. The workable route is the location background mode with "Always" permission. Without that permission the app transmits only while it is open. App Review checks this mode closely, so location must be a visible feature with a clear permission text.
   - Android needs a foreground service with a persistent notification. Allowed service types and time limits have tightened in recent Android versions. Check them against the current target SDK.
-- **Store and forward.** Journal entries and photos must not be lost without a network. They need a persistent queue that keeps the original time stamp. Telemetry is buffered as well while the phone is offline and is sent later with QoS 1 and its original time stamps.
+- **Store and forward.** Journal entries and photos must not be lost without a network. They need a persistent queue that keeps the original time stamp. Telemetry is buffered as well while the phone is offline and is sent later with QoS 1 and its original time stamps, oldest first; the buffer holds up to 50 MB and drops the oldest samples when full. Details in [docs/spec/offline-queue.md](spec/offline-queue.md).
 - **Photos do not travel over MQTT.** The message size is limited. The app uploads them through the device storage interface, which follows the S3 protocol and signs requests with the device access token.
 - **Secrets.** The device access token, the refresh token of the user's session, and the installation identifier are stored in the Keychain (iOS) and the Keystore-backed storage (Android). The user's password is never stored.
 - **Shared test vectors.** `docs/spec/` contains example payloads and expected results as JSON. Both apps run their protocol tests against the same files.

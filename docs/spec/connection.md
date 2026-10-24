@@ -107,7 +107,7 @@ The reason is also shown in the test area, with the time it occurred.
 | On | The app samples the selected sensors at the send rate and sends the values. |
 
 - Transmission is switched on and off by the user. It is a setting and survives a restart.
-- Transmission only sends while the connection state is Connected. While it is not, the samples go to the offline queue.
+- Every sample goes through the [offline queue](offline-queue.md). The queue is delivered while the connection state is Connected; while it is not, samples wait there.
 - Disconnecting does not switch transmission off, and switching transmission off does not disconnect.
 - The test area works whenever the connection state is Connected, whether transmission is on or off.
 
@@ -126,6 +126,17 @@ When the connection is lost or an attempt fails, the app goes to Waiting and ret
 - When the operating system reports that the network is back, the app retries at once.
 
 The service layer does this without the user interface, also in the background.
+
+## Data volume
+
+The app counts its own data volume, so that the user and optiCLOUD can see what it costs. Neither platform offers a count per app on both systems, so both apps count the same way:
+
+- The app counts the bytes of every MQTT packet it sends and receives, and of every REST request and answer, with headers.
+- For the overhead of TLS, TCP, and IP it adds 80 bytes per MQTT packet and per REST request and answer. The result is an estimate, and the app shows it as such.
+- It counts by network: mobile network or Wi-Fi, as the operating system reports it at that moment. Other networks count as Wi-Fi.
+- It keeps counters per day in the local time of the phone.
+
+The app shows sent and received data for today, this week (from Monday), and this month, separately for mobile network and Wi-Fi. The item `dataVolume` of the group `device` sends the totals for today and for the month to optiCLOUD (see [sensors.md](sensors.md#device)).
 
 ## Open points
 
