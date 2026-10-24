@@ -21,7 +21,7 @@ Telemetry must not be lost when the phone has no connection. Every sample goes t
 
 The app delivers the queue whenever it is connected, whether transmission is on or off.
 
-1. It takes samples from the front of the queue, oldest first, and puts them into one telemetry message until the next sample would make the payload larger than 32 KiB (32768 bytes). The size is the length in UTF-8 of the payload written as JSON without white space. Within the message the samples are ordered by rising `ts` (see [messages.md](messages.md#telemetry)).
+1. It takes samples from the front of the queue, oldest first, and puts them into one telemetry message until the next sample would make the payload larger than 32 KiB (32768 bytes). The size is the length in UTF-8 of the payload written as JSON without white space. Within the message the samples are ordered by rising `ts` (see [messages.md](messages.md#telemetry)). A sample that is larger than 32 KiB on its own goes into a message of its own.
 2. It publishes the message with QoS 1.
 3. When the server acknowledges the message, the app removes its samples from the queue and continues with the next message.
 

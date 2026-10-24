@@ -11,7 +11,7 @@ Early development. Nothing here is ready for use yet, and the apps are not in th
 | Specification | Draft for stage 1 in [`docs/spec/`](docs/spec/), parts tested against an optiCLOUD test server |
 | Shared test vectors | Draft in [`docs/spec/vectors/`](docs/spec/vectors/) |
 | Android app | A minimal app that starts and shows the toolchain works; no features yet |
-| iOS app | Not started; the iOS app leads the implementation of stage 1 |
+| iOS app | An Xcode project and a logic package that passes the shared test vectors; no features in the app yet. The iOS app leads the implementation of stage 1 |
 
 ## Planned features
 
@@ -54,7 +54,21 @@ Or open the `android` directory in Android Studio.
 
 ### iOS
 
-There is no Xcode project yet.
+Requirements: Xcode, current stable release. The app needs iOS 26 or newer.
+
+For a build on a device, copy `ios/Config/Local.xcconfig.example` to `ios/Config/Local.xcconfig` and enter your development team. Then open `ios/OptiCloudSensor.xcodeproj` in Xcode, or build and test from the command line:
+
+```
+cd ios
+xcodebuild -scheme OptiCloudSensor -destination 'platform=iOS Simulator,name=iPhone 17' test
+```
+
+The logic package also runs on its own, without a simulator:
+
+```
+cd ios/SensorCore
+swift test
+```
 
 ## Contributing
 

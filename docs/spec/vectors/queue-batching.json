@@ -414,6 +414,58 @@
           }
         ]
       ]
+    },
+    {
+      "name": "a sample larger than the limit on its own goes into a message of its own",
+      "maxPayloadBytes": 60,
+      "queue": [
+        {
+          "ts": 1760000000000,
+          "values": {
+            "steps": 1000
+          }
+        },
+        {
+          "ts": 1760000002000,
+          "values": {
+            "network": "cellular",
+            "thermalState": "nominal"
+          }
+        },
+        {
+          "ts": 1760000004000,
+          "values": {
+            "steps": 1001
+          }
+        }
+      ],
+      "messages": [
+        [
+          {
+            "ts": 1760000000000,
+            "values": {
+              "steps": 1000
+            }
+          }
+        ],
+        [
+          {
+            "ts": 1760000002000,
+            "values": {
+              "network": "cellular",
+              "thermalState": "nominal"
+            }
+          }
+        ],
+        [
+          {
+            "ts": 1760000004000,
+            "values": {
+              "steps": 1001
+            }
+          }
+        ]
+      ]
     }
   ]
 }
