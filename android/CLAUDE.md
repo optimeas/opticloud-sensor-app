@@ -19,7 +19,7 @@ This directory holds the Android app. The rules in the repository root `CLAUDE.m
 
 ## MQTT client
 
-No MQTT client library is chosen yet. Do not add one on your own. The choice is made for both platforms together and recorded in the project brief, including the license notices the app must show.
+Use the **HiveMQ MQTT Client** 1.4.x (`com.hivemq:hivemq-mqtt-client`, Apache 2.0). Do not add another MQTT library; Eclipse Paho is no longer maintained. A change of the library is decided for both platforms together and recorded in the project brief. The app shows the license texts of the client and its dependencies.
 
 ## Working in this repository
 

@@ -1,6 +1,6 @@
 # Messages
 
-**Status: draft.** Not yet tested against a server.
+**Status: draft.** Telemetry with time stamps, client attributes, and attribute requests were tested against an optiCLOUD test server on 2026-10-24. Commands and alarms are not yet tested.
 
 This document describes the MQTT messages between the app and optiCLOUD. How the connection is made is in [connection.md](connection.md).
 
@@ -71,8 +71,8 @@ The app publishes these attributes after every successful connect and again when
 | `os` | string | `iOS` or `Android` |
 | `osVersion` | string | Version of the operating system |
 | `model` | string | Model of the phone |
-| `sensorsAvailable` | string | Keys of the sensor groups this phone offers, separated by commas. See [sensors.md](sensors.md). |
-| `sensors` | string | Keys of the sensor groups that are selected for transmission, separated by commas |
+| `sensorsAvailable` | string | Keys of the items this phone offers, separated by commas. See [sensors.md](sensors.md#selection). |
+| `sensors` | string | The selection for transmission: group keys and item keys, separated by commas. See [sensors.md](sensors.md#selection). |
 | `sendRate` | number | The send rate in effect, in seconds |
 | `transmitting` | boolean | Whether transmission is on |
 
@@ -93,13 +93,15 @@ optiCLOUD controls settings of the app through these shared attributes:
 | Key | Type | Setting |
 | --- | --- | --- |
 | `sendRate` | number | The send rate in seconds |
-| `sensors` | string | Keys of the sensor groups to transmit, separated by commas |
+| `sensors` | string | The selection for transmission: group keys and item keys, separated by commas. See [sensors.md](sensors.md#selection). |
 | `dashboard` | string | Identifier of the default dashboard for the jump to optiCLOUD |
+
+The shared attribute `sensorAppInstallation` is not a setting. It binds the device to one phone; see [sign-in.md](sign-in.md#binding-to-the-phone) and [connection.md](connection.md#checking-the-binding).
 
 - A setting whose shared attribute exists is managed by optiCLOUD. The app applies the value, shows the setting as managed, and does not let the user change it.
 - When the shared attribute is deleted, the setting keeps its last value and the user can change it again.
-- A value the app cannot use (wrong type, outside the allowed range, unknown sensor group) is ignored. The setting keeps its value, and the app shows the problem in the test area.
-- After every successful connect the app requests these three shared attributes, because it does not learn about changes made while it was offline.
+- A value the app cannot use (wrong type, outside the allowed range, unknown group or item key) is ignored. The setting keeps its value, and the app shows the problem in the test area.
+- After every successful connect the app requests these three shared attributes and `sensorAppInstallation`, because it does not learn about changes made while it was offline.
 - Every change of a shared attribute is shown in the test area, also for keys the app does not use.
 
 ### Requesting attributes
@@ -142,6 +144,7 @@ The app carries out these commands:
 | `startTransmission` | none | Switches transmission on | `{ "transmitting": true }` |
 | `stopTransmission` | none | Switches transmission off | `{ "transmitting": false }` |
 | `setSendRate` | `{ "seconds": 5 }` | Changes the send rate | `{ "sendRate": 5 }` |
+| `sendNow` | none | Takes one sample of all selected values at once and sends it, also while transmission is off | `{ "sent": true }` |
 
 A command that cannot be carried out is answered with an error and changes nothing:
 
@@ -167,6 +170,7 @@ The app reports alarms as a batch:
       "level": "WARNING",
       "status": "ACTIVE",
       "raiseTime": 1760000000000,
+      "uuid": "5f0c6a80-a9c2-11f0-8000-0242ac120002",
       "message": "Raised in the test area"
     }
   ]
@@ -180,15 +184,17 @@ The app reports alarms as a batch:
 | `status` | yes | `ACTIVE` when the alarm is raised, `CLEARED` when it is over |
 | `raiseTime` | no | The moment the alarm was raised |
 | `releaseTime` | no | The moment the alarm was cleared |
+| `uuid` | no | The identifier of the alarm |
 | `message` | no | A text for the user |
 
 - The app sends `raiseTime` with `ACTIVE` and `releaseTime` with `CLEARED`.
+- The app always sends a `uuid`. It creates a new one for each `ACTIVE` and sends the same one with the matching `CLEARED`. The server uses it as the identifier of the alarm, so `CLEARED` ends exactly that alarm, also when several alarms of the same `context` are active or when the messages are delivered later.
+- The server derives the creation time of the alarm from the identifier. The `uuid` is therefore time-based (UUID version 1), created at the moment the alarm is raised.
+- Without `uuid` the server would match by `context`: there could be only one active alarm per `context`, and a second `ACTIVE` would change the first one.
+- A `CLEARED` for which no alarm exists creates an alarm that is already cleared.
+- The server acknowledges an alarm message only after it has processed it.
 - If one of the required members is missing or has another value than listed, the server closes the connection.
 
 ## Open points
 
-1. How does the server match a `CLEARED` alarm to the earlier `ACTIVE` one: by `context` alone, or does the app have to send an identifier? This needs a look at the source and a test.
-2. Are the limits right: 32 KiB per payload, 10 seconds for an attribute response, 5 seconds for a command answer?
-3. Is "managed by optiCLOUD" the right rule when a shared attribute and a setting on the phone disagree, or should the last change win?
-4. Should transmission also be controllable through a shared attribute, in addition to the two commands?
-5. Which further commands are needed, for example to take a photo or to request a single value?
+1. On the test server, alarm messages were not acknowledged and the alarms could not be found through the REST interface (2026-10-24). This needs to be cleared up with optiMEAS before the specification relies on alarms. Until then the version of the `uuid` is not confirmed either.
