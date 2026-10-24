@@ -1,0 +1,95 @@
+{
+  "description": "Aggregation of a value measured between two ticks. Input: key and measurements (the raw values since the previous tick), or measurements3 (triples of x, y, z) for accelMagnitude. Expected: values, the keys with mean, minimum, and maximum, rounded to the resolution of the key. An empty values object means the keys are left out. See sensors.md, Sampling.",
+  "cases": [
+    {
+      "name": "mean, minimum, and maximum",
+      "key": "accelX",
+      "measurements": [
+        0.1,
+        0.2,
+        0.3,
+        0.4
+      ],
+      "values": {
+        "accelX": 0.25,
+        "accelXMin": 0.1,
+        "accelXMax": 0.4
+      }
+    },
+    {
+      "name": "a shock between two ticks shows in the maximum",
+      "key": "accelZ",
+      "measurements": [
+        9.81,
+        9.8,
+        9.82,
+        15.43,
+        9.81,
+        9.79
+      ],
+      "values": {
+        "accelZ": 10.74,
+        "accelZMin": 9.79,
+        "accelZMax": 15.43
+      }
+    },
+    {
+      "name": "rounding comes after the mean",
+      "key": "accelY",
+      "measurements": [
+        0.004,
+        0.004,
+        0.01
+      ],
+      "values": {
+        "accelY": 0.01,
+        "accelYMin": 0.0,
+        "accelYMax": 0.01
+      }
+    },
+    {
+      "name": "a single measurement",
+      "key": "gyroX",
+      "measurements": [
+        0.0123
+      ],
+      "values": {
+        "gyroX": 0.012,
+        "gyroXMin": 0.012,
+        "gyroXMax": 0.012
+      }
+    },
+    {
+      "name": "no measurement leaves the keys out",
+      "key": "accelX",
+      "measurements": [],
+      "values": {}
+    },
+    {
+      "name": "accelMagnitude is computed per measurement, then aggregated",
+      "key": "accelMagnitude",
+      "measurements3": [
+        [
+          0.0,
+          0.0,
+          9.81
+        ],
+        [
+          3.0,
+          4.0,
+          0.0
+        ],
+        [
+          0.0,
+          6.0,
+          8.0
+        ]
+      ],
+      "values": {
+        "accelMagnitude": 8.27,
+        "accelMagnitudeMin": 5.0,
+        "accelMagnitudeMax": 10.0
+      }
+    }
+  ]
+}

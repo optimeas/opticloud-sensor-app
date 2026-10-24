@@ -15,7 +15,7 @@ This directory is the master for the behavior of optiCLOUD Sensor. The iOS app a
 | [sensors.md](sensors.md) | How sensors are found, selected, and sampled; the catalog of keys and units | Draft |
 | [offline-queue.md](offline-queue.md) | Buffering and delivery of telemetry | Draft, journal entries follow with stage 2 |
 | [journal.md](journal.md) | Journal entries as notes | Draft |
-| [vectors/](vectors/) | Test vectors shared by both apps | First proposal |
+| [vectors/](vectors/) | Test vectors shared by both apps | Draft |
 
 Planned, not yet written:
 
@@ -33,6 +33,18 @@ Planned, not yet written:
 A vector file is a JSON document with a `description` and a list of `cases`. Each case has a `name`, an input, and the expected result. Both apps load the same files and run every case in their protocol tests.
 
 Payloads are compared as JSON values, not as text: the order of object members and white space do not matter.
+
+Numbers are compared as numbers: `0`, `0.0`, and `-0.0` are equal. A description can say that a list is compared as a set.
+
+| File | Content |
+| --- | --- |
+| [telemetry.json](vectors/telemetry.json) | Encoding of samples into a telemetry message |
+| [selection.json](vectors/selection.json) | Sensor selection: valid or not, the selected items, and what the app reports |
+| [rounding.json](vectors/rounding.json) | Rounding of a number to the resolution of its key |
+| [on-change.json](vectors/on-change.json) | Which values are sent at each tick, in both send modes |
+| [aggregation.json](vectors/aggregation.json) | Mean, minimum, and maximum of aggregated values |
+| [queue-batching.json](vectors/queue-batching.json) | Division of the offline queue into telemetry messages |
+| [journal-note.json](vectors/journal-note.json) | Request body of a note created from a journal entry |
 
 ## Changing the specification
 

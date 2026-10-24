@@ -1,0 +1,224 @@
+{
+  "description": "Body of the request that creates a note from a journal entry. Input: entry (title, text, status, priority, savedAt, utcOffsetMinutes of the phone at the moment of saving, optional latitude and longitude), claims (from the access token), and deviceId. Expected: body, compared as a JSON value. See journal.md, Note and Time stamp.",
+  "cases": [
+    {
+      "name": "entry with defaults and position",
+      "entry": {
+        "title": "Brake check",
+        "text": "Brake test at the depot passed.",
+        "status": "CREATED",
+        "priority": "MEDIUM",
+        "savedAt": 1760000000000,
+        "utcOffsetMinutes": 120,
+        "latitude": 47.3769,
+        "longitude": 8.5417
+      },
+      "claims": {
+        "tenantId": "11111111-1111-1111-1111-111111111111",
+        "projectId": "22222222-2222-2222-2222-222222222222",
+        "authorityDataId": "33333333-3333-3333-3333-333333333333"
+      },
+      "deviceId": "44444444-4444-4444-4444-444444444444",
+      "body": {
+        "entityId": {
+          "entityType": "DEVICE",
+          "id": "44444444-4444-4444-4444-444444444444"
+        },
+        "tenantId": {
+          "entityType": "TENANT",
+          "id": "11111111-1111-1111-1111-111111111111"
+        },
+        "projectId": {
+          "entityType": "PROJECT",
+          "id": "22222222-2222-2222-2222-222222222222"
+        },
+        "authorityDataId": {
+          "entityType": "AUTHORITY_DATA",
+          "id": "33333333-3333-3333-3333-333333333333"
+        },
+        "name": "Brake check",
+        "text": "Brake test at the depot passed.\n\n2025-10-09 10:53 +02:00",
+        "status": "CREATED",
+        "priority": "MEDIUM",
+        "additionalInfo": {
+          "source": "optiCLOUD Sensor App",
+          "savedAt": 1760000000000,
+          "latitude": 47.3769,
+          "longitude": 8.5417
+        }
+      }
+    },
+    {
+      "name": "entry without position",
+      "entry": {
+        "title": "Delay",
+        "text": "Signal failure near the station.",
+        "status": "CREATED",
+        "priority": "HIGH",
+        "savedAt": 1760000000000,
+        "utcOffsetMinutes": 120
+      },
+      "claims": {
+        "tenantId": "11111111-1111-1111-1111-111111111111",
+        "projectId": "22222222-2222-2222-2222-222222222222",
+        "authorityDataId": "33333333-3333-3333-3333-333333333333"
+      },
+      "deviceId": "44444444-4444-4444-4444-444444444444",
+      "body": {
+        "entityId": {
+          "entityType": "DEVICE",
+          "id": "44444444-4444-4444-4444-444444444444"
+        },
+        "tenantId": {
+          "entityType": "TENANT",
+          "id": "11111111-1111-1111-1111-111111111111"
+        },
+        "projectId": {
+          "entityType": "PROJECT",
+          "id": "22222222-2222-2222-2222-222222222222"
+        },
+        "authorityDataId": {
+          "entityType": "AUTHORITY_DATA",
+          "id": "33333333-3333-3333-3333-333333333333"
+        },
+        "name": "Delay",
+        "text": "Signal failure near the station.\n\n2025-10-09 10:53 +02:00",
+        "status": "CREATED",
+        "priority": "HIGH",
+        "additionalInfo": {
+          "source": "optiCLOUD Sensor App",
+          "savedAt": 1760000000000
+        }
+      }
+    },
+    {
+      "name": "archived entry with low priority",
+      "entry": {
+        "title": "Note",
+        "text": "Done.",
+        "status": "ARCHIVED",
+        "priority": "LOW",
+        "savedAt": 1760000000000,
+        "utcOffsetMinutes": 120
+      },
+      "claims": {
+        "tenantId": "11111111-1111-1111-1111-111111111111",
+        "projectId": "22222222-2222-2222-2222-222222222222",
+        "authorityDataId": "33333333-3333-3333-3333-333333333333"
+      },
+      "deviceId": "44444444-4444-4444-4444-444444444444",
+      "body": {
+        "entityId": {
+          "entityType": "DEVICE",
+          "id": "44444444-4444-4444-4444-444444444444"
+        },
+        "tenantId": {
+          "entityType": "TENANT",
+          "id": "11111111-1111-1111-1111-111111111111"
+        },
+        "projectId": {
+          "entityType": "PROJECT",
+          "id": "22222222-2222-2222-2222-222222222222"
+        },
+        "authorityDataId": {
+          "entityType": "AUTHORITY_DATA",
+          "id": "33333333-3333-3333-3333-333333333333"
+        },
+        "name": "Note",
+        "text": "Done.\n\n2025-10-09 10:53 +02:00",
+        "status": "ARCHIVED",
+        "priority": "LOW",
+        "additionalInfo": {
+          "source": "optiCLOUD Sensor App",
+          "savedAt": 1760000000000
+        }
+      }
+    },
+    {
+      "name": "negative offset from UTC and a date change",
+      "entry": {
+        "title": "Night shift",
+        "text": "Start of shift.",
+        "status": "CREATED",
+        "priority": "MEDIUM",
+        "savedAt": 1760000000000,
+        "utcOffsetMinutes": -600
+      },
+      "claims": {
+        "tenantId": "11111111-1111-1111-1111-111111111111",
+        "projectId": "22222222-2222-2222-2222-222222222222",
+        "authorityDataId": "33333333-3333-3333-3333-333333333333"
+      },
+      "deviceId": "44444444-4444-4444-4444-444444444444",
+      "body": {
+        "entityId": {
+          "entityType": "DEVICE",
+          "id": "44444444-4444-4444-4444-444444444444"
+        },
+        "tenantId": {
+          "entityType": "TENANT",
+          "id": "11111111-1111-1111-1111-111111111111"
+        },
+        "projectId": {
+          "entityType": "PROJECT",
+          "id": "22222222-2222-2222-2222-222222222222"
+        },
+        "authorityDataId": {
+          "entityType": "AUTHORITY_DATA",
+          "id": "33333333-3333-3333-3333-333333333333"
+        },
+        "name": "Night shift",
+        "text": "Start of shift.\n\n2025-10-08 22:53 -10:00",
+        "status": "CREATED",
+        "priority": "MEDIUM",
+        "additionalInfo": {
+          "source": "optiCLOUD Sensor App",
+          "savedAt": 1760000000000
+        }
+      }
+    },
+    {
+      "name": "offset with half hours",
+      "entry": {
+        "title": "Check",
+        "text": "All fine.",
+        "status": "CREATED",
+        "priority": "MEDIUM",
+        "savedAt": 1760000000000,
+        "utcOffsetMinutes": 330
+      },
+      "claims": {
+        "tenantId": "11111111-1111-1111-1111-111111111111",
+        "projectId": "22222222-2222-2222-2222-222222222222",
+        "authorityDataId": "33333333-3333-3333-3333-333333333333"
+      },
+      "deviceId": "44444444-4444-4444-4444-444444444444",
+      "body": {
+        "entityId": {
+          "entityType": "DEVICE",
+          "id": "44444444-4444-4444-4444-444444444444"
+        },
+        "tenantId": {
+          "entityType": "TENANT",
+          "id": "11111111-1111-1111-1111-111111111111"
+        },
+        "projectId": {
+          "entityType": "PROJECT",
+          "id": "22222222-2222-2222-2222-222222222222"
+        },
+        "authorityDataId": {
+          "entityType": "AUTHORITY_DATA",
+          "id": "33333333-3333-3333-3333-333333333333"
+        },
+        "name": "Check",
+        "text": "All fine.\n\n2025-10-09 14:23 +05:30",
+        "status": "CREATED",
+        "priority": "MEDIUM",
+        "additionalInfo": {
+          "source": "optiCLOUD Sensor App",
+          "savedAt": 1760000000000
+        }
+      }
+    }
+  ]
+}

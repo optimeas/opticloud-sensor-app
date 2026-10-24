@@ -30,7 +30,7 @@ The app creates the note with `POST /api/notes` through the user's session:
   "projectId": { "entityType": "PROJECT", "id": "<projectId>" },
   "authorityDataId": { "entityType": "AUTHORITY_DATA", "id": "<authorityDataId>" },
   "name": "Brake check",
-  "text": "Brake test at the depot passed.",
+  "text": "Brake test at the depot passed.\n\n2025-10-09 10:53 +02:00",
   "status": "CREATED",
   "priority": "MEDIUM",
   "additionalInfo": {
@@ -55,7 +55,7 @@ The app creates the note with `POST /api/notes` through the user's session:
 The server sets the time of a note itself, when the note arrives. It ignores a time sent by the app. An entry delivered later therefore has the delivery time in optiCLOUD. To keep the real time:
 
 - `additionalInfo.savedAt` holds the moment of saving.
-- The app adds the moment of saving at the end of the text, in the local time of the phone with its offset from UTC, for example `Saved 2026-10-24 15:42 +02:00`, so that it is visible in optiCLOUD.
+- The app adds the moment of saving at the end of the text, so that it is visible in optiCLOUD: an empty line, then the local time of the phone with its offset from UTC in the form `YYYY-MM-DD HH:MM ±HH:MM`, for example `2026-10-24 15:42 +02:00`. The form has no words, so it reads the same in every language.
 
 ## Afterwards
 

@@ -1,0 +1,65 @@
+# optiCLOUD Sensor
+
+optiCLOUD Sensor turns a phone into a sensor for [optiCLOUD](https://dashboard.opticloud.io), the IoT platform by optiMEAS. The phone sends its own measurements and its position to a device in optiCLOUD and reacts to commands coming back. There are two native apps: Swift with SwiftUI on iOS, Kotlin with Jetpack Compose on Android.
+
+## Status
+
+Early development. Nothing here is ready for use yet, and the apps are not in the stores.
+
+| Part | State |
+| --- | --- |
+| Specification | Draft for stage 1 in [`docs/spec/`](docs/spec/), parts tested against an optiCLOUD test server |
+| Shared test vectors | Draft in [`docs/spec/vectors/`](docs/spec/vectors/) |
+| Android app | A minimal app that starts and shows the toolchain works; no features yet |
+| iOS app | Not started; the iOS app leads the implementation of stage 1 |
+
+## Planned features
+
+Stage 1, the foundation:
+
+- Sign-in with a personal optiCLOUD account, choice of tenant, project, and device, or creation of a new device
+- Sensor values the phone offers, selected by group or single item, sent at a configurable rate and only when they change
+- Position, also in the background when the user allows it
+- A persistent buffer, so that no measurement is lost without a network
+- A test area for every communication path: telemetry, attributes, commands, alarms
+- The data volume of the app over the mobile network and Wi-Fi
+- A button that opens optiCLOUD
+
+Later stages: journal entries stored as notes in optiCLOUD, photos, and values measured on the body such as heart rate. The full plan is in the [project brief](docs/project-brief.md#stages).
+
+## Repository layout
+
+```
+docs/project-brief.md   product idea, decisions, stages, open questions
+docs/spec/              platform-neutral specification, the master for both apps
+docs/spec/vectors/      test vectors both apps run in their protocol tests
+ios/                    iOS app (Swift, SwiftUI)
+android/                Android app (Kotlin, Jetpack Compose)
+```
+
+The specification in `docs/spec/` defines the behavior. Neither app is the reference for the other. Each app follows the design standards of its platform.
+
+## Building
+
+### Android
+
+Requirements: Android Studio, current stable release. The app needs Android 12 (API 31) or newer.
+
+```
+cd android
+./gradlew assembleDebug
+```
+
+Or open the `android` directory in Android Studio.
+
+### iOS
+
+There is no Xcode project yet.
+
+## Contributing
+
+The apps are developed by optiMEAS. Rules for working in this repository are in [`CLAUDE.md`](CLAUDE.md) and in the platform files [`ios/CLAUDE.md`](ios/CLAUDE.md) and [`android/CLAUDE.md`](android/CLAUDE.md). Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/).
+
+## License
+
+[MIT](LICENSE). Libraries used by the apps keep their own licenses; the apps will show them on a license screen.
