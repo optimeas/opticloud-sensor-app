@@ -1,0 +1,500 @@
+{
+  "description": "Sensor selection. Input: offered (item keys the phone offers) and selection (the selection string). Expected: valid; if valid, items (the selected items the phone offers, in catalog order) and reported (the entries the app reports, compared as a set: order carries no meaning). See sensors.md, Selection.",
+  "cases": [
+    {
+      "name": "group key selects all offered items of the group",
+      "offered": [
+        "accel",
+        "accelMagnitude",
+        "gyro",
+        "mag",
+        "orientation",
+        "pressure",
+        "position",
+        "altitude",
+        "speed",
+        "course",
+        "locationAccuracy",
+        "steps",
+        "activityType",
+        "batteryLevel",
+        "charging",
+        "network",
+        "thermalState",
+        "powerSaving",
+        "dataVolume",
+        "soundLevel"
+      ],
+      "selection": "device",
+      "valid": true,
+      "items": [
+        "batteryLevel",
+        "charging",
+        "network",
+        "thermalState",
+        "powerSaving",
+        "dataVolume"
+      ],
+      "reported": [
+        "device"
+      ]
+    },
+    {
+      "name": "two groups",
+      "offered": [
+        "accel",
+        "accelMagnitude",
+        "gyro",
+        "mag",
+        "orientation",
+        "pressure",
+        "position",
+        "altitude",
+        "speed",
+        "course",
+        "locationAccuracy",
+        "steps",
+        "activityType",
+        "batteryLevel",
+        "charging",
+        "network",
+        "thermalState",
+        "powerSaving",
+        "dataVolume",
+        "soundLevel"
+      ],
+      "selection": "device,location",
+      "valid": true,
+      "items": [
+        "position",
+        "altitude",
+        "speed",
+        "course",
+        "locationAccuracy",
+        "batteryLevel",
+        "charging",
+        "network",
+        "thermalState",
+        "powerSaving",
+        "dataVolume"
+      ],
+      "reported": [
+        "location",
+        "device"
+      ]
+    },
+    {
+      "name": "group and single item",
+      "offered": [
+        "accel",
+        "accelMagnitude",
+        "gyro",
+        "mag",
+        "orientation",
+        "pressure",
+        "position",
+        "altitude",
+        "speed",
+        "course",
+        "locationAccuracy",
+        "steps",
+        "activityType",
+        "batteryLevel",
+        "charging",
+        "network",
+        "thermalState",
+        "powerSaving",
+        "dataVolume",
+        "soundLevel"
+      ],
+      "selection": "location,accelMagnitude",
+      "valid": true,
+      "items": [
+        "accelMagnitude",
+        "position",
+        "altitude",
+        "speed",
+        "course",
+        "locationAccuracy"
+      ],
+      "reported": [
+        "accelMagnitude",
+        "location"
+      ]
+    },
+    {
+      "name": "single items only",
+      "offered": [
+        "accel",
+        "accelMagnitude",
+        "gyro",
+        "mag",
+        "orientation",
+        "pressure",
+        "position",
+        "altitude",
+        "speed",
+        "course",
+        "locationAccuracy",
+        "steps",
+        "activityType",
+        "batteryLevel",
+        "charging",
+        "network",
+        "thermalState",
+        "powerSaving",
+        "dataVolume",
+        "soundLevel"
+      ],
+      "selection": "batteryLevel,position",
+      "valid": true,
+      "items": [
+        "position",
+        "batteryLevel"
+      ],
+      "reported": [
+        "position",
+        "batteryLevel"
+      ]
+    },
+    {
+      "name": "all offered items of a group are reported as the group key",
+      "offered": [
+        "accel",
+        "accelMagnitude",
+        "gyro",
+        "mag",
+        "orientation",
+        "pressure",
+        "position",
+        "altitude",
+        "speed",
+        "course",
+        "locationAccuracy",
+        "steps",
+        "activityType",
+        "batteryLevel",
+        "charging",
+        "network",
+        "thermalState",
+        "powerSaving",
+        "dataVolume",
+        "soundLevel"
+      ],
+      "selection": "pressure",
+      "valid": true,
+      "items": [
+        "pressure"
+      ],
+      "reported": [
+        "environment"
+      ]
+    },
+    {
+      "name": "a deselected item turns the group into item keys",
+      "offered": [
+        "accel",
+        "accelMagnitude",
+        "gyro",
+        "mag",
+        "orientation",
+        "pressure",
+        "position",
+        "altitude",
+        "speed",
+        "course",
+        "locationAccuracy",
+        "steps",
+        "activityType",
+        "batteryLevel",
+        "charging",
+        "network",
+        "thermalState",
+        "powerSaving",
+        "dataVolume",
+        "soundLevel"
+      ],
+      "selection": "batteryLevel,charging,network,thermalState,powerSaving",
+      "valid": true,
+      "items": [
+        "batteryLevel",
+        "charging",
+        "network",
+        "thermalState",
+        "powerSaving"
+      ],
+      "reported": [
+        "batteryLevel",
+        "charging",
+        "network",
+        "thermalState",
+        "powerSaving"
+      ]
+    },
+    {
+      "name": "items the phone does not offer are not selected",
+      "offered": [
+        "accel",
+        "accelMagnitude",
+        "gyro",
+        "mag",
+        "orientation",
+        "pressure",
+        "position",
+        "altitude",
+        "speed",
+        "course",
+        "locationAccuracy",
+        "steps",
+        "activityType",
+        "batteryLevel",
+        "charging",
+        "network",
+        "thermalState",
+        "powerSaving",
+        "dataVolume",
+        "soundLevel"
+      ],
+      "selection": "environment",
+      "valid": true,
+      "items": [
+        "pressure"
+      ],
+      "reported": [
+        "environment"
+      ]
+    },
+    {
+      "name": "cellularSignal is not offered here, so device is complete without it",
+      "offered": [
+        "accel",
+        "accelMagnitude",
+        "gyro",
+        "mag",
+        "orientation",
+        "pressure",
+        "position",
+        "altitude",
+        "speed",
+        "course",
+        "locationAccuracy",
+        "steps",
+        "activityType",
+        "batteryLevel",
+        "charging",
+        "network",
+        "thermalState",
+        "powerSaving",
+        "dataVolume",
+        "soundLevel"
+      ],
+      "selection": "batteryLevel,charging,network,thermalState,powerSaving,dataVolume",
+      "valid": true,
+      "items": [
+        "batteryLevel",
+        "charging",
+        "network",
+        "thermalState",
+        "powerSaving",
+        "dataVolume"
+      ],
+      "reported": [
+        "device"
+      ]
+    },
+    {
+      "name": "a group without offered items is not reported",
+      "offered": [
+        "accel",
+        "accelMagnitude",
+        "gyro",
+        "mag",
+        "orientation",
+        "pressure",
+        "position",
+        "altitude",
+        "speed",
+        "course",
+        "locationAccuracy",
+        "steps",
+        "activityType",
+        "batteryLevel",
+        "charging",
+        "network",
+        "thermalState",
+        "powerSaving",
+        "dataVolume",
+        "soundLevel"
+      ],
+      "selection": "health",
+      "valid": true,
+      "items": [],
+      "reported": []
+    },
+    {
+      "name": "spaces and empty entries are ignored",
+      "offered": [
+        "accel",
+        "accelMagnitude",
+        "gyro",
+        "mag",
+        "orientation",
+        "pressure",
+        "position",
+        "altitude",
+        "speed",
+        "course",
+        "locationAccuracy",
+        "steps",
+        "activityType",
+        "batteryLevel",
+        "charging",
+        "network",
+        "thermalState",
+        "powerSaving",
+        "dataVolume",
+        "soundLevel"
+      ],
+      "selection": " device , ,location,",
+      "valid": true,
+      "items": [
+        "position",
+        "altitude",
+        "speed",
+        "course",
+        "locationAccuracy",
+        "batteryLevel",
+        "charging",
+        "network",
+        "thermalState",
+        "powerSaving",
+        "dataVolume"
+      ],
+      "reported": [
+        "location",
+        "device"
+      ]
+    },
+    {
+      "name": "empty selection selects nothing",
+      "offered": [
+        "accel",
+        "accelMagnitude",
+        "gyro",
+        "mag",
+        "orientation",
+        "pressure",
+        "position",
+        "altitude",
+        "speed",
+        "course",
+        "locationAccuracy",
+        "steps",
+        "activityType",
+        "batteryLevel",
+        "charging",
+        "network",
+        "thermalState",
+        "powerSaving",
+        "dataVolume",
+        "soundLevel"
+      ],
+      "selection": "",
+      "valid": true,
+      "items": [],
+      "reported": []
+    },
+    {
+      "name": "duplicate entries count once",
+      "offered": [
+        "accel",
+        "accelMagnitude",
+        "gyro",
+        "mag",
+        "orientation",
+        "pressure",
+        "position",
+        "altitude",
+        "speed",
+        "course",
+        "locationAccuracy",
+        "steps",
+        "activityType",
+        "batteryLevel",
+        "charging",
+        "network",
+        "thermalState",
+        "powerSaving",
+        "dataVolume",
+        "soundLevel"
+      ],
+      "selection": "device,batteryLevel,device",
+      "valid": true,
+      "items": [
+        "batteryLevel",
+        "charging",
+        "network",
+        "thermalState",
+        "powerSaving",
+        "dataVolume"
+      ],
+      "reported": [
+        "device"
+      ]
+    },
+    {
+      "name": "an unknown key makes the selection invalid",
+      "offered": [
+        "accel",
+        "accelMagnitude",
+        "gyro",
+        "mag",
+        "orientation",
+        "pressure",
+        "position",
+        "altitude",
+        "speed",
+        "course",
+        "locationAccuracy",
+        "steps",
+        "activityType",
+        "batteryLevel",
+        "charging",
+        "network",
+        "thermalState",
+        "powerSaving",
+        "dataVolume",
+        "soundLevel"
+      ],
+      "selection": "device,humidity",
+      "valid": false
+    },
+    {
+      "name": "keys of values are not entries of a selection",
+      "offered": [
+        "accel",
+        "accelMagnitude",
+        "gyro",
+        "mag",
+        "orientation",
+        "pressure",
+        "position",
+        "altitude",
+        "speed",
+        "course",
+        "locationAccuracy",
+        "steps",
+        "activityType",
+        "batteryLevel",
+        "charging",
+        "network",
+        "thermalState",
+        "powerSaving",
+        "dataVolume",
+        "soundLevel"
+      ],
+      "selection": "accelX",
+      "valid": false
+    }
+  ]
+}

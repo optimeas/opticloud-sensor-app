@@ -1,0 +1,419 @@
+{
+  "description": "Division of the offline queue into telemetry messages. Input: maxPayloadBytes (32768 in the app; smaller here to keep the cases short) and queue (samples, front first). Expected: messages, the payloads in the order they are sent. The size of a payload is its length in UTF-8 written as JSON without white space; the values here are whole numbers and strings, so the size is the same on every platform. See offline-queue.md, Delivering.",
+  "cases": [
+    {
+      "name": "everything fits into one message",
+      "maxPayloadBytes": 32768,
+      "queue": [
+        {
+          "ts": 1760000000000,
+          "values": {
+            "steps": 1000
+          }
+        },
+        {
+          "ts": 1760000002000,
+          "values": {
+            "steps": 1001
+          }
+        },
+        {
+          "ts": 1760000004000,
+          "values": {
+            "steps": 1002
+          }
+        },
+        {
+          "ts": 1760000006000,
+          "values": {
+            "steps": 1003
+          }
+        },
+        {
+          "ts": 1760000008000,
+          "values": {
+            "steps": 1004
+          }
+        }
+      ],
+      "messages": [
+        [
+          {
+            "ts": 1760000000000,
+            "values": {
+              "steps": 1000
+            }
+          },
+          {
+            "ts": 1760000002000,
+            "values": {
+              "steps": 1001
+            }
+          },
+          {
+            "ts": 1760000004000,
+            "values": {
+              "steps": 1002
+            }
+          },
+          {
+            "ts": 1760000006000,
+            "values": {
+              "steps": 1003
+            }
+          },
+          {
+            "ts": 1760000008000,
+            "values": {
+              "steps": 1004
+            }
+          }
+        ]
+      ]
+    },
+    {
+      "name": "a message holds as many samples as fit",
+      "maxPayloadBytes": 91,
+      "queue": [
+        {
+          "ts": 1760000000000,
+          "values": {
+            "steps": 1000
+          }
+        },
+        {
+          "ts": 1760000002000,
+          "values": {
+            "steps": 1001
+          }
+        },
+        {
+          "ts": 1760000004000,
+          "values": {
+            "steps": 1002
+          }
+        },
+        {
+          "ts": 1760000006000,
+          "values": {
+            "steps": 1003
+          }
+        },
+        {
+          "ts": 1760000008000,
+          "values": {
+            "steps": 1004
+          }
+        }
+      ],
+      "messages": [
+        [
+          {
+            "ts": 1760000000000,
+            "values": {
+              "steps": 1000
+            }
+          },
+          {
+            "ts": 1760000002000,
+            "values": {
+              "steps": 1001
+            }
+          }
+        ],
+        [
+          {
+            "ts": 1760000004000,
+            "values": {
+              "steps": 1002
+            }
+          },
+          {
+            "ts": 1760000006000,
+            "values": {
+              "steps": 1003
+            }
+          }
+        ],
+        [
+          {
+            "ts": 1760000008000,
+            "values": {
+              "steps": 1004
+            }
+          }
+        ]
+      ]
+    },
+    {
+      "name": "a payload exactly at the limit is allowed",
+      "maxPayloadBytes": 136,
+      "queue": [
+        {
+          "ts": 1760000000000,
+          "values": {
+            "steps": 1000
+          }
+        },
+        {
+          "ts": 1760000002000,
+          "values": {
+            "steps": 1001
+          }
+        },
+        {
+          "ts": 1760000004000,
+          "values": {
+            "steps": 1002
+          }
+        },
+        {
+          "ts": 1760000006000,
+          "values": {
+            "steps": 1003
+          }
+        },
+        {
+          "ts": 1760000008000,
+          "values": {
+            "steps": 1004
+          }
+        }
+      ],
+      "messages": [
+        [
+          {
+            "ts": 1760000000000,
+            "values": {
+              "steps": 1000
+            }
+          },
+          {
+            "ts": 1760000002000,
+            "values": {
+              "steps": 1001
+            }
+          },
+          {
+            "ts": 1760000004000,
+            "values": {
+              "steps": 1002
+            }
+          }
+        ],
+        [
+          {
+            "ts": 1760000006000,
+            "values": {
+              "steps": 1003
+            }
+          },
+          {
+            "ts": 1760000008000,
+            "values": {
+              "steps": 1004
+            }
+          }
+        ]
+      ]
+    },
+    {
+      "name": "one byte less moves the third sample into the next message",
+      "maxPayloadBytes": 135,
+      "queue": [
+        {
+          "ts": 1760000000000,
+          "values": {
+            "steps": 1000
+          }
+        },
+        {
+          "ts": 1760000002000,
+          "values": {
+            "steps": 1001
+          }
+        },
+        {
+          "ts": 1760000004000,
+          "values": {
+            "steps": 1002
+          }
+        },
+        {
+          "ts": 1760000006000,
+          "values": {
+            "steps": 1003
+          }
+        },
+        {
+          "ts": 1760000008000,
+          "values": {
+            "steps": 1004
+          }
+        }
+      ],
+      "messages": [
+        [
+          {
+            "ts": 1760000000000,
+            "values": {
+              "steps": 1000
+            }
+          },
+          {
+            "ts": 1760000002000,
+            "values": {
+              "steps": 1001
+            }
+          }
+        ],
+        [
+          {
+            "ts": 1760000004000,
+            "values": {
+              "steps": 1002
+            }
+          },
+          {
+            "ts": 1760000006000,
+            "values": {
+              "steps": 1003
+            }
+          }
+        ],
+        [
+          {
+            "ts": 1760000008000,
+            "values": {
+              "steps": 1004
+            }
+          }
+        ]
+      ]
+    },
+    {
+      "name": "a single sample per message",
+      "maxPayloadBytes": 46,
+      "queue": [
+        {
+          "ts": 1760000000000,
+          "values": {
+            "steps": 1000
+          }
+        },
+        {
+          "ts": 1760000002000,
+          "values": {
+            "steps": 1001
+          }
+        },
+        {
+          "ts": 1760000004000,
+          "values": {
+            "steps": 1002
+          }
+        },
+        {
+          "ts": 1760000006000,
+          "values": {
+            "steps": 1003
+          }
+        },
+        {
+          "ts": 1760000008000,
+          "values": {
+            "steps": 1004
+          }
+        }
+      ],
+      "messages": [
+        [
+          {
+            "ts": 1760000000000,
+            "values": {
+              "steps": 1000
+            }
+          }
+        ],
+        [
+          {
+            "ts": 1760000002000,
+            "values": {
+              "steps": 1001
+            }
+          }
+        ],
+        [
+          {
+            "ts": 1760000004000,
+            "values": {
+              "steps": 1002
+            }
+          }
+        ],
+        [
+          {
+            "ts": 1760000006000,
+            "values": {
+              "steps": 1003
+            }
+          }
+        ],
+        [
+          {
+            "ts": 1760000008000,
+            "values": {
+              "steps": 1004
+            }
+          }
+        ]
+      ]
+    },
+    {
+      "name": "within a message samples are ordered by rising time stamp",
+      "maxPayloadBytes": 32768,
+      "queue": [
+        {
+          "ts": 1760000004000,
+          "values": {
+            "steps": 1002
+          }
+        },
+        {
+          "ts": 1760000000000,
+          "values": {
+            "activityType": "walking"
+          }
+        },
+        {
+          "ts": 1760000006000,
+          "values": {
+            "steps": 1003
+          }
+        }
+      ],
+      "messages": [
+        [
+          {
+            "ts": 1760000000000,
+            "values": {
+              "activityType": "walking"
+            }
+          },
+          {
+            "ts": 1760000004000,
+            "values": {
+              "steps": 1002
+            }
+          },
+          {
+            "ts": 1760000006000,
+            "values": {
+              "steps": 1003
+            }
+          }
+        ]
+      ]
+    }
+  ]
+}

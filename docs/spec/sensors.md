@@ -29,7 +29,7 @@ There are three kinds of values.
 
 **Sampled values** exist at any moment, such as battery level or air pressure. While transmission is on, the app takes one sample of all selected sampled values at every tick of the send rate. Which of them it sends depends on the send mode (see [Sending on change](#sending-on-change)). All values of one tick share one time stamp and form one sample.
 
-**Aggregated values** change faster than any send rate, such as acceleration. A single value at a tick would miss shocks and vibration between two ticks. While transmission is on, the app therefore measures them continuously at 50 Hz and, at every tick, sends the mean, the minimum, and the maximum of the measurements since the previous tick. The mean has the plain key, for example `accelX`; minimum and maximum add `Min` and `Max`, for example `accelXMin` and `accelXMax`. They belong to the sample of that tick. If the platform delivers fewer measurements than 50 Hz, the app uses those it has; if there was none, the keys are left out.
+**Aggregated values** change faster than any send rate, such as acceleration. A single value at a tick would miss shocks and vibration between two ticks. While transmission is on, the app therefore measures them continuously at 50 Hz and, at every tick, sends the mean, the minimum, and the maximum of the measurements since the previous tick. The mean has the plain key, for example `accelX`; minimum and maximum add `Min` and `Max`, for example `accelXMin` and `accelXMax`. They belong to the sample of that tick. If the platform delivers fewer measurements than 50 Hz, the app uses those it has; if there was none, the keys are left out. `accelMagnitude` is computed for each measurement from its three axes; mean, minimum, and maximum are then taken over these magnitudes. Mean, minimum, and maximum are computed from the measured values and rounded only afterwards.
 
 **Event values** appear when something is measured or changes, such as a heart rate reading from a watch. The app sends each one when it arrives, with the time stamp of the measurement. The send rate does not apply.
 
@@ -39,10 +39,11 @@ The send mode is a setting (see [configuration.md](configuration.md)). There are
 
 **On change** is the default. At every tick the app sends only the sampled and aggregated values that have changed since they were last sent:
 
-1. The app rounds every number to the resolution of its key in the catalog, half away from zero. It sends the rounded value, with no more decimals than the resolution has.
+1. The app rounds every number to the resolution of its key in the catalog: it divides the value by the resolution, rounds the quotient to a whole number, half away from zero, and multiplies by the resolution. It sends the result with no more decimals than the resolution has, and sends a negative zero as `0`.
 2. A value has changed when its rounded value differs from the rounded value last sent for the same key. Booleans and strings have changed when they differ.
 3. Each key is compared on its own, also the `Min` and `Max` keys of aggregated values and the single axes of an item.
-4. If no value has changed, the app sends no sample at that tick.
+4. A value that is not available at a tick is left out (see [Principles](#principles)). It does not count as a change, and the last sent value stays the reference.
+5. If no value has changed, the app sends no sample at that tick.
 
 Every 60 seconds the app sends a **full sample** with all selected values, changed or not. This gives optiCLOUD a regular reference point. The first full sample is taken at the first tick after transmission is switched on; then at the first tick that is at least 60 seconds after the previous full sample. A change of the selection also leads to a full sample at the next tick.
 
@@ -58,9 +59,10 @@ The catalog below defines groups and items. An item is the smallest unit that ca
 
 - On the phone, the user switches whole groups on and off. A group can be opened to deselect single items in it.
 - The selection is written as a list of group keys and item keys, separated by commas, for example `location,accelMagnitude`. A group key stands for all items of the group. The selected items are the union of all entries.
+- Spaces around an entry are ignored, and so are empty entries. An empty selection selects nothing.
 - Item keys and group keys never coincide, so an entry is always clear.
 - An item the phone does not offer is not sent, also when its group is selected.
-- When the app reports the selection, it writes a group key for each group whose offered items are all selected, and item keys for the rest. The order of the entries carries no meaning.
+- When the app reports the selection, it covers only selected items that the phone offers. It writes a group key for each group that has at least one offered item and whose offered items are all selected, and item keys for the rest. The order of the entries carries no meaning.
 - A selection that contains an unknown key is invalid as a whole.
 
 ## Catalog

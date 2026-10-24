@@ -1,0 +1,724 @@
+{
+  "description": "Choice of the values sent at each tick. Input: mode (onChange or everyTick) and ticks, each with ts, the values measured at that tick (raw, before rounding), and optionally selectionChanged. All keys that appear are selected; transmission is switched on just before the first tick. Expected: sent, the samples handed to the offline queue, with rounded values. A tick without a sample does not appear. See sensors.md, Sending on change.",
+  "cases": [
+    {
+      "name": "the first tick sends a full sample, unchanged values are left out afterwards",
+      "mode": "onChange",
+      "ticks": [
+        {
+          "ts": 1760000000000,
+          "values": {
+            "batteryLevel": 0.82,
+            "charging": false
+          }
+        },
+        {
+          "ts": 1760000002000,
+          "values": {
+            "batteryLevel": 0.82,
+            "charging": false
+          }
+        },
+        {
+          "ts": 1760000004000,
+          "values": {
+            "batteryLevel": 0.82,
+            "charging": true
+          }
+        }
+      ],
+      "sent": [
+        {
+          "ts": 1760000000000,
+          "values": {
+            "batteryLevel": 0.82,
+            "charging": false
+          }
+        },
+        {
+          "ts": 1760000004000,
+          "values": {
+            "charging": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "a change smaller than the resolution is not sent",
+      "mode": "onChange",
+      "ticks": [
+        {
+          "ts": 1760000000000,
+          "values": {
+            "batteryLevel": 0.8201
+          }
+        },
+        {
+          "ts": 1760000002000,
+          "values": {
+            "batteryLevel": 0.824
+          }
+        },
+        {
+          "ts": 1760000004000,
+          "values": {
+            "batteryLevel": 0.8251
+          }
+        }
+      ],
+      "sent": [
+        {
+          "ts": 1760000000000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        },
+        {
+          "ts": 1760000004000,
+          "values": {
+            "batteryLevel": 0.83
+          }
+        }
+      ]
+    },
+    {
+      "name": "no sample when nothing has changed",
+      "mode": "onChange",
+      "ticks": [
+        {
+          "ts": 1760000000000,
+          "values": {
+            "pressure": 1013.21
+          }
+        },
+        {
+          "ts": 1760000002000,
+          "values": {
+            "pressure": 1013.24
+          }
+        },
+        {
+          "ts": 1760000004000,
+          "values": {
+            "pressure": 1013.18
+          }
+        }
+      ],
+      "sent": [
+        {
+          "ts": 1760000000000,
+          "values": {
+            "pressure": 1013.2
+          }
+        }
+      ]
+    },
+    {
+      "name": "a full sample every 60 seconds at a send rate of 2 seconds",
+      "mode": "onChange",
+      "ticks": [
+        {
+          "ts": 1760000000000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000002000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000004000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000006000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000008000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000010000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000012000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000014000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000016000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000018000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000020000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000022000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000024000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000026000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000028000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000030000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000032000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000034000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000036000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000038000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000040000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000042000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000044000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000046000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000048000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000050000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000052000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000054000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000056000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000058000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000060000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000062000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000064000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        }
+      ],
+      "sent": [
+        {
+          "ts": 1760000000000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        },
+        {
+          "ts": 1760000060000,
+          "values": {
+            "batteryLevel": 0.82,
+            "network": "wifi"
+          }
+        }
+      ]
+    },
+    {
+      "name": "the full sample comes at the first tick at least 60 seconds after the previous one",
+      "mode": "onChange",
+      "ticks": [
+        {
+          "ts": 1760000000000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        },
+        {
+          "ts": 1760000007000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        },
+        {
+          "ts": 1760000014000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        },
+        {
+          "ts": 1760000021000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        },
+        {
+          "ts": 1760000028000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        },
+        {
+          "ts": 1760000035000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        },
+        {
+          "ts": 1760000042000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        },
+        {
+          "ts": 1760000049000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        },
+        {
+          "ts": 1760000056000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        },
+        {
+          "ts": 1760000063000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        },
+        {
+          "ts": 1760000070000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        },
+        {
+          "ts": 1760000077000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        },
+        {
+          "ts": 1760000084000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        },
+        {
+          "ts": 1760000091000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        },
+        {
+          "ts": 1760000098000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        },
+        {
+          "ts": 1760000105000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        },
+        {
+          "ts": 1760000112000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        },
+        {
+          "ts": 1760000119000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        },
+        {
+          "ts": 1760000126000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        },
+        {
+          "ts": 1760000133000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        }
+      ],
+      "sent": [
+        {
+          "ts": 1760000000000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        },
+        {
+          "ts": 1760000063000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        },
+        {
+          "ts": 1760000126000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        }
+      ]
+    },
+    {
+      "name": "each key is compared on its own",
+      "mode": "onChange",
+      "ticks": [
+        {
+          "ts": 1760000000000,
+          "values": {
+            "accelX": 0.01,
+            "accelXMin": -0.2,
+            "accelXMax": 0.3
+          }
+        },
+        {
+          "ts": 1760000002000,
+          "values": {
+            "accelX": 0.01,
+            "accelXMin": -0.25,
+            "accelXMax": 0.3
+          }
+        }
+      ],
+      "sent": [
+        {
+          "ts": 1760000000000,
+          "values": {
+            "accelX": 0.01,
+            "accelXMin": -0.2,
+            "accelXMax": 0.3
+          }
+        },
+        {
+          "ts": 1760000002000,
+          "values": {
+            "accelXMin": -0.25
+          }
+        }
+      ]
+    },
+    {
+      "name": "a value that is missing is not a change",
+      "mode": "onChange",
+      "ticks": [
+        {
+          "ts": 1760000000000,
+          "values": {
+            "latitude": 47.37689,
+            "longitude": 8.54169,
+            "speed": 12.3
+          }
+        },
+        {
+          "ts": 1760000002000,
+          "values": {
+            "speed": 12.3
+          }
+        },
+        {
+          "ts": 1760000004000,
+          "values": {
+            "latitude": 47.37689,
+            "longitude": 8.54169,
+            "speed": 12.4
+          }
+        }
+      ],
+      "sent": [
+        {
+          "ts": 1760000000000,
+          "values": {
+            "latitude": 47.37689,
+            "longitude": 8.54169,
+            "speed": 12.3
+          }
+        },
+        {
+          "ts": 1760000004000,
+          "values": {
+            "speed": 12.4
+          }
+        }
+      ]
+    },
+    {
+      "name": "a change of the selection leads to a full sample",
+      "mode": "onChange",
+      "ticks": [
+        {
+          "ts": 1760000000000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        },
+        {
+          "ts": 1760000002000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        },
+        {
+          "ts": 1760000004000,
+          "values": {
+            "batteryLevel": 0.82,
+            "pressure": 1013.2
+          },
+          "selectionChanged": true
+        },
+        {
+          "ts": 1760000006000,
+          "values": {
+            "batteryLevel": 0.82,
+            "pressure": 1013.2
+          }
+        }
+      ],
+      "sent": [
+        {
+          "ts": 1760000000000,
+          "values": {
+            "batteryLevel": 0.82
+          }
+        },
+        {
+          "ts": 1760000004000,
+          "values": {
+            "batteryLevel": 0.82,
+            "pressure": 1013.2
+          }
+        }
+      ]
+    },
+    {
+      "name": "strings and booleans are sent when they differ",
+      "mode": "onChange",
+      "ticks": [
+        {
+          "ts": 1760000000000,
+          "values": {
+            "network": "wifi",
+            "charging": true
+          }
+        },
+        {
+          "ts": 1760000002000,
+          "values": {
+            "network": "cellular",
+            "charging": true
+          }
+        },
+        {
+          "ts": 1760000004000,
+          "values": {
+            "network": "cellular",
+            "charging": true
+          }
+        }
+      ],
+      "sent": [
+        {
+          "ts": 1760000000000,
+          "values": {
+            "network": "wifi",
+            "charging": true
+          }
+        },
+        {
+          "ts": 1760000002000,
+          "values": {
+            "network": "cellular"
+          }
+        }
+      ]
+    },
+    {
+      "name": "every tick sends all values, rounded",
+      "mode": "everyTick",
+      "ticks": [
+        {
+          "ts": 1760000000000,
+          "values": {
+            "batteryLevel": 0.8249,
+            "charging": false
+          }
+        },
+        {
+          "ts": 1760000002000,
+          "values": {
+            "batteryLevel": 0.8201,
+            "charging": false
+          }
+        }
+      ],
+      "sent": [
+        {
+          "ts": 1760000000000,
+          "values": {
+            "batteryLevel": 0.82,
+            "charging": false
+          }
+        },
+        {
+          "ts": 1760000002000,
+          "values": {
+            "batteryLevel": 0.82,
+            "charging": false
+          }
+        }
+      ]
+    }
+  ]
+}

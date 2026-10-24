@@ -1,0 +1,96 @@
+{
+  "description": "Rounding of a number to the resolution of its key: divide by the resolution, round half away from zero, multiply. Input: key, resolution, value. Expected: rounded, compared as a JSON number. See sensors.md, Sending on change.",
+  "cases": [
+    {
+      "name": "rounded down",
+      "key": "batteryLevel",
+      "resolution": 0.01,
+      "value": 0.8249,
+      "rounded": 0.82
+    },
+    {
+      "name": "rounded up",
+      "key": "batteryLevel",
+      "resolution": 0.01,
+      "value": 0.8251,
+      "rounded": 0.83
+    },
+    {
+      "name": "already on the resolution",
+      "key": "batteryLevel",
+      "resolution": 0.01,
+      "value": 0.82,
+      "rounded": 0.82
+    },
+    {
+      "name": "half rounds away from zero",
+      "key": "soundLevel",
+      "resolution": 1,
+      "value": 62.5,
+      "rounded": 63
+    },
+    {
+      "name": "negative half rounds away from zero",
+      "key": "cellularSignal",
+      "resolution": 1,
+      "value": -85.5,
+      "rounded": -86
+    },
+    {
+      "name": "negative value",
+      "key": "cellularSignal",
+      "resolution": 1,
+      "value": -85.4,
+      "rounded": -85
+    },
+    {
+      "name": "negative zero is sent as 0",
+      "key": "accelX",
+      "resolution": 0.01,
+      "value": -0.004,
+      "rounded": 0.0
+    },
+    {
+      "name": "resolution of 0.1",
+      "key": "pressure",
+      "resolution": 0.1,
+      "value": 1013.2468,
+      "rounded": 1013.2
+    },
+    {
+      "name": "resolution of 0.00001",
+      "key": "latitude",
+      "resolution": 1e-05,
+      "value": 47.376887,
+      "rounded": 47.37689
+    },
+    {
+      "name": "negative coordinate",
+      "key": "longitude",
+      "resolution": 1e-05,
+      "value": -122.4194155,
+      "rounded": -122.41942
+    },
+    {
+      "name": "resolution of 1000",
+      "key": "dataMobileToday",
+      "resolution": 1000,
+      "value": 12500,
+      "rounded": 13000
+    },
+    {
+      "name": "resolution of 1000, below half",
+      "key": "dataMobileToday",
+      "resolution": 1000,
+      "value": 12499,
+      "rounded": 12000
+    },
+    {
+      "name": "whole number resolution gives a whole number",
+      "key": "course",
+      "resolution": 1,
+      "value": 359.6,
+      "rounded": 360
+    }
+  ]
+}
