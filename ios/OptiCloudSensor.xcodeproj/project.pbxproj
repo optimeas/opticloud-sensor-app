@@ -217,6 +217,8 @@
 				INFOPLIST_FILE = Config/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "optiCLOUD Sensor";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "With “Always”, optiCLOUD Sensor keeps sending the location and the other selected sensor values to your optiCLOUD device while the app is in the background or the screen is locked.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "optiCLOUD Sensor measures the sound level when it is selected for transmission. Only the level is sent; no audio is recorded.";
+				INFOPLIST_KEY_NSMotionUsageDescription = "optiCLOUD Sensor sends your steps, your kind of activity, and the air pressure to your optiCLOUD device when they are selected for transmission.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "optiCLOUD Sensor sends the position, altitude, speed, and course of this phone to your optiCLOUD device when location is selected for transmission.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -249,6 +251,8 @@
 				INFOPLIST_FILE = Config/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "optiCLOUD Sensor";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "With “Always”, optiCLOUD Sensor keeps sending the location and the other selected sensor values to your optiCLOUD device while the app is in the background or the screen is locked.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "optiCLOUD Sensor measures the sound level when it is selected for transmission. Only the level is sent; no audio is recorded.";
+				INFOPLIST_KEY_NSMotionUsageDescription = "optiCLOUD Sensor sends your steps, your kind of activity, and the air pressure to your optiCLOUD device when they are selected for transmission.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "optiCLOUD Sensor sends the position, altitude, speed, and course of this phone to your optiCLOUD device when location is selected for transmission.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

@@ -71,6 +71,45 @@ struct VectorTests {
         #expect(values == vector.values)
     }
 
+    // MARK: orientation.json
+
+    struct OrientationCase: Decodable, CustomTestStringConvertible {
+        let name: String
+        let gravity: [Double]
+        let magneticField: [Double]?
+        let values: [String: Double]
+        var testDescription: String { name }
+    }
+
+    @Test(arguments: try TestVectors.cases("orientation", as: OrientationCase.self))
+    func orientation(_ vector: OrientationCase) throws {
+        let g = vector.gravity
+        let m = vector.magneticField
+        let angles = Orientation.angles(gravity: (g[0], g[1], g[2]), magneticField: m.map { ($0[0], $0[1], $0[2]) })
+        let rounded = angles.mapValues { value -> Double? in
+            if case .number(let number) = value { return number }
+            return nil
+        }
+        let expected = vector.values.mapValues { Optional($0) }
+        #expect(rounded.mapValues { $0.map { Catalog.resolution(ofValueKey: "yaw")!.round($0) } } == expected)
+    }
+
+    // MARK: sound-level.json
+
+    struct SoundLevelCase: Decodable, CustomTestStringConvertible {
+        let name: String
+        let samples: [Float]
+        let level: Double?
+        var testDescription: String { name }
+    }
+
+    @Test(arguments: try TestVectors.cases("sound-level", as: SoundLevelCase.self))
+    func soundLevel(_ vector: SoundLevelCase) throws {
+        var level = SoundLevel()
+        level.add(vector.samples)
+        #expect(level.level.map { Catalog.resolution(ofValueKey: "soundLevel")!.round($0) } == vector.level)
+    }
+
     // MARK: selection.json
 
     struct SelectionCase: Decodable, CustomTestStringConvertible {

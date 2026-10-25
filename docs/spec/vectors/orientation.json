@@ -1,0 +1,47 @@
+{
+  "description": "Orientation of the phone from gravity and the magnetic field. Input: gravity, the part of the acceleration due to gravity on the axes of the catalog (pointing up, about +9.81 on z when the phone lies flat with the screen up), in m/s²; magneticField, the calibrated magnetic field on the same axes in µT, or null. Expected: values, roll, pitch, and yaw rounded to the resolution of the catalog; yaw is left out without a magnetic field. See sensors.md, Orientation.",
+  "cases": [
+    {
+      "name": "flat, top edge to magnetic north",
+      "gravity": [0, 0, 9.81],
+      "magneticField": [0, 20, -40],
+      "values": { "roll": 0, "pitch": 0, "yaw": 0 }
+    },
+    {
+      "name": "flat, top edge to the east",
+      "gravity": [0, 0, 9.81],
+      "magneticField": [-20, 0, -40],
+      "values": { "roll": 0, "pitch": 0, "yaw": 90 }
+    },
+    {
+      "name": "flat, top edge to the south",
+      "gravity": [0, 0, 9.81],
+      "magneticField": [0, -20, -40],
+      "values": { "roll": 0, "pitch": 0, "yaw": 180 }
+    },
+    {
+      "name": "flat, top edge to the west",
+      "gravity": [0, 0, 9.81],
+      "magneticField": [20, 0, -40],
+      "values": { "roll": 0, "pitch": 0, "yaw": 270 }
+    },
+    {
+      "name": "top edge raised by 45 degrees",
+      "gravity": [0, 6.9367, 6.9367],
+      "magneticField": null,
+      "values": { "roll": 0, "pitch": 45 }
+    },
+    {
+      "name": "right edge lowered by 30 degrees",
+      "gravity": [-4.905, 0, 8.49571],
+      "magneticField": null,
+      "values": { "roll": 30, "pitch": 0 }
+    },
+    {
+      "name": "upright in portrait, without magnetic field",
+      "gravity": [0, 9.81, 0],
+      "magneticField": null,
+      "values": { "roll": 0, "pitch": 90 }
+    }
+  ]
+}

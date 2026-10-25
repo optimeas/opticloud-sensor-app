@@ -2,7 +2,7 @@
 
 This directory is the master for the behavior of optiCLOUD Sensor. The iOS app and the Android app both implement it. Neither app is the reference for the other.
 
-**Status: draft.** The specification is being worked out. Both apps pass the shared test vectors. The iOS app implements sign-in, device selection, the connection, the offline queue, commands, transmission of the `device` and `location` groups, also in the background, and the test area without alarms; the other sensors are not implemented yet. The Android app implements sign-in and device selection. Protocol facts were read from the optiCLOUD source; each document says which parts were tested against an optiCLOUD test server.
+**Status: draft.** The specification is being worked out. Both apps pass the shared test vectors. The iOS app implements sign-in, device selection, the connection, the offline queue, commands, the sensor selection, transmission of all sensor groups of stage 1, also in the background, and the test area without alarms. The Android app implements sign-in and device selection. Protocol facts were read from the optiCLOUD source; each document says which parts were tested against an optiCLOUD test server.
 
 ## Documents
 
@@ -43,6 +43,8 @@ Numbers are compared as numbers: `0`, `0.0`, and `-0.0` are equal. A description
 | [rounding.json](vectors/rounding.json) | Rounding of a number to the resolution of its key |
 | [on-change.json](vectors/on-change.json) | Which values are sent at each tick, in both send modes |
 | [aggregation.json](vectors/aggregation.json) | Mean, minimum, and maximum of aggregated values |
+| [orientation.json](vectors/orientation.json) | Roll, pitch, and yaw from gravity and the magnetic field |
+| [sound-level.json](vectors/sound-level.json) | Estimated sound level from the microphone samples |
 | [queue-batching.json](vectors/queue-batching.json) | Division of the offline queue into telemetry messages |
 | [journal-note.json](vectors/journal-note.json) | Request body of a note created from a journal entry |
 

@@ -1,6 +1,6 @@
 # Sensors
 
-**Status: draft.** Keys, units, and the list are agreed. The iOS app implements the groups `device` and `location`; on 2026-10-25 it sent both to an optiCLOUD server, also with the app in the background. The other groups are not implemented yet.
+**Status: draft.** Keys, units, and the list are agreed. The iOS app implements the groups `device`, `location`, `motion`, `environment`, `activity`, and `sound`; on 2026-10-25 it sent all of them to an optiCLOUD server, also with the app in the background. The group `health` is planned for stage 4.
 
 The app offers every sensor the phone has. This document defines how sensors are found, selected, and sampled, and which keys and units their values have. How the values are sent is in [messages.md](messages.md).
 
@@ -77,9 +77,21 @@ The column "Kind" says whether a value is sampled (S), aggregated (A), or an eve
 | `accelMagnitude` | `accelMagnitude` | m/s² | 0.01 | A | Magnitude of the acceleration vector, independent of how the phone is held. About 9.81 at rest. |
 | `gyro` | `gyroX`, `gyroY`, `gyroZ` | rad/s | 0.001 | A | Rotation rate |
 | `mag` | `magX`, `magY`, `magZ` | µT | 0.1 | S | Magnetic field |
-| `orientation` | `roll`, `pitch`, `yaw` | degree | 0.1 | S | Orientation of the phone |
+| `orientation` | `roll`, `pitch`, `yaw` | degree | 0.1 | S | Orientation of the phone, see [Orientation](#orientation) |
+
+The rotation rate is positive for a counterclockwise rotation about the axis, seen from the tip of the axis (right-hand rule). The magnetic field is the calibrated field on the axes of the phone; while the system has not calibrated it, `mag` is left out.
 
 Aggregation applies only to the `motion` group, and within it only to acceleration and rotation rate. The magnetic field changes slowly, and a mean of angles such as `yaw` is not meaningful where the angle wraps around, so these stay sampled values. All other groups stay at one value per tick.
+
+#### Orientation
+
+The orientation is computed from the part of the acceleration that is due to gravity, **g**, on the axes of the phone (pointing up, about (0, 0, +9.81) when the phone lies flat with the screen up), and from the calibrated magnetic field **m**:
+
+- `pitch` = asin(g<sub>y</sub> / |**g**|), from −90 to 90. Positive when the top edge is raised; 90 when the phone stands upright in portrait.
+- `roll` = atan2(−g<sub>x</sub>, g<sub>z</sub>), from −180 to 180. Positive when the right edge is lowered.
+- `yaw`: with **e** = **m** × **g** (east) and **n** = **g** × **e** (north), `yaw` = atan2(e<sub>y</sub> / |**e**|, n<sub>y</sub> / |**n**|), brought into 0 to less than 360. It is the direction of the top edge, clockwise from magnetic north. Without a calibrated magnetic field `yaw` is left out. Near `pitch` ±90 it is not stable.
+
+All three are in degrees. The test vectors are in [`orientation.json`](vectors/orientation.json).
 
 ### `environment`
 
@@ -105,6 +117,8 @@ Aggregation applies only to the `motion` group, and within it only to accelerati
 | `steps` | `steps` | count | 1 | S | Steps since midnight, local time |
 | `activityType` | `activityType` | string | – | E | `stationary`, `walking`, `running`, `cycling`, `automotive`, or `unknown` |
 
+`steps` counts again from 0 at midnight, local time. `activityType` is sent when the kind of activity changes, with the time at which the system detected the new activity. When the system reports more than one kind at once, the first of `automotive`, `cycling`, `running`, `walking`, `stationary` counts; a car that stands still is still `automotive`.
+
 ### `device`
 
 | Item | Key | Unit | Resolution | Kind | Meaning |
@@ -124,6 +138,14 @@ Aggregation applies only to the `motion` group, and within it only to accelerati
 | `soundLevel` | `soundLevel` | dB | 1 | S | Loudness measured by the microphone. No audio is recorded or sent. |
 
 The app measures the sound level only while it is in the foreground. In the background the key is left out, also when the item is selected. Both platforms restrict the microphone in the background and show the user that it is in use.
+
+#### Sound level
+
+A phone microphone is not calibrated. The app therefore sends an estimate: the level over all audio samples since the previous tick, relative to full scale, plus 100 dB:
+
+`soundLevel` = 10 · log10(mean of the squared samples) + 100, with the samples scaled so that full scale is 1. A value below 0 is sent as 0.
+
+A quiet room gives about 30 to 50, a conversation about 60 to 70. Values of different phones can differ by several decibels. The app turns off the audio processing of the platform for the measurement, as far as the platform allows. The test vectors are in [`sound-level.json`](vectors/sound-level.json).
 
 ### `health`
 
@@ -147,3 +169,5 @@ Health values are personal data of a special kind. The group is never selected b
    - iOS offers no `cellularSignal`: the system has no public interface for it.
    - iOS does not count `dataVolume` yet.
    - iOS offers all items of `location`. `speed` and `course` are left out while the phone does not move, because the system then reports them as invalid.
+   - iOS offers no `light`: the system has no public interface for the ambient light.
+   - iOS offers all items of `motion`, `activity`, and `sound`, and `pressure`, on phones that have the sensors.

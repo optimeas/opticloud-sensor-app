@@ -1,0 +1,11 @@
+{
+  "description": "Estimated sound level between two ticks. Input: samples, the audio samples since the previous tick, scaled so that full scale is 1. Expected: level, 10 · log10 of the mean of the squared samples plus 100, not below 0, rounded to the resolution of soundLevel; null means the key is left out. See sensors.md, Sound level.",
+  "cases": [
+    { "name": "full scale", "samples": [1, -1, 1, -1], "level": 100 },
+    { "name": "a tenth of full scale", "samples": [0.1, -0.1, 0.1, -0.1], "level": 80 },
+    { "name": "quiet room", "samples": [0.003, -0.003, 0.003, -0.003], "level": 50 },
+    { "name": "silence gives 0", "samples": [0, 0, 0, 0], "level": 0 },
+    { "name": "below the floor gives 0", "samples": [0.000001, -0.000001], "level": 0 },
+    { "name": "no samples leave the key out", "samples": [], "level": null }
+  ]
+}

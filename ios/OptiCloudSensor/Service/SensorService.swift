@@ -13,6 +13,11 @@ final class SensorService {
     private let sampler = DeviceSampler()
     /// The location sensor. It also keeps the app running in the background while it is in use.
     let location = LocationSampler()
+    private let motion = MotionSampler()
+    private let environment = EnvironmentSampler()
+    private let activity = ActivitySampler()
+    private let sound = SoundSampler()
+    @ObservationIgnored private var isInForeground = UIApplication.shared.applicationState != .background
     private let queue: TelemetryQueue
     @ObservationIgnored private var link: DeviceLink!
     /// Calls to the connection, kept in order.
@@ -52,7 +57,9 @@ final class SensorService {
 
         if settings.connected { connect() }
         if settings.transmitting { startTicks() }
-        updateLocationUse()
+        activity.activityChanged = { [weak self] type, date in self?.activityChanged(type, at: date) }
+        observeForeground()
+        updateSensorUse()
         refreshQueueStatus()
     }
 
@@ -75,7 +82,7 @@ final class SensorService {
         guard on != settings.transmitting else { return }
         settings.transmitting = on
         if on { startTicks() } else { stopTicks() }
-        updateLocationUse()
+        updateSensorUse()
         publishClientAttributes()
     }
 
@@ -91,7 +98,21 @@ final class SensorService {
     }
 
     /// The item keys this phone offers.
-    var offered: Set<String> { DeviceSampler.offered.union(LocationSampler.offered) }
+    let offered: Set<String> = DeviceSampler.offered
+        .union(LocationSampler.offered)
+        .union(MotionSampler.offered)
+        .union(EnvironmentSampler.offered)
+        .union(ActivitySampler.offered)
+        .union(SoundSampler.offered)
+
+    /// Changes the selection on the phone. Not possible while optiCLOUD manages it.
+    func setSelection(_ selection: Selection) {
+        guard !settings.managed.contains("sensors") else { return }
+        let text = selection.reported(offered: offered)
+        guard text != settings.sensors else { return }
+        settings.sensors = text
+        selectionChanged()
+    }
 
     // MARK: Test area
 
@@ -141,13 +162,54 @@ final class SensorService {
         }
     }
 
-    /// The location runs while transmission is on and a location item is selected. The permission is asked for then.
-    private func updateLocationUse() {
-        let selected = settings.selection.items(offered: LocationSampler.offered)
-        if settings.transmitting && !selected.isEmpty {
-            location.start()
+    /// A sensor runs while transmission is on and one of its items is selected; its permission is asked for then.
+    /// The microphone runs only in the foreground (see `docs/spec/sensors.md`, `sound`).
+    private func updateSensorUse() {
+        func wanted(_ items: Set<String>) -> Bool {
+            settings.transmitting && !settings.selection.items(offered: items).isEmpty
+        }
+        if wanted(LocationSampler.offered) { location.start() } else { location.stop() }
+        if wanted(MotionSampler.offered) { motion.start() } else { motion.stop() }
+        if wanted(EnvironmentSampler.offered) { environment.start() } else { environment.stop() }
+        if wanted(ActivitySampler.offered) { activity.start() } else { activity.stop() }
+        if wanted(SoundSampler.offered) && isInForeground {
+            Task { await sound.start() }
         } else {
-            location.stop()
+            sound.stop()
+        }
+    }
+
+    private func observeForeground() {
+        let center = NotificationCenter.default
+        Task { [weak self] in
+            for await _ in center.notifications(named: UIApplication.didEnterBackgroundNotification) {
+                self?.isInForeground = false
+                self?.updateSensorUse()
+            }
+        }
+        Task { [weak self] in
+            for await _ in center.notifications(named: UIApplication.willEnterForegroundNotification) {
+                self?.isInForeground = true
+                self?.updateSensorUse()
+            }
+        }
+    }
+
+    private func selectionChanged() {
+        filter.selectionDidChange()
+        updateSensorUse()
+        publishClientAttributes()
+    }
+
+    /// An event value: sent when it arrives, with the time of the measurement (see `docs/spec/sensors.md`, Sampling).
+    private func activityChanged(_ type: String, at date: Date) {
+        guard settings.transmitting,
+              settings.selection.items(offered: offered).contains(where: { $0.key == "activityType" })
+        else { return }
+        let ts = Int64((date.timeIntervalSince1970 * 1000).rounded())
+        Task {
+            try? await queue.append(Sample(ts: ts, values: ["activityType": .string(type)]))
+            refreshQueueStatus()
         }
     }
 
@@ -174,7 +236,11 @@ final class SensorService {
 
     private func measureSelected() -> [String: TelemetryValue] {
         let keys = Set(settings.selection.items(offered: offered).flatMap(\.sentKeys))
-        return sampler.measure().merging(location.measure()) { $1 }.filter { keys.contains($0.key) }
+        var values = sampler.measure()
+        for measured in [location.measure(), motion.measure(), environment.measure(), activity.measure(), sound.measure()] {
+            values.merge(measured) { $1 }
+        }
+        return values.filter { keys.contains($0.key) }
     }
 
     private static func now() -> Int64 {
@@ -324,10 +390,8 @@ final class SensorService {
             }
         }
         if settings.sensors != before.sensors {
-            filter.selectionDidChange()
-            updateLocationUse()
-        }
-        if settings.sendRate != before.sendRate || settings.sensors != before.sensors {
+            selectionChanged()
+        } else if settings.sendRate != before.sendRate {
             publishClientAttributes()
         }
     }
