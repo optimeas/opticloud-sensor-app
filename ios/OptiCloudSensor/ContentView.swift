@@ -70,6 +70,19 @@ struct ConnectionStatusLabel: View {
     }
 }
 
+extension ConnectionState {
+    /// The state as a word, for the diagnosis report.
+    var title: String {
+        switch self {
+        case .disconnected: String(localized: "Disconnected")
+        case .connecting: String(localized: "Connecting")
+        case .connected: String(localized: "Connected")
+        case .waiting: String(localized: "Waiting")
+        case .refused: String(localized: "Refused")
+        }
+    }
+}
+
 extension ConnectionProblem {
     var explanation: LocalizedStringKey {
         switch self {

@@ -2,7 +2,6 @@ import SwiftUI
 
 @main
 struct OptiCloudSensorApp: App {
-    @UIApplicationDelegateAdaptor private var delegate: AppDelegate
     @State private var app: AppModel
     @State private var service: SensorService
 
