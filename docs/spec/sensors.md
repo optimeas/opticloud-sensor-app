@@ -112,7 +112,7 @@ Aggregation applies only to the `motion` group, and within it only to accelerati
 | `batteryLevel` | `batteryLevel` | 0 to 1 | 0.01 | S | Charge of the battery |
 | `charging` | `charging` | boolean | – | S | The phone is being charged |
 | `network` | `network` | string | – | S | `wifi`, `cellular`, `other`, or `none` |
-| `thermalState` | `thermalState` | string | – | S | `nominal`, `fair`, `serious`, or `critical` |
+| `thermalState` | `thermalState` | string | – | S | `nominal`, `fair`, `serious`, or `critical`. Android has more levels; it maps none to `nominal`, light to `fair`, moderate to `serious`, and severe and above to `critical`. |
 | `powerSaving` | `powerSaving` | boolean | – | S | The power saving mode of the system is on |
 | `cellularSignal` | `cellularSignal` | dBm | 1 | S | Signal strength of the mobile network. Android only: iOS offers no public interface for it. |
 | `dataVolume` | `dataMobileToday`, `dataWifiToday`, `dataMobileMonth`, `dataWifiMonth` | byte | 1000 | S | Data volume of the app over the mobile network and over Wi-Fi, today and in the current month. See [connection.md](connection.md#data-volume). |

@@ -14,7 +14,34 @@
     <string name="home_choose_device">Choose another device</string>
     <string name="home_sign_in">Sign in</string>
     <string name="home_sign_out">Sign out</string>
-    <string name="home_not_built">Connecting and transmitting are not built yet.</string>
+    <string name="home_not_built">Only the values of the group device are sent so far.</string>
+    <string name="home_connection">Connection</string>
+    <string name="home_connect">Connect</string>
+    <string name="home_disconnect">Disconnect</string>
+    <string name="home_transmission">Transmission</string>
+    <string name="home_transmission_detail">Every %1$d s: %2$s</string>
+    <string name="home_managed">managed by optiCLOUD</string>
+    <string name="home_queue">Waiting to be sent</string>
+    <string name="home_queue_detail">%1$d samples, %2$s</string>
+    <string name="home_discarded">%1$d samples discarded</string>
+    <string name="change_device_title">Choose another device?</string>
+    <string name="change_device_text">%1$d samples have not been sent yet. They belong to the current device and are discarded if you pick another one.</string>
+    <string name="change_device_button">Continue</string>
+
+    <!-- Connection states, see docs/spec/connection.md, States -->
+    <string name="state_disconnected">Disconnected</string>
+    <string name="state_connecting">Connecting</string>
+    <string name="state_connected">Connected</string>
+    <string name="state_waiting">Waiting: %1$s</string>
+    <string name="state_waiting_retry">Waiting: %1$s. Next attempt in %2$d s</string>
+    <string name="state_refused">Refused: %1$s</string>
+    <string name="reason_no_network">No network</string>
+    <string name="reason_server_not_reachable">Server not reachable</string>
+    <string name="reason_certificate_not_trusted">Certificate not trusted</string>
+    <string name="reason_connection_lost">Connection lost</string>
+    <string name="reason_token_refused">Token refused</string>
+    <string name="reason_bound_to_another_phone">Bound to another phone</string>
+    <string name="reason_not_bound">Not bound. Sign in to bind the device to this phone.</string>
 
     <!-- Sign-in -->
     <string name="sign_in_title">Sign in</string>

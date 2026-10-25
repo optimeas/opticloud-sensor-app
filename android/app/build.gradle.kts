@@ -27,6 +27,13 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    packaging {
+        resources {
+            // Index files that several Netty modules ship; the app does not read them.
+            excludes += listOf("META-INF/INDEX.LIST", "META-INF/io.netty.versions.properties")
+        }
+    }
+
     buildFeatures {
         buildConfig = true
         compose = true
@@ -41,6 +48,7 @@ kotlin {
 
 dependencies {
     implementation(project(":core"))
+    implementation(libs.hivemq.mqtt.client)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)

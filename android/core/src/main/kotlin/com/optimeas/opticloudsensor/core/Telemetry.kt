@@ -22,20 +22,26 @@ object Telemetry {
      */
     fun messages(queue: List<Sample>, maxPayloadBytes: Int = MAX_PAYLOAD_BYTES): List<List<Sample>> {
         val messages = mutableListOf<List<Sample>>()
-        var current = mutableListOf<Sample>()
-        var size = 2 // the brackets of the array
-        for (sample in queue) {
-            val sampleSize = encodedSize(sample)
-            if (current.isNotEmpty() && size + 1 + sampleSize > maxPayloadBytes) { // 1 for the comma
-                messages += ordered(current)
-                current = mutableListOf()
-                size = 2
-            }
-            size += sampleSize + if (current.isEmpty()) 0 else 1
-            current += sample
+        var rest = queue
+        while (rest.isNotEmpty()) {
+            val count = firstMessageCount(rest.map(::encodedSize), maxPayloadBytes)
+            messages += ordered(rest.take(count))
+            rest = rest.drop(count)
         }
-        if (current.isNotEmpty()) messages += ordered(current)
         return messages
+    }
+
+    /**
+     * How many samples from the front of the queue go into the next message, given their encoded sizes: as
+     * many as fit into [maxPayloadBytes], and at least one.
+     */
+    fun firstMessageCount(sizes: List<Int>, maxPayloadBytes: Int = MAX_PAYLOAD_BYTES): Int {
+        var size = 2 // the brackets of the array
+        for ((index, sampleSize) in sizes.withIndex()) {
+            if (index > 0 && size + 1 + sampleSize > maxPayloadBytes) return index // 1 for the comma
+            size += sampleSize + if (index == 0) 0 else 1
+        }
+        return sizes.size
     }
 
     /** Samples with the same time stamp keep their order. */

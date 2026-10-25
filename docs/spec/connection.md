@@ -140,4 +140,4 @@ The app shows sent and received data for today, this week (from Monday), and thi
 
 ## Open points
 
-None at the moment.
+1. The MQTT client of the Android app, HiveMQ MQTT Client 1.4, waits for a PINGRESP as long as the keep-alive time, and this wait cannot be set. With a keep-alive of 60 seconds, the Android app therefore detects a dead connection only up to 120 seconds after the last packet instead of 80 seconds. To be decided for Android: accept the longer time, or use a shorter keep-alive. Until then the Android app keeps the 60 seconds.

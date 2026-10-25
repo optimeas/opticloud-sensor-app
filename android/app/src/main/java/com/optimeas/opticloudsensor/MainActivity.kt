@@ -30,10 +30,26 @@ class MainActivity : ComponentActivity() {
                 val signIn: SignInViewModel = viewModel(factory = viewModelFactory { initializer { SignInViewModel(app) } })
                 val appState by app.state.collectAsStateWithLifecycle()
                 val signInState by signIn.state.collectAsStateWithLifecycle()
+                val connection by app.connection.state.collectAsStateWithLifecycle()
+                val settings by app.connection.settings.collectAsStateWithLifecycle()
+                val queue by app.queue.status.collectAsStateWithLifecycle()
                 if (signInState.active || appState.device == null) {
                     SignInFlow(signInState, appState.address.text, signIn, canLeave = appState.device != null)
                 } else {
-                    HomeScreen(appState, onChooseDevice = signIn::start, onSignOut = app::signOut)
+                    HomeScreen(
+                        HomeState(appState, connection, settings, queue, app.connection.reportedSensors(settings)),
+                        object : HomeActions {
+                            override fun connect() = app.connection.connect()
+
+                            override fun disconnect() = app.connection.disconnect()
+
+                            override fun setTransmitting(on: Boolean) = app.connection.setTransmitting(on)
+
+                            override fun chooseDevice() = signIn.start()
+
+                            override fun signOut() = app.signOut()
+                        },
+                    )
                 }
             }
         }

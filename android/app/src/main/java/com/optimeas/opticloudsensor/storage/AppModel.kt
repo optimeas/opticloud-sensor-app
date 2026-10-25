@@ -1,22 +1,38 @@
 package com.optimeas.opticloudsensor.storage
 
 import android.content.Context
+import android.os.Build
+import com.optimeas.opticloudsensor.BuildConfig
+import com.optimeas.opticloudsensor.connection.HiveMqConnector
+import com.optimeas.opticloudsensor.connection.NetworkMonitor
+import com.optimeas.opticloudsensor.core.TelemetryValue
+import com.optimeas.opticloudsensor.core.api.BINDING_ATTRIBUTE
 import com.optimeas.opticloudsensor.core.api.OptiCloudClient
 import com.optimeas.opticloudsensor.core.api.ServerAddress
 import com.optimeas.opticloudsensor.core.api.TokenPair
+import com.optimeas.opticloudsensor.core.connection.ConnectionService
+import com.optimeas.opticloudsensor.core.connection.MqttEndpoint
+import com.optimeas.opticloudsensor.core.connection.TelemetryQueue
+import com.optimeas.opticloudsensor.sensors.DeviceSampler
 import com.optimeas.opticloudsensor.storage.SecretStore.Key
 import java.util.UUID
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
 
 /** What the user interface shows of the app's lasting state. */
 data class AppState(val address: ServerAddress, val signedIn: Boolean, val device: DeviceChoice?)
 
 /**
  * The lasting state of the app: the address, the user's session, the chosen device and its token, and the
- * installation identifier (see `docs/spec/configuration.md`, Stored data). One instance per process.
+ * installation identifier (see `docs/spec/configuration.md`, Stored data), and the service layer of the
+ * connection. One instance per process.
  */
 class AppModel(context: Context) {
     private val settings = Settings(context)
@@ -35,12 +51,39 @@ class AppModel(context: Context) {
     /** The access token of the chosen device. Never shown and never logged. */
     val deviceToken: String? get() = secrets.get(Key.DEVICE_TOKEN)
 
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    private val network = NetworkMonitor(context)
+
+    val queue = TelemetryQueue(SqliteQueueStore(context))
+
+    val connection = ConnectionService(
+        scope = scope,
+        connector = HiveMqConnector(),
+        queue = queue,
+        settingsStore = settings,
+        source = DeviceSampler(context, network),
+        binder = ::bind,
+        installationId = installationId,
+        endpoint = ::endpoint,
+        network = network.available,
+        staticAttributes = mapOf(
+            "appVersion" to TelemetryValue.Text(BuildConfig.VERSION_NAME),
+            "os" to TelemetryValue.Text("Android"),
+            "osVersion" to TelemetryValue.Text(Build.VERSION.RELEASE),
+            // Android has no public interface for the name a phone is sold under; this is the model identifier.
+            "model" to TelemetryValue.Text(Build.MODEL),
+        ),
+    ).also { it.start() }
+
     /**
-     * Changes the address of the web application. This signs the user out and forgets the device, because the
-     * device belongs to the old server (see `docs/spec/configuration.md`, Signing out and changing the device).
+     * Changes the address of the web application. This switches transmission off, disconnects, signs the user out,
+     * and forgets the device, because the device belongs to the old server (see `docs/spec/configuration.md`,
+     * Signing out and changing the device).
      */
     fun changeAddress(address: ServerAddress) {
         if (address == settings.address) return
+        connection.setTransmitting(false)
+        connection.disconnect()
         client.signOut()
         forgetDevice()
         settings.address = address
@@ -51,15 +94,39 @@ class AppModel(context: Context) {
     /** Deletes the session tokens. The device, its token, and the settings stay. */
     fun signOut() = client.signOut()
 
+    /**
+     * Uses [choice] from now on. The samples in the queue belong to the old device and are discarded; the user was
+     * asked before (see `docs/spec/offline-queue.md`, Changing the device).
+     */
     fun setDevice(choice: DeviceChoice, token: String) {
+        val deviceChanged = choice.device.id != settings.deviceChoice?.device?.id
+        val tokenChanged = token != deviceToken
+        if (deviceChanged) queue.discardAll()
         secrets.set(Key.DEVICE_TOKEN, token)
         settings.deviceChoice = choice
         _state.update { it.copy(device = choice) }
+        if (deviceChanged || tokenChanged) connection.deviceChanged()
     }
 
     private fun forgetDevice() {
+        queue.discardAll()
         secrets.set(Key.DEVICE_TOKEN, null)
         settings.deviceChoice = null
+    }
+
+    private fun endpoint(): MqttEndpoint? {
+        val token = deviceToken ?: return null
+        if (settings.deviceChoice == null) return null
+        return MqttEndpoint(settings.address.mqttHost, ServerAddress.MQTT_PORT, settings.clientId, token)
+    }
+
+    /** Binds the chosen device to this phone through the user's session (see `docs/spec/sign-in.md`, Binding). */
+    private suspend fun bind(): Boolean {
+        val device = settings.deviceChoice?.device ?: return false
+        if (!client.isSignedIn) return false
+        return runCatching {
+            client.setSharedAttributes(device.id, JsonObject(mapOf(BINDING_ATTRIBUTE to JsonPrimitive(installationId))))
+        }.isSuccess
     }
 
     private fun storedTokens(): TokenPair? {

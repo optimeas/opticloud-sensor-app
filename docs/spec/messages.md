@@ -70,7 +70,7 @@ The app publishes these attributes after every successful connect and again when
 | `appVersion` | string | Version of the app |
 | `os` | string | `iOS` or `Android` |
 | `osVersion` | string | Version of the operating system |
-| `model` | string | Model of the phone, by the name it is sold under, such as `iPhone 16 Pro Max` or `Pixel 9`. If the app does not know the name, it sends the model identifier of the platform, such as `iPhone17,2`. |
+| `model` | string | Model of the phone, by the name it is sold under, such as `iPhone 16 Pro Max` or `Pixel 9`. If the app does not know the name, it sends the model identifier of the platform, such as `iPhone17,2`. Android offers no public interface for the name, so the Android app sends the model identifier, such as `SM-A176B`. |
 | `sensorsAvailable` | string | Keys of the items this phone offers, separated by commas. See [sensors.md](sensors.md#selection). |
 | `sensors` | string | The selection for transmission: group keys and item keys, separated by commas. See [sensors.md](sensors.md#selection). |
 | `sendRate` | number | The send rate in effect, in seconds |
@@ -100,7 +100,8 @@ The shared attribute `sensorAppInstallation` is not a setting. It binds the devi
 
 - A setting whose shared attribute exists is managed by optiCLOUD. The app applies the value, shows the setting as managed, and does not let the user change it.
 - When the shared attribute is deleted, the setting keeps its last value and the user can change it again.
-- A value the app cannot use (wrong type, outside the allowed range, unknown group or item key) is ignored. The setting keeps its value, and the app shows the problem in the test area.
+- A key that is missing from the answer to the request after a connect was deleted while the app was offline; the app treats it as deleted. A key that is missing from a change says nothing about that key.
+- A value the app cannot use (wrong type, outside the allowed range, unknown group or item key) is ignored. The setting keeps its value, and the app shows the problem in the test area. Whether the setting is managed does not change.
 - After every successful connect the app requests these three shared attributes and `sensorAppInstallation`, because it does not learn about changes made while it was offline.
 - Every change of a shared attribute is shown in the test area, also for keys the app does not use.
 
