@@ -49,6 +49,7 @@ class VectorTest {
         assertEquals(resolution, Catalog.resolutionOf(case.string("key")), "resolution in the catalog")
         val rounded = resolution.round(case.getValue("value").jsonPrimitive.double)
         assertJsonEquals(case.getValue("rounded"), JsonCodec.number(rounded))
+        case["written"]?.let { assertEquals(it.jsonPrimitive.content, JsonCodec.number(rounded).toString(), "written") }
     }
 
     @Test
