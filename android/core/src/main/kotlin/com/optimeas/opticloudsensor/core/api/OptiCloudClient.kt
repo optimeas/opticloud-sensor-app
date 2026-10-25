@@ -12,8 +12,8 @@ import kotlinx.serialization.json.JsonPrimitive
 /** Errors of the REST interface. */
 sealed class OptiCloudException(message: String) : Exception(message) {
     /** The server answered with an error. [errorCode] decides what the app does (see `docs/spec/sign-in.md`, Errors). */
-    class Api(val status: Int, val errorCode: Int?, val serverMessage: String?) :
-        OptiCloudException("HTTP $status, errorCode $errorCode: $serverMessage")
+    class Api(val status: Int, val errorCode: Int?, val serverMessage: String?, val path: String) :
+        OptiCloudException("HTTP $status at $path, errorCode $errorCode: $serverMessage")
 
     /** The answer did not have the expected form. */
     class UnexpectedAnswer : OptiCloudException("unexpected answer")
@@ -67,8 +67,13 @@ class OptiCloudClient(
     // Sign-in
 
     /** The user's roles, one per tenant. Issues no token. */
-    suspend fun roles(username: String, password: String): List<Role> =
+    suspend fun roles(username: String, password: String): List<Role> = try {
         send("POST", "/api/noauth/authorization", ListSerializer(Role.serializer()), body = obj("username" to username, "password" to password))
+    } catch (e: OptiCloudException.Api) {
+        // An unknown e-mail address is answered with status 400 and no errorCode.
+        if (e.status != 400 || e.errorCode != null) throw e
+        throw OptiCloudException.Api(e.status, OptiCloudException.Code.SIGN_IN_FAILED, e.serverMessage, e.path)
+    }
 
     /** Signs in with a role. If the server requires a code, confirm it with [verify]. */
     suspend fun login(username: String, password: String, authorityId: String): LoginResult {
@@ -189,7 +194,7 @@ class OptiCloudClient(
         val text = response.body.toString(Charsets.UTF_8)
         if (response.status !in 200..299) {
             val error = runCatching { json.decodeFromString(ApiErrorBody.serializer(), text) }.getOrNull()
-            throw OptiCloudException.Api(response.status, error?.errorCode, error?.message)
+            throw OptiCloudException.Api(response.status, error?.errorCode, error?.message, path)
         }
         if (answer == null) return Unit as T
         return try {

@@ -244,7 +244,9 @@ class SignInViewModel(private val app: AppModel) : ViewModel() {
         is OptiCloudException.NotSignedIn -> sessionExpired(null)
         is OptiCloudException.UnexpectedAnswer -> UserMessage(R.string.error_unexpected)
         is OptiCloudException.Api -> {
-            val detail = e.serverMessage
+            // For support: which request failed, and what the server said.
+            val detail = "HTTP ${e.status}, ${e.path}" + (e.errorCode?.let { ", errorCode $it" } ?: "") +
+                (e.serverMessage?.let { ": $it" } ?: "")
             when (e.errorCode) {
                 OptiCloudException.Code.SIGN_IN_FAILED -> {
                     go(Step.Credentials)
@@ -257,7 +259,7 @@ class SignInViewModel(private val app: AppModel) : ViewModel() {
                 OptiCloudException.Code.PERMISSION_MISSING -> UserMessage(permissionMessage(), detail)
                 OptiCloudException.Code.INVALID_REQUEST -> UserMessage(invalidMessage(), detail)
                 OptiCloudException.Code.TOO_MANY_ATTEMPTS -> UserMessage(R.string.error_too_many_attempts, detail)
-                else -> UserMessage(R.string.error_server, "HTTP ${e.status}" + (detail?.let { ": $it" } ?: ""))
+                else -> UserMessage(R.string.error_server, detail)
             }
         }
         else -> UserMessage(R.string.error_unexpected, e.message)

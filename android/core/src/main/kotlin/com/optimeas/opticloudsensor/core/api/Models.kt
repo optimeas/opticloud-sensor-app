@@ -140,6 +140,9 @@ enum class Binding {
     }
 }
 
-/** The error body of the REST interface (see `docs/spec/sign-in.md`, Errors). */
+/**
+ * The error body of the REST interface (see `docs/spec/sign-in.md`, Errors). Its `status` is left out: some
+ * answers write it as a name such as `UNAUTHORIZED`; the status comes from the HTTP response.
+ */
 @Serializable
-data class ApiErrorBody(val status: Int? = null, val message: String? = null, val errorCode: Int? = null)
+data class ApiErrorBody(val message: String? = null, val errorCode: Int? = null)

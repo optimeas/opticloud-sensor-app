@@ -46,7 +46,7 @@ The answer lists the user's roles. Each role belongs to one tenant:
 
 - This step issues no token.
 - The app offers the roles whose `enabled` is true, by tenant name. If there is only one, the app picks it without asking.
-- A wrong password is answered with an error (see [Errors](#errors)).
+- A wrong password is answered with an error (see [Errors](#errors)). An unknown e-mail address is answered with status 400 and a body without `errorCode` (seen on the test server on 2026-10-25). The app treats both as "sign-in failed".
 
 ### Signing in with a role
 
@@ -178,6 +178,10 @@ The server answers errors with a JSON object:
 ```
 
 The app decides by `errorCode` and shows its own text. It shows `message` only as a detail for support.
+
+- `status` is not reliable: some answers write it as a number, others as a name, for example `{ "status": "UNAUTHORIZED", "message": "Authentication failed", "errorCode": 10 }` from `POST /api/auth/login` on the test server (2026-10-25). The app must read `errorCode` and `message` also when `status` is a name, and takes the status from the HTTP response.
+- An error body can lack `errorCode`. The app then decides by the HTTP status and the request.
+- After several failed attempts the server locks the account. `POST /api/noauth/authorization` then answers with status 500 and a `message` that says so, without `errorCode` 33 (seen on the test server on 2026-10-25). The app shows its general error text with the server's `message` as the detail; it does not decide by the wording of `message`. An administrator unlocks the account.
 
 | `errorCode` | Meaning | What the app does |
 | --- | --- | --- |

@@ -149,6 +149,31 @@ class OptiCloudClientTest {
     }
 
     @Test
+    fun errorBodyWithStatusAsName() = runTest {
+        // As POST /api/auth/login answers a wrong password on the test server.
+        val transport = FakeTransport()
+        transport.on("POST", "/api/auth/login") {
+            HttpResponse(401, """{"status":"UNAUTHORIZED","message":"Authentication failed","errorCode":10,"timestamp":1792938638669,"details":null}""".toByteArray())
+        }
+        val e = assertFailsWith<OptiCloudException.Api> { OptiCloudClient(address, transport = transport).login("u", "p", "r") }
+        assertEquals(401, e.status)
+        assertEquals(10, e.errorCode)
+        assertEquals("Authentication failed", e.serverMessage)
+        assertEquals("/api/auth/login", e.path)
+    }
+
+    @Test
+    fun unknownUserIsSignInFailed() = runTest {
+        // As POST /api/noauth/authorization answers an unknown e-mail address on the test server.
+        val transport = FakeTransport()
+        transport.on("POST", "/api/noauth/authorization") {
+            HttpResponse(400, """{"timestamp":"2026-10-25T14:30:38.586+00:00","status":400,"error":"Bad Request","path":"/api/noauth/authorization"}""".toByteArray())
+        }
+        val e = assertFailsWith<OptiCloudException.Api> { OptiCloudClient(address, transport = transport).roles("nobody@example.com", "p") }
+        assertEquals(OptiCloudException.Code.SIGN_IN_FAILED, e.errorCode)
+    }
+
+    @Test
     fun errorWithoutBody() = runTest {
         val transport = FakeTransport()
         transport.on("GET", "/api/projects/enabled") { HttpResponse(502, ByteArray(0)) }
