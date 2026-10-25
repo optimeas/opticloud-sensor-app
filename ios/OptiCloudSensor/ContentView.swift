@@ -5,18 +5,20 @@ import SwiftUI
 struct ContentView: View {
     @Environment(AppModel.self) private var app
     @State private var isSigningIn = false
+    /// The tab opens again where the user left it.
+    @AppStorage("selectedTab") private var selectedTab = "live"
 
     var body: some View {
         Group {
             if app.device != nil {
-                TabView {
-                    Tab("Live", systemImage: "dot.radiowaves.left.and.right") {
+                TabView(selection: $selectedTab) {
+                    Tab("Live", systemImage: "dot.radiowaves.left.and.right", value: "live") {
                         LiveView()
                     }
-                    Tab("Diagnosis", systemImage: "stethoscope") {
+                    Tab("Diagnosis", systemImage: "stethoscope", value: "diagnosis") {
                         NavigationStack { TestAreaView() }
                     }
-                    Tab("Settings", systemImage: "gearshape") {
+                    Tab("Settings", systemImage: "gearshape", value: "settings") {
                         SettingsView()
                     }
                 }
