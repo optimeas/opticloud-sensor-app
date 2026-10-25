@@ -32,6 +32,7 @@ final class SensorService {
     }
     private(set) var connectionState: ConnectionState = .disconnected
     private(set) var queueStatus: TelemetryQueue.Status?
+    @ObservationIgnored private var queueStatusRefresh: Task<Void, Never>?
     /// The values of the last tick, rounded as they are sent, and the last kind of activity, for the live view.
     private(set) var liveValues: [String: TelemetryValue] = [:]
     private(set) var lastTick: Date?
@@ -353,8 +354,16 @@ final class SensorService {
         }
     }
 
+    /// Reads the queue half a second after a change and takes the changes of that half second together. A sample
+    /// is delivered a few milliseconds after it was queued; showing it in between made the numbers flicker.
     private func refreshQueueStatus() {
-        Task { queueStatus = try? await queue.status() }
+        guard queueStatusRefresh == nil else { return }
+        queueStatusRefresh = Task {
+            try? await Task.sleep(for: .milliseconds(500))
+            let status = try? await queue.status()
+            if status != queueStatus { queueStatus = status }
+            queueStatusRefresh = nil
+        }
     }
 
     private func publishClientAttributes() {

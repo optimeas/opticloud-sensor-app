@@ -4,6 +4,7 @@ import SwiftUI
 /// A place to check every communication path by hand, and the diagnostic tool for support
 /// (see `docs/project-brief.md`, Test area).
 struct TestAreaView: View {
+    @Environment(AppModel.self) private var app
     @Environment(SensorService.self) private var service
 
     var body: some View {
@@ -11,10 +12,17 @@ struct TestAreaView: View {
             SendValueSection()
             QueueSection()
             LogSection(log: service.log)
-            LaunchSection()
         }
         .navigationTitle("Diagnosis")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ShareLink(
+                item: DiagnosisReport.text(service: service, app: app),
+                subject: Text(verbatim: "optiCLOUD Sensor – \(String(localized: "Diagnosis"))")
+            ) {
+                Label("Export Log", systemImage: "square.and.arrow.up")
+            }
+        }
     }
 }
 
@@ -100,9 +108,10 @@ private struct QueueSection: View {
             if let status = service.queueStatus {
                 LabeledContent("Samples", value: status.count.formatted())
                 LabeledContent("Size", value: Int64(status.bytes).formatted(.byteCount(style: .file)))
-                if let oldest = status.oldestTs {
-                    LabeledContent("Oldest", value: Self.date(oldest).formatted(date: .abbreviated, time: .standard))
-                }
+                // Always shown: a row that comes and goes with every sample made the list flicker.
+                LabeledContent("Oldest", value: status.oldestTs.map {
+                    Self.date($0).formatted(date: .abbreviated, time: .standard)
+                } ?? "–")
                 LabeledContent("Discarded", value: status.discarded.formatted())
                 if let from = status.discardedFrom, let to = status.discardedTo {
                     LabeledContent("Discarded Range") {
@@ -159,35 +168,6 @@ private struct LogSection: View {
                         .font(.footnote)
                 }
             }
-        }
-    }
-}
-
-/// When the app was started, and whether the system started it in the background.
-private struct LaunchSection: View {
-    @State private var entries = LaunchLog.entries()
-
-    var body: some View {
-        Section {
-            ForEach(entries) { entry in
-                HStack {
-                    Label(
-                        entry.opened ? "Opened" : entry.byLocation ? "By Location" : "In Background",
-                        systemImage: entry.opened ? "hand.tap" : entry.byLocation ? "location" : "moon"
-                    )
-                    Spacer()
-                    VStack(alignment: .trailing, spacing: 2) {
-                        Text(entry.date, format: .dateTime.day().month().hour().minute().second())
-                        Text(entry.transmitting ? "Sending" : "Not sending")
-                            .foregroundStyle(.secondary)
-                    }
-                    .font(.footnote)
-                }
-            }
-        } header: {
-            Text("Launches")
-        } footer: {
-            Text("The last \(LaunchLog.capacity) launches of the app, the newest first.")
         }
     }
 }
