@@ -6,6 +6,8 @@ The app works only with a signed-in user. The user signs in with their personal 
 
 All requests in this document go to the REST interface of optiCLOUD at the address of the web application (see [connection.md](connection.md#endpoint)). Bodies and answers are JSON.
 
+An identifier in an answer, such as the `id` of a project or a device, is an object with the member `id`, for example `{ "entityType": "DEVICE", "id": "…" }`. The app reads `id` and ignores the other members. It also accepts an identifier written as a plain string. In a request path or body, the app writes the plain `id`.
+
 ## Overview
 
 1. The user enters the address of the web application.
@@ -77,7 +79,7 @@ If a code is required, the server has already sent it to the address in `twoFact
 
 - Every further request sends the access token in the header `X-Authorization: Bearer <token>`.
 - The access token is a JWT. Among its claims are `tenantId`, `projectId`, `userId`, and `authorityDataId` (the role). The app reads them from the token and does not ask the server for them.
-- The access token is short-lived (one hour on the test server). The app renews it before it expires at `POST /api/auth/token` with `{ "refreshToken": "…" }`. The answer is a new access token and a new refresh token.
+- The access token is short-lived (one hour on the test server). The app renews it before it expires: before a request, if the token expires within the next 2 minutes according to its claim `exp`. It renews at `POST /api/auth/token` with `{ "refreshToken": "…" }`. The answer is a new access token and a new refresh token.
 - Every renewal extends the session. As long as the app renews in time, the user stays signed in. When the refresh token has expired, the user signs in again.
 - The app stores the refresh token in the Keychain (iOS) or in Keystore-backed storage (Android). It never writes tokens to logs.
 - An expired session does not stop transmission: telemetry uses the device access token, not the user's session. Journal entries wait in the queue until the user has signed in again.
@@ -106,6 +108,7 @@ The app lists the devices with `GET /api/tenants/<tenantId>/devices?projectId=<p
 
 - An optional `textSearch` filters by the start of the name, without regard to case.
 - The answer is a page: `{ "data": [ … ], "hasNext": true }`. Pages are counted from 0.
+- Each device has the members `id`, `name`, and `type`, and can have a `label`. The app shows the name.
 - The server cannot filter by type. The app keeps only devices whose `type` is `optiCLOUD Sensor App`.
 - For each device the app reads the binding (see [Binding](#binding-to-the-phone)) and shows devices bound to another phone as not available.
 
@@ -141,7 +144,7 @@ The app reads the credentials with `GET /api/device/<deviceId>/credentials`:
 
 A device in optiCLOUD belongs to one phone. A new phone is always a new device. optiCLOUD itself cannot tell two phones with the same token apart, so the app enforces this.
 
-- On its first start the app creates a random UUID, the **installation identifier**, and stores it in the Keychain or Keystore-backed storage.
+- On its first start the app creates a random UUID, the **installation identifier**, written in lower case with hyphens, and stores it in the Keychain or Keystore-backed storage.
 - The binding is the shared attribute **`sensorAppInstallation`** of the device. Its value is the installation identifier of the phone the device belongs to.
 - The app writes it through the user's session with `POST /api/plugins/telemetry/DEVICE/<deviceId>/attributes/SHARED_SCOPE` and the body `{ "sensorAppInstallation": "<installation identifier>" }`.
 - The app reads it with `GET /api/plugins/telemetry/DEVICE/<deviceId>/values/attributes/SHARED_SCOPE`. The answer is a list of `{ "key", "value", "lastUpdateTs" }`.

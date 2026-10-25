@@ -15,7 +15,8 @@ This directory holds the Android app. The rules in the repository root `CLAUDE.m
 
 - `android/` is the Gradle root; run Gradle there.
 - `:app` is the Android app: activities, Compose screens, services, permissions, and platform glue. Keep it thin.
-- `:core` is plain Kotlin on the JVM, without Android: payload encoding, rounding, sending on change, aggregation, sensor selection, queue batching, and journal notes. Later the protocol of sign-in and messages. Its tests run with `./gradlew :core:test` and without a device or emulator.
+- `:core` is plain Kotlin on the JVM, without Android: payload encoding, rounding, sending on change, aggregation, sensor selection, queue batching, journal notes, and the REST client for sign-in and device selection (`core.api`). Later the MQTT messages.
+- Secrets (session tokens, device token, installation identifier) are kept by `storage/SecretStore`: AES-GCM with a key in the Android Keystore, only the encrypted value in the app's preferences. Its tests run with `./gradlew :core:test` and without a device or emulator.
 - Tests use JUnit 5 through `kotlin.test`.
 
 ## Architecture
