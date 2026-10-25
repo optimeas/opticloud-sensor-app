@@ -13,18 +13,27 @@ final class SoundSampler {
     private let engine = AVAudioEngine()
     private let level = OSAllocatedUnfairLock(initialState: SoundLevel())
     private var running = false
+    /// Set from the call of `start()` on, so that a second call while the first waits for the permission does not
+    /// install a second tap, which AVAudioEngine answers with an exception.
+    private var wanted = false
 
     /// Starts the microphone. Asks for the permission first if it has not been asked for.
     func start() async {
-        guard !running else { return }
-        guard await AVAudioApplication.requestRecordPermission() else { return }
+        guard !wanted else { return }
+        wanted = true
+        let permitted = await AVAudioApplication.requestRecordPermission()
+        // `stop()` may have been called while the permission was asked for.
+        guard permitted, wanted, !running else { return }
         do {
             let session = AVAudioSession.sharedInstance()
             // The measurement mode turns off the processing that would change the level.
             try session.setCategory(.playAndRecord, mode: .measurement, options: [.mixWithOthers, .defaultToSpeaker])
             try session.setActive(true)
             let input = engine.inputNode
-            input.installTap(onBus: 0, bufferSize: 4096, format: input.outputFormat(forBus: 0), block: Self.tap(into: level))
+            let format = input.outputFormat(forBus: 0)
+            // Without an input, for example while a call holds the microphone, the format is empty.
+            guard format.sampleRate > 0, format.channelCount > 0 else { return }
+            input.installTap(onBus: 0, bufferSize: 4096, format: format, block: Self.tap(into: level))
             try engine.start()
             running = true
         } catch {
@@ -33,6 +42,7 @@ final class SoundSampler {
     }
 
     func stop() {
+        wanted = false
         guard running else { return }
         engine.stop()
         engine.inputNode.removeTap(onBus: 0)

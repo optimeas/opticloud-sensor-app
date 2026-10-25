@@ -5,8 +5,8 @@ import SensorCore
 
 /// The sampled values of the group `location` (see `docs/spec/sensors.md`, Catalog).
 ///
-/// While the location is in use, the app keeps a background activity session, so that it goes on sampling and
-/// sending in the background (see `ios/CLAUDE.md`, Architecture). The system shows this to the user.
+/// With the permission "Always" and the location background mode, the updates go on in the background, and the app
+/// with them (see `ios/CLAUDE.md`, Architecture). The system shows the location arrow while updates arrive.
 @Observable
 final class LocationSampler: NSObject {
     /// The items of the group this phone offers.
@@ -15,7 +15,6 @@ final class LocationSampler: NSObject {
     private(set) var authorization: CLAuthorizationStatus
     @ObservationIgnored private let manager = CLLocationManager()
     @ObservationIgnored private var updates: Task<Void, Never>?
-    @ObservationIgnored private var backgroundSession: CLBackgroundActivitySession?
     @ObservationIgnored private var latest: CLLocation?
     @ObservationIgnored private let defaults: UserDefaults
     @ObservationIgnored private var wanted = false
@@ -47,10 +46,9 @@ final class LocationSampler: NSObject {
 
     func stop() {
         wanted = false
+        // The loop in `startUpdates()` leaves at the next update, which ends the updates in Core Location.
         updates?.cancel()
         updates = nil
-        backgroundSession?.invalidate()
-        backgroundSession = nil
         latest = nil
     }
 
@@ -76,12 +74,12 @@ final class LocationSampler: NSObject {
 
     private func startUpdates() {
         guard updates == nil else { return }
-        // Created while the app is in use, the session lets the updates go on in the background.
-        backgroundSession = CLBackgroundActivitySession()
         updates = Task { [weak self] in
             do {
                 for try await update in CLLocationUpdate.liveUpdates() {
-                    if let location = update.location { self?.latest = location }
+                    // Leaving the loop ends the updates in Core Location.
+                    guard !Task.isCancelled, let self else { break }
+                    if let location = update.location { self.latest = location }
                 }
             } catch {
                 // The updates ended, for example because the permission was withdrawn.

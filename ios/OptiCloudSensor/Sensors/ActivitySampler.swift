@@ -18,8 +18,8 @@ final class ActivitySampler {
     /// Called with the type of a new activity and when it began.
     var activityChanged: ((String, Date) -> Void)?
 
-    private let pedometer = CMPedometer()
-    private let activities = CMMotionActivityManager()
+    private lazy var pedometer = CMPedometer()
+    private lazy var activities = CMMotionActivityManager()
     private var steps: Int?
     private var countingSince: Date?
     private var lastType: String?
@@ -38,6 +38,8 @@ final class ActivitySampler {
     }
 
     func stop() {
+        // Calling Core Motion while it is not running can already ask for the permission.
+        guard running else { return }
         pedometer.stopUpdates()
         activities.stopActivityUpdates()
         running = false
