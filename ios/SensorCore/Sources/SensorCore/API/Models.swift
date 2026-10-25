@@ -24,7 +24,8 @@ public struct EntityId: Hashable, Sendable, Codable {
     }
 }
 
-/// A role of the user. Each role belongs to one tenant (see `docs/spec/sign-in.md`, Tenants).
+/// A role of the user. A role belongs to one tenant or, like that of a system administrator, to none
+/// (see `docs/spec/sign-in.md`, Tenants).
 public struct Role: Hashable, Sendable, Decodable, Identifiable {
     public struct Tenant: Hashable, Sendable, Decodable {
         public let id: EntityId
@@ -33,11 +34,17 @@ public struct Role: Hashable, Sendable, Decodable, Identifiable {
 
     public let authorityId: EntityId
     public let authority: String?
-    public let tenant: Tenant
+    public let tenant: Tenant?
     public let enabled: Bool
     public let projectCount: Int?
 
     public var id: String { authorityId.id }
+
+    /// The app can sign in only with an enabled role that has a tenant.
+    public var isUsable: Bool { enabled && tenant != nil }
+
+    /// The name of the tenant, empty for a role without one.
+    public var tenantName: String { tenant?.name ?? "" }
 }
 
 /// The access token and the refresh token of the user's session.
@@ -148,8 +155,14 @@ public struct AttributeEntry: Hashable, Sendable, Decodable {
 }
 
 /// The error body of the REST interface (see `docs/spec/sign-in.md`, Errors).
+///
+/// The body's `status` is left out: some answers write it as a name, and the status of the HTTP response counts.
 public struct APIErrorBody: Hashable, Sendable, Decodable {
-    public let status: Int?
     public let message: String?
     public let errorCode: Int?
+
+    public init(message: String?, errorCode: Int?) {
+        self.message = message
+        self.errorCode = errorCode
+    }
 }

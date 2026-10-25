@@ -76,10 +76,11 @@ final class SignInModel {
         guard let address = ServerAddress(parsing: addressText) else { return }
         let client = app.startSession(at: address)
         await run {
-            let roles = try await client.roles(username: self.email, password: self.password).filter(\.enabled)
-            self.roles = roles.sorted { $0.tenant.name.localizedStandardCompare($1.tenant.name) == .orderedAscending }
+            let all = try await client.roles(username: self.email, password: self.password)
+            let roles = all.filter(\.isUsable)
+            self.roles = roles.sorted { $0.tenantName.localizedStandardCompare($1.tenantName) == .orderedAscending }
             switch roles.count {
-            case 0: throw SignInError.noTenant
+            case 0: throw SignInError.noTenant(authorities: all.compactMap(\.authority))
             case 1: try await self.signIn(with: roles[0], client)
             default: self.path = [.tenant]
             }
@@ -236,7 +237,7 @@ final class SignInModel {
 
         let projectName = projects.flatMap(\.flattened).first { $0.id == projectId }?.name ?? ""
         app.select(
-            SelectedDevice(id: device.id, name: device.name, tenantName: role?.tenant.name ?? "", projectName: projectName),
+            SelectedDevice(id: device.id, name: device.name, tenantName: role?.tenantName ?? "", projectName: projectName),
             token: token
         )
         isFinished = true
@@ -268,7 +269,7 @@ enum SignInError: Error, Identifiable {
 
     case server(OptiCloudError)
     case network(String)
-    case noTenant
+    case noTenant(authorities: [String])
     case notAccessToken
     case deviceBlocked
     case step(Step, OptiCloudError)
@@ -319,8 +320,13 @@ enum SignInError: Error, Identifiable {
                 return [body.message, body.errorCode.map { "Code \($0)" }, "HTTP \(status)"]
                     .compactMap { $0 }.joined(separator: " · ")
             }
+            if case .signInRejected(let status, let message) = error {
+                return [message, "HTTP \(status)"].compactMap { $0 }.joined(separator: " · ")
+            }
             if case .http(let status) = error { return "HTTP \(status)" }
             return nil
+        case .noTenant(let authorities) where !authorities.isEmpty:
+            return String(localized: "Roles: \(authorities.joined(separator: ", "))")
         default:
             return nil
         }
