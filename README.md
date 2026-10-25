@@ -11,7 +11,7 @@ Early development. Nothing here is ready for use yet, and the apps are not in th
 | Specification | Draft for stage 1 in [`docs/spec/`](docs/spec/), parts tested against an optiCLOUD test server |
 | Shared test vectors | Draft in [`docs/spec/vectors/`](docs/spec/vectors/) |
 | Android app | Passes the shared test vectors. Sign-in and device selection work against an optiCLOUD server. No connection or transmission yet |
-| iOS app | Passes the shared test vectors. Sign-in, device selection, the MQTT connection, the offline queue, commands, and transmission of the `device` and `location` groups work against an optiCLOUD server, also in the background. The test area shows commands, shared attributes, and the offline queue, and sends single values; alarms are not in it yet. Other sensors are not built yet. The iOS app leads the implementation of stage 1 |
+| iOS app | Passes the shared test vectors. Sign-in, device selection, the MQTT connection, the offline queue, commands, and transmission of the sensor groups `device`, `location`, `motion`, `environment`, `activity`, and `sound` work against an optiCLOUD server, also in the background (the sound level only while the app is open). The sensors are selected on the phone or in optiCLOUD. The test area shows commands, shared attributes, and the offline queue, and sends single values; alarms are not in it yet. The iOS app leads the implementation of stage 1 |
 
 ## Planned features
 

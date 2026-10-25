@@ -145,7 +145,11 @@ private struct TransmissionSection: View {
                     LabeledContent("Send Rate", value: "Every \(service.settings.sendRate) s")
                 }
             }
-            LabeledContent("Sensors", value: service.settings.selection.reported(offered: service.offered))
+            NavigationLink {
+                SensorSelectionView()
+            } label: {
+                LabeledContent("Sensors", value: service.settings.selection.reported(offered: service.offered))
+            }
             if !service.settings.selection.items(offered: LocationSampler.offered).isEmpty {
                 LocationPermissionRow(location: service.location)
             }
@@ -155,7 +159,7 @@ private struct TransmissionSection: View {
         } header: {
             Text("Transmission")
         } footer: {
-            Text("Samples wait on the phone while there is no connection and are sent when it is back. While location is in use, the app goes on sending in the background; iOS shows this in the status bar.")
+            Text("Samples wait on the phone while there is no connection and are sent when it is back. While location is in use, the app goes on sending in the background; iOS shows this in the status bar. The sound level is measured only while the app is open.")
         }
     }
 }
