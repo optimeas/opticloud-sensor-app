@@ -1,6 +1,6 @@
 # Connection
 
-**Status: draft.** Signing on with a device token, the subscriptions, and an attribute request were tested against an optiCLOUD test server on 2026-10-24. The other results of signing on are not yet tested.
+**Status: draft.** Signing on with a device token, the subscriptions, and an attribute request were tested against an optiCLOUD test server on 2026-10-24. On 2026-10-25 the iOS app connected, checked the binding, published its client attributes, and delivered telemetry from the offline queue on the test server. The other results of signing on are not yet tested.
 
 The app talks to optiCLOUD as a device over MQTT. This document describes how it connects, which states it has, and how it recovers from a lost connection. The messages themselves are in [messages.md](messages.md).
 

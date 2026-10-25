@@ -15,7 +15,7 @@ The iOS app leads (see the [project brief](../docs/project-brief.md#decisions)).
 ## Project layout
 
 - The Xcode project is `ios/OptiCloudSensor.xcodeproj` with the app target `OptiCloudSensor`. Its sources live in `ios/OptiCloudSensor/`, a folder synchronized with the project: add files there, not to the project file. Keep the app target thin: views, app life cycle, permissions, and platform glue.
-- The platform-neutral logic (payload encoding, rounding, sending on change, aggregation, the offline queue, the protocol of sign-in and messages) lives in the local Swift package `ios/SensorCore`, so that its tests run with `swift test` and without a simulator. The shared scheme `OptiCloudSensor` runs these tests too.
+- The platform-neutral logic (payload encoding, rounding, sending on change, aggregation, the offline queue, the protocol of sign-in and messages) lives in the local Swift package `ios/SensorCore`, so that its tests run with `swift test` and without a simulator. The package has two libraries: `SensorCore` without network code beyond REST, and `DeviceLink`, the MQTT connection on top of MQTTNIO. Commit both `Package.resolved` files. The shared scheme `OptiCloudSensor` runs these tests too.
 - The development team is set in `ios/Config/Local.xcconfig`, which Git ignores. `Local.xcconfig.example` shows the format.
 - Tests use Swift Testing. Protocol tests load the shared test vectors from `../docs/spec/vectors/` and run every case. A failing vector is a defect in the app, not in the vector.
 - Sensors, background location, and MQTT over the mobile network need a real iPhone. The simulator is enough for the user interface and the package tests.

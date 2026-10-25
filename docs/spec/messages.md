@@ -1,6 +1,6 @@
 # Messages
 
-**Status: draft.** Telemetry with time stamps, client attributes, and attribute requests were tested against an optiCLOUD test server on 2026-10-24. Commands and alarms are not yet tested.
+**Status: draft.** Telemetry with time stamps, client attributes, and attribute requests were tested against an optiCLOUD test server on 2026-10-24. On 2026-10-25 the iOS app published telemetry and client attributes on the test server. Commands and alarms are not yet tested.
 
 This document describes the MQTT messages between the app and optiCLOUD. How the connection is made is in [connection.md](connection.md).
 
