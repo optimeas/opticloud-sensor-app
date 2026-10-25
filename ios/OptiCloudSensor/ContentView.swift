@@ -146,13 +146,35 @@ private struct TransmissionSection: View {
                 }
             }
             LabeledContent("Sensors", value: service.settings.selection.reported(offered: service.offered))
+            if !service.settings.selection.items(offered: LocationSampler.offered).isEmpty {
+                LocationPermissionRow(location: service.location)
+            }
             if let status = service.queueStatus {
                 LabeledContent("Waiting to Be Sent", value: "\(status.count)")
             }
         } header: {
             Text("Transmission")
         } footer: {
-            Text("Samples wait on the phone while there is no connection and are sent when it is back. Only while the app is open for now.")
+            Text("Samples wait on the phone while there is no connection and are sent when it is back. While location is in use, the app goes on sending in the background; iOS shows this in the status bar.")
+        }
+    }
+}
+
+private struct LocationPermissionRow: View {
+    let location: LocationSampler
+    @Environment(\.openURL) private var openURL
+
+    var body: some View {
+        LabeledContent("Location Access") {
+            switch location.authorization {
+            case .authorizedAlways: Text("Always")
+            case .authorizedWhenInUse: Text("While Using the App")
+            case .notDetermined: Text("Asked When Transmitting")
+            default:
+                Button("Open Settings") {
+                    if let url = URL(string: UIApplication.openSettingsURLString) { openURL(url) }
+                }
+            }
         }
     }
 }
