@@ -15,8 +15,11 @@ sealed class OptiCloudException(message: String) : Exception(message) {
     class Api(val status: Int, val errorCode: Int?, val serverMessage: String?, val path: String) :
         OptiCloudException("HTTP $status at $path, errorCode $errorCode: $serverMessage")
 
-    /** The answer did not have the expected form. */
-    class UnexpectedAnswer : OptiCloudException("unexpected answer")
+    /**
+     * The answer did not have the expected form. [detail] says where, for support; it names keys and positions
+     * but never values of the answer, which can hold tokens.
+     */
+    class UnexpectedAnswer(val detail: String? = null) : OptiCloudException("unexpected answer" + (detail?.let { ": $it" } ?: ""))
 
     /** The request needs a signed-in user. */
     class NotSignedIn : OptiCloudException("not signed in")
@@ -199,10 +202,16 @@ class OptiCloudClient(
         if (answer == null) return Unit as T
         return try {
             json.decodeFromString(answer, text)
-        } catch (_: Exception) {
-            throw OptiCloudException.UnexpectedAnswer()
+        } catch (e: OptiCloudException.UnexpectedAnswer) {
+            throw OptiCloudException.UnexpectedAnswer("$path: ${e.detail}")
+        } catch (e: Exception) {
+            throw OptiCloudException.UnexpectedAnswer("$path: ${e.javaClass.simpleName}: ${parseProblem(e.message)}")
         }
     }
+
+    /** The problem the JSON reader reports, without the excerpt of the answer it appends. */
+    private fun parseProblem(message: String?): String =
+        message.orEmpty().substringBefore("JSON input").substringBefore('\n').replace(Regex("""'[^']{24,}'"""), "'…'").trim()
 
     private fun obj(vararg members: Pair<String, String>) = JsonObject(members.associate { (key, value) -> key to JsonPrimitive(value) })
 

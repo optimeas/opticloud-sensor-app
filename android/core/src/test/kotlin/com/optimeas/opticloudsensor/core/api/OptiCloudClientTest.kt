@@ -70,6 +70,18 @@ class OptiCloudClientTest {
     }
 
     @Test
+    fun roleWithoutTenantIsReadButNotUsable() = runTest {
+        // As the production server lists a role without tenant at the front.
+        val transport = FakeTransport()
+        transport.on("POST", "/api/noauth/authorization") {
+            ok("""[{"authorityId":{"id":"r0"},"authority":"SYS_ADMIN","enabled":true},{"authorityId":{"id":"r1"},"authority":"TENANT_ADMIN","tenant":{"id":{"id":"t1"},"name":"Example"},"enabled":true}]""")
+        }
+        val roles = OptiCloudClient(address, transport = transport).roles("u", "p")
+        assertEquals(listOf(false, true), roles.map { it.isUsable })
+        assertNull(roles[0].tenant)
+    }
+
+    @Test
     fun loginWithCode() = runTest {
         val transport = FakeTransport()
         transport.on("POST", "/api/auth/login") { ok("""{"twoFactorRequired":true,"twoFactorToken":"2fa","twoFactorEmail":"u***@example.com"}""") }
@@ -235,6 +247,16 @@ class OptiCloudClientTest {
         assertIs<OptiCloudException.UnexpectedAnswer>(
             runCatching { OptiCloudClient(address, transport = transport).login("u", "p", "r") }.exceptionOrNull(),
         )
+    }
+
+    @Test
+    fun unexpectedAnswerSaysWhereButShowsNoValues() = runTest {
+        val transport = FakeTransport()
+        transport.on("GET", "/api/projects/enabled") { ok("""[{"id":{"id":"p1"},"name":null,"secret":"eyJhbGciOiJIUzUxMiJ9.very-long-token-value"}]""") }
+        val e = assertFailsWith<OptiCloudException.UnexpectedAnswer> { OptiCloudClient(address, fresh, transport, nowMillis = { now }).projects() }
+        val detail = e.detail!!
+        assertTrue(detail.startsWith("/api/projects/enabled: "), detail)
+        assertTrue("eyJ" !in detail, detail)
     }
 
     @Test

@@ -162,7 +162,7 @@ private fun TenantStep(step: Step.Tenants, busy: Boolean, model: SignInViewModel
     LazyColumn {
         items(step.roles, key = { it.authorityId }) { role ->
             ListItem(
-                headlineContent = { Text(role.tenant.name) },
+                headlineContent = { Text(role.tenant?.name.orEmpty()) },
                 supportingContent = role.authority?.let { { Text(it) } },
                 modifier = Modifier.clickable(enabled = !busy) { model.chooseTenant(role) },
             )

@@ -39,15 +39,21 @@ object EntityIdSerializer : KSerializer<String> {
     override fun serialize(encoder: Encoder, value: String) = encoder.encodeString(value)
 }
 
-/** A role of the user. Each role belongs to one tenant (see `docs/spec/sign-in.md`, Tenants). */
+/**
+ * A role of the user (see `docs/spec/sign-in.md`, Tenants). A role of a tenant has [tenant]; a role without one,
+ * such as a system administrator's, cannot be used by the app.
+ */
 @Serializable
 data class Role(
     @Serializable(EntityIdSerializer::class) val authorityId: String,
     val authority: String? = null,
-    val tenant: Tenant,
+    val tenant: Tenant? = null,
     val enabled: Boolean = false,
     val projectCount: Int? = null,
 ) {
+    /** Whether the app offers this role: it is enabled and belongs to a tenant. */
+    val isUsable: Boolean get() = enabled && tenant != null
+
     @Serializable
     data class Tenant(@Serializable(EntityIdSerializer::class) val id: String, val name: String)
 }
@@ -73,13 +79,16 @@ internal data class LoginResponse(
 ) {
     fun result(): LoginResult =
         if (twoFactorRequired == true) {
-            LoginResult.CodeRequired(twoFactorToken ?: throw OptiCloudException.UnexpectedAnswer(), twoFactorEmail ?: "")
+            LoginResult.CodeRequired(twoFactorToken ?: throw OptiCloudException.UnexpectedAnswer("twoFactorToken missing"), twoFactorEmail ?: "")
         } else {
             LoginResult.SignedIn(tokens())
         }
 
     fun tokens(): TokenPair =
-        TokenPair(token ?: throw OptiCloudException.UnexpectedAnswer(), refreshToken ?: throw OptiCloudException.UnexpectedAnswer())
+        TokenPair(
+            token ?: throw OptiCloudException.UnexpectedAnswer("token missing"),
+            refreshToken ?: throw OptiCloudException.UnexpectedAnswer("refreshToken missing"),
+        )
 }
 
 /** A project in the project tree of a tenant. */

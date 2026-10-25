@@ -1,6 +1,6 @@
 # Sign-in and device selection
 
-**Status: draft.** The steps were tested against an optiCLOUD test server on 2026-10-24 with a tenant administrator. On 2026-10-25 the iOS app went through the whole flow against the test server with a tenant administrator: sign-in, tenant, project, creating a device, binding, and reading the access token. Two-factor sign-in and users with restricted rights are not yet tested.
+**Status: draft.** The steps were tested against an optiCLOUD test server on 2026-10-24 with a tenant administrator. On 2026-10-25 the iOS app went through the whole flow against the test server with a tenant administrator: sign-in, tenant, project, creating a device, binding, and reading the access token. On 2026-10-25 the Android app went through the flow against the production server with an administrator whose account also has a role without tenant. Two-factor sign-in and users with restricted rights are not yet tested.
 
 The app works only with a signed-in user. The user signs in with their personal optiCLOUD account, picks a tenant and a project, and then picks the device the phone sends to, or creates a new one. The app reads the access token of that device and uses it for MQTT (see [connection.md](connection.md)). The user's session also carries the journal (see [journal.md](journal.md)).
 
@@ -45,7 +45,8 @@ The answer lists the user's roles. Each role belongs to one tenant:
 ```
 
 - This step issues no token.
-- The app offers the roles whose `enabled` is true, by tenant name. If there is only one, the app picks it without asking.
+- A role can lack `tenant`, for example the role of a system administrator; the production server lists such a role (seen on 2026-10-25). The app cannot work with it.
+- The app offers the roles whose `enabled` is true and that have a `tenant`, by tenant name. If there is only one, the app picks it without asking. If there is none, the app says that the account has no access to a tenant.
 - A wrong password is answered with an error (see [Errors](#errors)). An unknown e-mail address is answered with status 400 and a body without `errorCode` (seen on the test server on 2026-10-25). The app treats both as "sign-in failed".
 
 ### Signing in with a role
