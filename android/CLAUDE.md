@@ -9,6 +9,14 @@ This directory holds the Android app. The rules in the repository root `CLAUDE.m
 - `compileSdk` and `targetSdk` follow the newest stable Android release.
 - `minSdk` is **31** (Android 12). From Android 12 on, the current rules for foreground services and permissions apply, so the app needs no special cases for older versions. The test device is a Samsung Galaxy A17 5G with Android 16. A change of `minSdk` is recorded in the project brief.
 - Application id: `com.optimeas.opticloudsensor` (proposal, to be confirmed before the first release).
+- Dependencies that ship with the app need a permissive license (MIT, BSD, Apache 2.0); check every transitive dependency. Test and build tools such as JUnit are exempt.
+
+## Project layout
+
+- `android/` is the Gradle root; run Gradle there.
+- `:app` is the Android app: activities, Compose screens, services, permissions, and platform glue. Keep it thin.
+- `:core` is plain Kotlin on the JVM, without Android: payload encoding, rounding, sending on change, aggregation, sensor selection, queue batching, and journal notes. Later the protocol of sign-in and messages. Its tests run with `./gradlew :core:test` and without a device or emulator.
+- Tests use JUnit 5 through `kotlin.test`.
 
 ## Architecture
 

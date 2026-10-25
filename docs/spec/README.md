@@ -2,7 +2,7 @@
 
 This directory is the master for the behavior of optiCLOUD Sensor. The iOS app and the Android app both implement it. Neither app is the reference for the other.
 
-**Status: draft.** The specification is being worked out. The iOS app passes the shared test vectors and implements sign-in, device selection, the connection, the offline queue, commands, and transmission of the `device` group; the other sensors and the test area are not implemented yet. Protocol facts were read from the optiCLOUD source; each document says which parts were tested against an optiCLOUD test server.
+**Status: draft.** The specification is being worked out. Both apps pass the shared test vectors. The iOS app implements sign-in, device selection, the connection, the offline queue, commands, and transmission of the `device` group; the other sensors and the test area are not implemented yet. Protocol facts were read from the optiCLOUD source; each document says which parts were tested against an optiCLOUD test server.
 
 ## Documents
 

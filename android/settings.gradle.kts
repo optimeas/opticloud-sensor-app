@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "optiCLOUD Sensor"
 include(":app")
+include(":core")
