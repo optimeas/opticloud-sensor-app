@@ -1,0 +1,119 @@
+{
+  "description": "Counting of the data volume by day, local time, and the totals per period. Input: now, the local date; transfers, each with the local day, network (mobile or wifi), direction (sent or received), and bytes of the message without overhead. The app adds 80 bytes of overhead to each. Expected: today, week (from Monday), and month, each with the sent and received bytes of mobile and wifi; telemetry, the values of the item dataVolume before rounding. See connection.md, Data volume.",
+  "cases": [
+    {
+      "name": "today, this week, and this month",
+      "now": "2026-10-28",
+      "transfers": [
+        {
+          "day": "2026-09-30",
+          "network": "mobile",
+          "direction": "sent",
+          "bytes": 1000
+        },
+        {
+          "day": "2026-10-01",
+          "network": "wifi",
+          "direction": "received",
+          "bytes": 2000
+        },
+        {
+          "day": "2026-10-25",
+          "network": "mobile",
+          "direction": "received",
+          "bytes": 3000
+        },
+        {
+          "day": "2026-10-26",
+          "network": "wifi",
+          "direction": "sent",
+          "bytes": 4000
+        },
+        {
+          "day": "2026-10-28",
+          "network": "mobile",
+          "direction": "sent",
+          "bytes": 500
+        },
+        {
+          "day": "2026-10-28",
+          "network": "mobile",
+          "direction": "received",
+          "bytes": 700
+        },
+        {
+          "day": "2026-10-28",
+          "network": "wifi",
+          "direction": "sent",
+          "bytes": 100
+        }
+      ],
+      "today": {
+        "mobileSent": 580,
+        "mobileReceived": 780,
+        "wifiSent": 180,
+        "wifiReceived": 0
+      },
+      "week": {
+        "mobileSent": 580,
+        "mobileReceived": 780,
+        "wifiSent": 4260,
+        "wifiReceived": 0
+      },
+      "month": {
+        "mobileSent": 580,
+        "mobileReceived": 3860,
+        "wifiSent": 4260,
+        "wifiReceived": 2080
+      },
+      "telemetry": {
+        "dataMobileToday": 1360,
+        "dataWifiToday": 180,
+        "dataMobileMonth": 4440,
+        "dataWifiMonth": 6340
+      }
+    },
+    {
+      "name": "a week that began in the previous month",
+      "now": "2026-10-01",
+      "transfers": [
+        {
+          "day": "2026-09-28",
+          "network": "wifi",
+          "direction": "sent",
+          "bytes": 920
+        },
+        {
+          "day": "2026-10-01",
+          "network": "mobile",
+          "direction": "received",
+          "bytes": 20
+        }
+      ],
+      "today": {
+        "mobileSent": 0,
+        "mobileReceived": 100,
+        "wifiSent": 0,
+        "wifiReceived": 0
+      },
+      "week": {
+        "mobileSent": 0,
+        "mobileReceived": 100,
+        "wifiSent": 1000,
+        "wifiReceived": 0
+      },
+      "month": {
+        "mobileSent": 0,
+        "mobileReceived": 100,
+        "wifiSent": 0,
+        "wifiReceived": 0
+      },
+      "telemetry": {
+        "dataMobileToday": 100,
+        "dataWifiToday": 0,
+        "dataMobileMonth": 100,
+        "dataWifiMonth": 0
+      }
+    }
+  ]
+}

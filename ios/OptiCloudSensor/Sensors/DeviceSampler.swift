@@ -5,7 +5,7 @@ import UIKit
 
 /// The sampled values of the group `device` (see `docs/spec/sensors.md`, Catalog).
 ///
-/// `cellularSignal` has no public interface on iOS, and `dataVolume` is not counted yet, so neither is offered.
+/// `cellularSignal` has no public interface on iOS, so it is not offered. `dataVolume` comes from `DataVolumeCounter`.
 final class DeviceSampler {
     /// The items of the group this phone offers.
     static let offered: Set<String> = ["batteryLevel", "charging", "network", "thermalState", "powerSaving"]

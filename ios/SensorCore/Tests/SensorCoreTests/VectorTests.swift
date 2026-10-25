@@ -110,6 +110,79 @@ struct VectorTests {
         #expect(level.level.map { Catalog.resolution(ofValueKey: "soundLevel")!.round($0) } == vector.level)
     }
 
+    // MARK: mqtt-packet-size.json
+
+    struct PacketSizeCase: Decodable, CustomTestStringConvertible {
+        let name: String
+        let packet: String
+        let topic: String?
+        let payloadBytes: Int?
+        let qos: Int?
+        let clientId: String?
+        let userName: String?
+        let topicFilters: [String]?
+        let count: Int?
+        let bytes: Int
+        var testDescription: String { name }
+    }
+
+    @Test(arguments: try TestVectors.cases("mqtt-packet-size", as: PacketSizeCase.self))
+    func mqttPacketSize(_ vector: PacketSizeCase) throws {
+        let size: Int
+        switch vector.packet {
+        case "publish": size = MQTTPacketSize.publish(topic: vector.topic!, payloadBytes: vector.payloadBytes!, qos: vector.qos!)
+        case "connect": size = MQTTPacketSize.connect(clientId: vector.clientId!, userName: vector.userName!)
+        case "subscribe": size = MQTTPacketSize.subscribe(topicFilters: vector.topicFilters!)
+        case "suback": size = MQTTPacketSize.suback(count: vector.count!)
+        case "connack": size = MQTTPacketSize.connack
+        case "puback": size = MQTTPacketSize.puback
+        case "pingreq": size = MQTTPacketSize.pingreq
+        case "pingresp": size = MQTTPacketSize.pingresp
+        default: Issue.record("unknown packet \(vector.packet)"); return
+        }
+        #expect(size == vector.bytes)
+    }
+
+    // MARK: data-volume.json
+
+    struct DataVolumeCase: Decodable, CustomTestStringConvertible {
+        struct Transfer: Decodable {
+            let day: String
+            let network: DataNetwork
+            let direction: String
+            let bytes: Int
+        }
+        let name: String
+        let now: String
+        let transfers: [Transfer]
+        let today: DataVolume.Counters
+        let week: DataVolume.Counters
+        let month: DataVolume.Counters
+        let telemetry: [String: Double]
+        var testDescription: String { name }
+    }
+
+    @Test(arguments: try TestVectors.cases("data-volume", as: DataVolumeCase.self))
+    func dataVolume(_ vector: DataVolumeCase) throws {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(identifier: "Europe/Zurich")!
+        func date(_ day: String) -> Date {
+            let parts = day.split(separator: "-").map { Int($0)! }
+            // Noon, so that the day is clear in any time zone of the calendar.
+            return calendar.date(from: DateComponents(year: parts[0], month: parts[1], day: parts[2], hour: 12))!
+        }
+        var volume = DataVolume()
+        for transfer in vector.transfers {
+            volume.count(transfer.bytes, transfer.direction == "sent" ? .sent : .received, transfer.network,
+                         at: date(transfer.day), calendar: calendar)
+        }
+        let now = date(vector.now)
+        #expect(volume.total(.today, at: now, calendar: calendar) == vector.today)
+        #expect(volume.total(.week, at: now, calendar: calendar) == vector.week)
+        #expect(volume.total(.month, at: now, calendar: calendar) == vector.month)
+        #expect(volume.telemetry(at: now, calendar: calendar) == vector.telemetry.mapValues { .number($0) })
+    }
+
     // MARK: selection.json
 
     struct SelectionCase: Decodable, CustomTestStringConvertible {

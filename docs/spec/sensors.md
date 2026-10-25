@@ -167,7 +167,6 @@ Health values are personal data of a special kind. The group is never selected b
 1. Which permission texts and which consent text does the app show? These are needed before a store release.
 2. Which values are really available on which platform has to be established when the apps are built. The catalog will then get a column for it. Found so far:
    - iOS offers no `cellularSignal`: the system has no public interface for it.
-   - iOS does not count `dataVolume` yet.
    - iOS offers all items of `location`. `speed` and `course` are left out while the phone does not move, because the system then reports them as invalid.
    - iOS offers no `light`: the system has no public interface for the ambient light.
    - iOS offers all items of `motion`, `activity`, and `sound`, and `pressure`, on phones that have the sensors.

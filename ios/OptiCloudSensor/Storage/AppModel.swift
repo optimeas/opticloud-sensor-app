@@ -20,6 +20,7 @@ final class AppModel {
     }
 
     private let defaults: UserDefaults
+    @ObservationIgnored private let transport: HTTPTransport
 
     /// The address of the optiCLOUD web application.
     private(set) var address: ServerAddress
@@ -31,8 +32,9 @@ final class AppModel {
     /// Called after a device was picked or forgotten. `isOtherDevice` is false when the same device was picked again.
     @ObservationIgnored var deviceChanged: ((_ device: SelectedDevice?, _ isOtherDevice: Bool) -> Void)?
 
-    init(defaults: UserDefaults = .standard) {
+    init(defaults: UserDefaults = .standard, transport: HTTPTransport = URLSession.shared) {
         self.defaults = defaults
+        self.transport = transport
         address = defaults.string(forKey: DefaultsKey.address).flatMap(ServerAddress.init(parsing:)) ?? .official
         device = defaults.data(forKey: DefaultsKey.device).flatMap { try? JSONDecoder().decode(SelectedDevice.self, from: $0) }
 
@@ -95,7 +97,7 @@ final class AppModel {
     }
 
     private func makeClient(address: ServerAddress, tokens: TokenPair?) -> OptiCloudClient {
-        OptiCloudClient(address: address, tokens: tokens, tokensChanged: { pair in
+        OptiCloudClient(address: address, tokens: tokens, transport: transport, tokensChanged: { pair in
             Keychain.set(pair, for: .session)
         })
     }

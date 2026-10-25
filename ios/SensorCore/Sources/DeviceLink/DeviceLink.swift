@@ -39,6 +39,9 @@ public struct DeviceLinkHandlers: Sendable {
     public var command: @Sendable (DeviceMessages.Command) async -> [String: JSONValue]
     /// The offline queue changed: a message was delivered or discarded.
     public var queueChanged: @Sendable () -> Void
+    /// An MQTT packet of this many bytes was sent or received, without overhead (see `docs/spec/connection.md`,
+    /// Data volume).
+    public var transferred: @Sendable (DataDirection, Int) -> Void
 
     public init(
         stateChanged: @escaping @Sendable (ConnectionState) -> Void,
@@ -46,7 +49,8 @@ public struct DeviceLinkHandlers: Sendable {
         bind: @escaping @Sendable () async -> Bool,
         sharedAttributes: @escaping @Sendable (_ attributes: [String: JSONValue], _ complete: Bool) -> Void,
         command: @escaping @Sendable (DeviceMessages.Command) async -> [String: JSONValue],
-        queueChanged: @escaping @Sendable () -> Void
+        queueChanged: @escaping @Sendable () -> Void,
+        transferred: @escaping @Sendable (DataDirection, Int) -> Void = { _, _ in }
     ) {
         self.stateChanged = stateChanged
         self.clientAttributes = clientAttributes
@@ -54,6 +58,7 @@ public struct DeviceLinkHandlers: Sendable {
         self.sharedAttributes = sharedAttributes
         self.command = command
         self.queueChanged = queueChanged
+        self.transferred = transferred
     }
 }
 
@@ -81,6 +86,9 @@ public actor DeviceLink {
     private var responses: [Int: Response] = [:]
     private var inFlight: TelemetryQueue.Message?
     private var strike: (firstRow: Int64, count: Int)?
+    /// The library sends PINGREQ after this time without a sent packet.
+    static let pingInterval: Duration = .seconds(60)
+    private var lastSent: ContinuousClock.Instant?
 
     private let pathMonitor = NWPathMonitor()
     private var networkAvailable = true
@@ -139,8 +147,7 @@ public actor DeviceLink {
     /// Publishes single client attributes, for the test area. Throws `DeviceLinkError.notConnected` while not connected.
     public func publishClientAttributes(_ values: [String: TelemetryValue]) async throws {
         guard isConnected, let connection else { throw DeviceLinkError.notConnected }
-        let payload = try DeviceMessages.clientAttributes(values)
-        try await connection.publish(to: DeviceMessages.attributesTopic, payload: ByteBuffer(data: payload), qos: .atLeastOnce)
+        try await publish(DeviceMessages.clientAttributes(values), to: DeviceMessages.attributesTopic, on: connection)
     }
 
     // MARK: Connecting
@@ -191,8 +198,11 @@ public actor DeviceLink {
         ) { connection in
             self.connection = connection
             requestId = 0
+            sent(MQTTPacketSize.connect(clientId: endpoint.clientId, userName: endpoint.accessToken))
+            handlers.transferred(.received, MQTTPacketSize.connack)
             let filters = DeviceMessages.subscriptions.map { MQTTSubscribeInfo(topicFilter: $0, qos: .atLeastOnce) }
             try await connection.subscribe(to: filters) { subscription in
+                self.subscribed()
                 try await withThrowingTaskGroup { group in
                     group.addTask {
                         for try await message in subscription {
@@ -233,7 +243,39 @@ public actor DeviceLink {
 
     private func publishClientAttributes(on connection: MQTTConnection) async throws {
         let payload = try DeviceMessages.clientAttributes(await handlers.clientAttributes())
-        try await connection.publish(to: DeviceMessages.attributesTopic, payload: ByteBuffer(data: payload), qos: .atLeastOnce)
+        try await publish(payload, to: DeviceMessages.attributesTopic, on: connection)
+    }
+
+    // MARK: Counting
+
+    /// Publishes with QoS 1 and counts the PUBLISH and its PUBACK.
+    private func publish(_ payload: Data, to topic: String, on connection: MQTTConnection) async throws {
+        try await connection.publish(to: topic, payload: ByteBuffer(data: payload), qos: .atLeastOnce)
+        sent(MQTTPacketSize.publish(topic: topic, payloadBytes: payload.count, qos: 1))
+        handlers.transferred(.received, MQTTPacketSize.puback)
+    }
+
+    private func subscribed() {
+        sent(MQTTPacketSize.subscribe(topicFilters: DeviceMessages.subscriptions))
+        handlers.transferred(.received, MQTTPacketSize.suback(count: DeviceMessages.subscriptions.count))
+    }
+
+    private func sent(_ bytes: Int) {
+        countPings()
+        handlers.transferred(.sent, bytes)
+        lastSent = .now
+    }
+
+    /// The library pings after every interval without a sent packet; the pings are counted from the elapsed time.
+    private func countPings() {
+        guard let last = lastSent else { return }
+        let pings = Int((ContinuousClock.now - last) / Self.pingInterval)
+        guard pings > 0 else { return }
+        for _ in 0..<pings {
+            handlers.transferred(.sent, MQTTPacketSize.pingreq)
+            handlers.transferred(.received, MQTTPacketSize.pingresp)
+        }
+        lastSent = last + Self.pingInterval * pings
     }
 
     // MARK: Receiving
@@ -241,6 +283,9 @@ public actor DeviceLink {
     private func receive(_ message: MQTTPublishInfo, on connection: MQTTConnection, endpoint: DeviceEndpoint) async throws {
         let payload = Data(buffer: message.payload)
         let topic = message.topicName
+        let qos = Int(message.qos.rawValue)
+        handlers.transferred(.received, MQTTPacketSize.publish(topic: topic, payloadBytes: payload.count, qos: qos))
+        if qos > 0 { sent(MQTTPacketSize.puback) }
         if topic == DeviceMessages.attributesTopic {
             guard let changes = try? DeviceMessages.sharedAttributes(from: payload) else { return }
             if let installationId = endpoint.installationId, changes[DeviceMessages.bindingKey] != nil,
@@ -258,11 +303,7 @@ public actor DeviceLink {
             } else {
                 answer = ["error": .string("unknown method")]
             }
-            try await connection.publish(
-                to: DeviceMessages.commandResponseTopic(id: id),
-                payload: ByteBuffer(data: DeviceMessages.commandResponse(answer)),
-                qos: .atLeastOnce
-            )
+            try await publish(DeviceMessages.commandResponse(answer), to: DeviceMessages.commandResponseTopic(id: id), on: connection)
         }
     }
 
@@ -271,10 +312,10 @@ public actor DeviceLink {
         requestId += 1
         let id = requestId
         responses[id] = .waiting(nil)
-        try await connection.publish(
+        try await publish(
+            DeviceMessages.attributeRequest(sharedKeys: DeviceMessages.requestedSharedKeys),
             to: DeviceMessages.attributeRequestPrefix + String(id),
-            payload: ByteBuffer(data: DeviceMessages.attributeRequest(sharedKeys: DeviceMessages.requestedSharedKeys)),
-            qos: .atLeastOnce
+            on: connection
         )
         let timeout = Task {
             try? await Task.sleep(for: Self.responseTimeout)
@@ -314,7 +355,7 @@ public actor DeviceLink {
         while !Task.isCancelled {
             while let message = try await queue.nextMessage() {
                 inFlight = message
-                try await connection.publish(to: Telemetry.topic, payload: ByteBuffer(data: message.payload), qos: .atLeastOnce)
+                try await publish(message.payload, to: Telemetry.topic, on: connection)
                 inFlight = nil
                 strike = nil
                 try await queue.remove(message)
@@ -326,6 +367,8 @@ public actor DeviceLink {
 
     /// Cleans up after a connection. A message that was not acknowledged counts as a strike against it.
     private func endConnection(acknowledged: Bool) async {
+        countPings()
+        lastSent = nil
         connection = nil
         isConnected = false
         for (id, _) in responses { resolve(id, with: nil) }
