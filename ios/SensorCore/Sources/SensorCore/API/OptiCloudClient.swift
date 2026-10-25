@@ -6,6 +6,8 @@ public enum OptiCloudError: Error, Hashable, Sendable {
     case api(status: Int, body: APIErrorBody)
     /// The server answered with an error and no readable body.
     case http(status: Int)
+    /// The server did not accept e-mail address and password, but sent no `errorCode`.
+    case signInRejected(status: Int, message: String?)
     /// The answer did not have the expected form.
     case unexpectedAnswer
     /// The request needs a signed-in user.
@@ -13,8 +15,11 @@ public enum OptiCloudError: Error, Hashable, Sendable {
 
     /// The `errorCode` of the server, if there is one.
     public var errorCode: Int? {
-        if case .api(_, let body) = self { return body.errorCode }
-        return nil
+        switch self {
+        case .api(_, let body): body.errorCode
+        case .signInRejected: Code.signInFailed
+        default: nil
+        }
     }
 
     /// The error codes the app distinguishes (see `docs/spec/sign-in.md`, Errors).
@@ -94,8 +99,14 @@ public actor OptiCloudClient {
     // MARK: Sign-in
 
     /// The user's roles, one per tenant. Issues no token.
+    ///
+    /// An unknown e-mail address is answered with status 400 and no `errorCode`; this counts as sign-in failed.
     public func roles(username: String, password: String) async throws -> [Role] {
-        try await send("POST", "/api/noauth/authorization", body: ["username": username, "password": password])
+        do {
+            return try await send("POST", "/api/noauth/authorization", body: ["username": username, "password": password])
+        } catch OptiCloudError.api(400, let body) where body.errorCode == nil {
+            throw OptiCloudError.signInRejected(status: 400, message: body.message)
+        }
     }
 
     /// Signs in with a role. If the server requires a code, confirm it with `verify(twoFactorToken:code:)`.

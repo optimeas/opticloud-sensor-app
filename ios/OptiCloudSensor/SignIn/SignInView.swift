@@ -110,7 +110,7 @@ struct TenantListView: View {
                 Task { await model.choose(role) }
             } label: {
                 HStack {
-                    Text(role.tenant.name)
+                    Text(role.tenantName)
                         .foregroundStyle(.primary)
                     Spacer()
                     if model.isWorking && model.role == role { ProgressView() }

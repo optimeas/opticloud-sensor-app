@@ -70,7 +70,7 @@ struct OptiCloudClientTests {
         let client = OptiCloudClient(address: address, transport: transport, now: { now })
         let roles = try await client.roles(username: "user@example.com", password: "secret")
         #expect(roles.map(\.id) == ["r1", "r2"])
-        #expect(roles.map(\.tenant.id.id) == ["t1", "t2"])
+        #expect(roles.map(\.tenant?.id.id) == ["t1", "t2"])
         #expect(roles.map(\.enabled) == [true, false])
         let request = try #require(transport.requests.first)
         #expect(request.url?.absoluteString == "https://cloud.example.com/api/noauth/authorization")
@@ -169,6 +169,55 @@ struct OptiCloudClientTests {
         } catch let error as OptiCloudError {
             #expect(error.errorCode == OptiCloudError.Code.signInFailed)
         }
+    }
+
+    // The next three bodies were seen on optiCLOUD servers (see `docs/spec/sign-in.md`, Errors).
+
+    @Test func errorBodyWithStatusAsNameIsRead() async {
+        let client = OptiCloudClient(address: address, transport: MockTransport([
+            .init(status: 401, body: #"{"status":"UNAUTHORIZED","message":"Authentication failed","errorCode":10,"timestamp":1760000000000}"#),
+        ]), now: { now })
+        await #expect(throws: OptiCloudError.api(status: 401, body: APIErrorBody(message: "Authentication failed", errorCode: 10))) {
+            _ = try await client.login(username: "a@example.com", password: "wrong", authorityId: "r1")
+        }
+    }
+
+    @Test func unknownUserIsSignInFailed() async {
+        let client = OptiCloudClient(address: address, transport: MockTransport([
+            .init(status: 400, body: #"{"timestamp":"2026-10-25T10:00:00.000+00:00","status":400,"error":"Bad Request","path":"/api/noauth/authorization"}"#),
+        ]), now: { now })
+        do {
+            _ = try await client.roles(username: "nobody@example.com", password: "x")
+            Issue.record("expected an error")
+        } catch let error as OptiCloudError {
+            #expect(error == .signInRejected(status: 400, message: nil))
+            #expect(error.errorCode == OptiCloudError.Code.signInFailed)
+        } catch {
+            Issue.record("unexpected \(error)")
+        }
+    }
+
+    @Test func lockedAccountKeepsTheServerMessage() async {
+        let message = "Authentication Failed. Username was locked due to security policy."
+        let client = OptiCloudClient(address: address, transport: MockTransport([
+            .init(status: 500, body: #"{"status":500,"message":"\#(message)"}"#),
+        ]), now: { now })
+        await #expect(throws: OptiCloudError.api(status: 500, body: APIErrorBody(message: message, errorCode: nil))) {
+            _ = try await client.roles(username: "a@example.com", password: "x")
+        }
+    }
+
+    @Test func roleWithoutTenantIsReadButNotUsable() async throws {
+        let client = OptiCloudClient(address: address, transport: MockTransport([
+            .init(status: 200, body: """
+                [{"authorityId":{"id":"r0"},"authority":"SYS_ADMIN","enabled":true},
+                 {"authorityId":{"id":"r1"},"authority":"TENANT_ADMIN","tenant":{"id":"t1","name":"Example"},"enabled":true}]
+                """),
+        ]), now: { now })
+        let roles = try await client.roles(username: "a@example.com", password: "x")
+        #expect(roles.map(\.id) == ["r0", "r1"])
+        #expect(roles.map(\.isUsable) == [false, true])
+        #expect(roles.map(\.tenantName) == ["", "Example"])
     }
 
     @Test func requestsWithoutSessionFail() async {
