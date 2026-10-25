@@ -70,7 +70,7 @@ The app publishes these attributes after every successful connect and again when
 | `appVersion` | string | Version of the app |
 | `os` | string | `iOS` or `Android` |
 | `osVersion` | string | Version of the operating system |
-| `model` | string | Model of the phone |
+| `model` | string | Model of the phone, by the name it is sold under, such as `iPhone 16 Pro Max` or `Pixel 9`. If the app does not know the name, it sends the model identifier of the platform, such as `iPhone17,2`. |
 | `sensorsAvailable` | string | Keys of the items this phone offers, separated by commas. See [sensors.md](sensors.md#selection). |
 | `sensors` | string | The selection for transmission: group keys and item keys, separated by commas. See [sensors.md](sensors.md#selection). |
 | `sendRate` | number | The send rate in effect, in seconds |

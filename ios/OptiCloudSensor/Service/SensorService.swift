@@ -221,21 +221,13 @@ final class SensorService {
             "appVersion": .string(info?["CFBundleShortVersionString"] as? String ?? ""),
             "os": "iOS",
             "osVersion": .string(UIDevice.current.systemVersion),
-            "model": .string(Self.model),
+            "model": .string(DeviceModel.current),
             "sensorsAvailable": .string(Catalog.items.map(\.key).filter(offered.contains).joined(separator: ",")),
             "sensors": .string(settings.selection.reported(offered: offered)),
             "sendRate": .number(Double(settings.sendRate)),
             "transmitting": .bool(settings.transmitting),
         ]
     }
-
-    /// The model identifier, such as `iPhone17,2`.
-    private static let model: String = {
-        if let simulated = ProcessInfo.processInfo.environment["SIMULATOR_MODEL_IDENTIFIER"] { return simulated }
-        var info = utsname()
-        uname(&info)
-        return withUnsafeBytes(of: &info.machine) { String(decoding: $0.prefix { $0 != 0 }, as: UTF8.self) }
-    }()
 
     /// Binds the device to this phone when the binding is missing. Needs a signed-in user.
     private func bind() async -> Bool {
