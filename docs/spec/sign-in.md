@@ -1,6 +1,6 @@
 # Sign-in and device selection
 
-**Status: draft.** The steps were tested against an optiCLOUD test server on 2026-10-24 with a tenant administrator. Two-factor sign-in and users with restricted rights are not yet tested.
+**Status: draft.** The steps were tested against an optiCLOUD test server on 2026-10-24 with a tenant administrator. On 2026-10-25 the iOS app went through the whole flow against the test server with a tenant administrator: sign-in, tenant, project, creating a device, binding, and reading the access token. Two-factor sign-in and users with restricted rights are not yet tested.
 
 The app works only with a signed-in user. The user signs in with their personal optiCLOUD account, picks a tenant and a project, and then picks the device the phone sends to, or creates a new one. The app reads the access token of that device and uses it for MQTT (see [connection.md](connection.md)). The user's session also carries the journal (see [journal.md](journal.md)).
 
@@ -117,7 +117,7 @@ The app creates a device with `POST /api/devices`:
 { "name": "Anna's iPhone", "type": "optiCLOUD Sensor App" }
 ```
 
-- The app proposes the name of the phone. The user can change it.
+- The app proposes the name of the phone. The user can change it. On iOS an app gets only the model name, such as “iPhone”, so the proposal is that.
 - The name must be unique within the tenant. Otherwise the server refuses it, and the app asks for another name.
 - The device is created in the project of the session and is also linked to the root project of the tenant.
 - The tenant's license can limit the number of devices. The server then refuses the device, and the app says so.

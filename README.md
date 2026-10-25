@@ -11,7 +11,7 @@ Early development. Nothing here is ready for use yet, and the apps are not in th
 | Specification | Draft for stage 1 in [`docs/spec/`](docs/spec/), parts tested against an optiCLOUD test server |
 | Shared test vectors | Draft in [`docs/spec/vectors/`](docs/spec/vectors/) |
 | Android app | A minimal app that starts and shows the toolchain works; no features yet |
-| iOS app | An Xcode project and a logic package that passes the shared test vectors; no features in the app yet. The iOS app leads the implementation of stage 1 |
+| iOS app | Passes the shared test vectors; sign-in and device selection work against an optiCLOUD server. No connection or transmission yet. The iOS app leads the implementation of stage 1 |
 
 ## Planned features
 
