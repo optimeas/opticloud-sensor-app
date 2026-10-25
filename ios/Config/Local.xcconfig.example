@@ -1,0 +1,4 @@
+// Copy this file to Local.xcconfig (ignored by Git) and enter your team.
+// The team identifier is shown in Xcode under Settings > Accounts.
+
+DEVELOPMENT_TEAM = ABCDE12345
