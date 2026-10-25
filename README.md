@@ -9,6 +9,7 @@ Early development. Nothing here is ready for use yet, and the apps are not in th
 | Part | State |
 | --- | --- |
 | Specification | Draft for stage 1 in [`docs/spec/`](docs/spec/), parts tested against an optiCLOUD test server |
+| User manual | Draft in [`docs/manual/`](docs/manual/) in German, English, French, Italian, and Spanish, for the iOS app |
 | Shared test vectors | Draft in [`docs/spec/vectors/`](docs/spec/vectors/) |
 | Android app | Passes the shared test vectors. Sign-in and device selection work against an optiCLOUD server. No connection or transmission yet |
 | iOS app | Passes the shared test vectors. Sign-in, device selection, the MQTT connection, the offline queue, commands, and transmission of the sensor groups `device`, `location`, `motion`, `environment`, `activity`, and `sound` work against an optiCLOUD server, also in the background (the sound level only while the app is open). The sensors are selected on the phone or in optiCLOUD. The app counts its own data volume. It is in German, English, French, Italian, and Spanish. It has three tabs: Live with the switch for sending and the current values, Diagnosis, and Settings with the open source licenses. Diagnosis, the test area, shows commands, shared attributes, the offline queue, and the last launches of the app, and sends single values; alarms are not in it yet. The iOS app leads the implementation of stage 1 |
@@ -33,6 +34,7 @@ Later stages: journal entries stored as notes in optiCLOUD, photos, and values m
 docs/project-brief.md   product idea, decisions, stages, open questions
 docs/spec/              platform-neutral specification, the master for both apps
 docs/spec/vectors/      test vectors both apps run in their protocol tests
+docs/manual/            user manual in five languages, published in the optiMEAS documentation
 docs/design/            app icon sources and brand colors, shared by both apps
 ios/                    iOS app (Swift, SwiftUI)
 android/                Android app (Kotlin, Jetpack Compose)
@@ -78,4 +80,4 @@ The apps are developed by optiMEAS. Rules for working in this repository are in 
 
 ## License
 
-[MIT](LICENSE). Libraries used by the apps keep their own licenses; the iOS app shows them, and its own license, under Settings › About.
+The code is under the [MIT](LICENSE) license, the user manual in `docs/manual/` under [CC BY 4.0](docs/manual/LICENSE). Libraries used by the apps keep their own licenses; the iOS app shows them, and its own license, under Settings › About.
