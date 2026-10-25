@@ -1,8 +1,65 @@
 <resources>
     <string name="app_name">optiCLOUD Sensor</string>
-    <string name="toolchain_check">Toolchain check</string>
-    <string name="app_version">App version: %1$s</string>
-    <string name="device">Device: %1$s %2$s</string>
-    <string name="android_version">Android %1$s (API %2$d)</string>
-    <string name="tap_count">Tapped %1$d times</string>
+    <string name="back">Back</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- Home -->
+    <string name="home_server">Server</string>
+    <string name="home_tenant">Tenant</string>
+    <string name="home_project">Project</string>
+    <string name="home_device">Device</string>
+    <string name="home_session">Session</string>
+    <string name="home_signed_in">Signed in</string>
+    <string name="home_signed_out">Signed out</string>
+    <string name="home_choose_device">Choose another device</string>
+    <string name="home_sign_in">Sign in</string>
+    <string name="home_sign_out">Sign out</string>
+    <string name="home_not_built">Connecting and transmitting are not built yet.</string>
+
+    <!-- Sign-in -->
+    <string name="sign_in_title">Sign in</string>
+    <string name="sign_in_address">Address of optiCLOUD</string>
+    <string name="sign_in_email">E-mail address</string>
+    <string name="sign_in_password">Password</string>
+    <string name="sign_in_button">Sign in</string>
+    <string name="tenant_title">Choose tenant</string>
+    <string name="code_title">Code</string>
+    <string name="code_sent">A code was sent to %1$s.</string>
+    <string name="code_field">Code</string>
+    <string name="code_confirm">Confirm</string>
+    <string name="code_resend">Send a new code</string>
+    <string name="project_title">Choose project</string>
+    <string name="project_current">Current project</string>
+    <string name="devices_title">Choose device</string>
+    <string name="devices_search">Search by name</string>
+    <string name="devices_empty">No device of this app in the project yet.</string>
+    <string name="devices_new">New device</string>
+    <string name="devices_new_name">Name</string>
+    <string name="devices_create">Create</string>
+    <string name="binding_this_phone">This phone</string>
+    <string name="binding_other_phone">Bound to another phone</string>
+    <string name="binding_none">Not bound to a phone</string>
+    <string name="take_over_title">Take over device?</string>
+    <string name="take_over_text">%1$s is bound to another phone. If you take it over, the other phone stops sending to it.</string>
+    <string name="take_over_button">Take over</string>
+
+    <!-- Errors, see docs/spec/sign-in.md, Errors -->
+    <string name="error_address">The address must start with https:// and contain a host name.</string>
+    <string name="error_network">The server cannot be reached. Check the network and the address.</string>
+    <string name="error_certificate">The certificate of the server is not trusted.</string>
+    <string name="error_sign_in_failed">Sign-in failed. Check e-mail address and password.</string>
+    <string name="error_session_expired">The session has expired. Please sign in again.</string>
+    <string name="error_account_expired">The account or the tenant has expired.</string>
+    <string name="error_license_limit">The license of the tenant allows no more devices.</string>
+    <string name="error_permission">You do not have the permission for this step.</string>
+    <string name="error_permission_projects">You do not have the permission to use the projects of this tenant.</string>
+    <string name="error_permission_device">You do not have the permission to set up a device: listing, creating, or binding devices, or reading their access token.</string>
+    <string name="error_device_name">A device with this name exists already. Please choose another name.</string>
+    <string name="error_invalid">The server did not accept the request.</string>
+    <string name="error_too_many_attempts">Too many attempts. Please sign in again later.</string>
+    <string name="error_no_tenant">This account has no active access to a tenant.</string>
+    <string name="error_not_access_token">This device does not use an access token and cannot be used by the app.</string>
+    <string name="error_device_blocked">This device is blocked in optiCLOUD.</string>
+    <string name="error_server">The server reported an error.</string>
+    <string name="error_unexpected">The server gave an unexpected answer.</string>
 </resources>
