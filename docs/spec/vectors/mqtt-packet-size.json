@@ -1,0 +1,80 @@
+{
+  "description": "Size of the MQTT 3.1.1 packets the app counts for its data volume, in bytes, without the overhead of TLS, TCP, and IP. Input: packet (publish, connect, subscribe, suback, connack, puback, pingreq, pingresp) and its fields: topic, payloadBytes, and qos for publish; clientId and userName for connect (no password, no will); topicFilters for subscribe; count for suback. Expected: bytes. See connection.md, Data volume.",
+  "cases": [
+    {
+      "name": "PUBLISH with QoS 1, remaining length fits in one byte",
+      "packet": "publish",
+      "topic": "v2/json/devices/me/telemetry",
+      "payloadBytes": 95,
+      "qos": 1,
+      "bytes": 129
+    },
+    {
+      "name": "PUBLISH with QoS 1, remaining length needs two bytes",
+      "packet": "publish",
+      "topic": "v2/json/devices/me/telemetry",
+      "payloadBytes": 96,
+      "qos": 1,
+      "bytes": 131
+    },
+    {
+      "name": "PUBLISH with QoS 0 has no packet identifier",
+      "packet": "publish",
+      "topic": "v2/json/devices/me/rpc/request/7",
+      "payloadBytes": 40,
+      "qos": 0,
+      "bytes": 76
+    },
+    {
+      "name": "PUBLISH of 32 KiB",
+      "packet": "publish",
+      "topic": "v2/json/devices/me/telemetry",
+      "payloadBytes": 32768,
+      "qos": 1,
+      "bytes": 32804
+    },
+    {
+      "name": "CONNECT with client identifier and access token",
+      "packet": "connect",
+      "clientId": "0b6c3f9e-5d1a-4e8b-9c2f-7a1d3e5b9c40",
+      "userName": "A1b2C3d4E5f6G7h8I9j0",
+      "bytes": 72
+    },
+    {
+      "name": "SUBSCRIBE to the three topics of the app",
+      "packet": "subscribe",
+      "topicFilters": [
+        "v2/json/devices/me/attributes",
+        "v2/json/devices/me/attributes/response/+",
+        "v2/json/devices/me/rpc/request/+"
+      ],
+      "bytes": 114
+    },
+    {
+      "name": "SUBACK for three topics",
+      "packet": "suback",
+      "count": 3,
+      "bytes": 7
+    },
+    {
+      "name": "CONNACK has a fixed size",
+      "packet": "connack",
+      "bytes": 4
+    },
+    {
+      "name": "PUBACK has a fixed size",
+      "packet": "puback",
+      "bytes": 4
+    },
+    {
+      "name": "PINGREQ has a fixed size",
+      "packet": "pingreq",
+      "bytes": 2
+    },
+    {
+      "name": "PINGRESP has a fixed size",
+      "packet": "pingresp",
+      "bytes": 2
+    }
+  ]
+}

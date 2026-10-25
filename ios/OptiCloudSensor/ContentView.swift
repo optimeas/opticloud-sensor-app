@@ -156,10 +156,18 @@ private struct TransmissionSection: View {
             if let status = service.queueStatus {
                 LabeledContent("Waiting to Be Sent", value: "\(status.count)")
             }
+            NavigationLink {
+                DataVolumeView(counter: service.dataVolume)
+            } label: {
+                LabeledContent("Data Volume Today") {
+                    let today = service.dataVolume.total(.today)
+                    Text(today.mobile + today.wifi, format: .byteCount(style: .file))
+                }
+            }
         } header: {
             Text("Transmission")
         } footer: {
-            Text("Samples wait on the phone while there is no connection and are sent when it is back. While location is in use, the app goes on sending in the background; iOS shows this in the status bar. The sound level is measured only while the app is open.")
+            Text("Samples wait on the phone while there is no connection and are sent when it is back. While location is in use, the app goes on sending in the background; iOS shows this in the status bar. The sound level is measured only while the app is open. To stop sending in the background, switch off Transmit; swiping the app away is not enough.")
         }
     }
 }

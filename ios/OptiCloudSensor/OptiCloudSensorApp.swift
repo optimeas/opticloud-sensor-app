@@ -6,9 +6,10 @@ struct OptiCloudSensorApp: App {
     @State private var service: SensorService
 
     init() {
-        let app = AppModel()
+        let dataVolume = DataVolumeCounter()
+        let app = AppModel(transport: CountingTransport(counter: dataVolume))
         _app = State(initialValue: app)
-        _service = State(initialValue: SensorService(app: app))
+        _service = State(initialValue: SensorService(app: app, dataVolume: dataVolume))
     }
 
     var body: some Scene {

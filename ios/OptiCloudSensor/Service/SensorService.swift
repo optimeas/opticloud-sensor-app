@@ -17,6 +17,8 @@ final class SensorService {
     private let environment = EnvironmentSampler()
     private let activity = ActivitySampler()
     private let sound = SoundSampler()
+    /// The app's own data volume.
+    let dataVolume: DataVolumeCounter
     @ObservationIgnored private var isInForeground = UIApplication.shared.applicationState != .background
     private let queue: TelemetryQueue
     @ObservationIgnored private var link: DeviceLink!
@@ -36,8 +38,9 @@ final class SensorService {
     /// The MQTT client identifier, created once and kept.
     private let clientId: String
 
-    init(app: AppModel, defaults: UserDefaults = .standard) {
+    init(app: AppModel, dataVolume: DataVolumeCounter = DataVolumeCounter(), defaults: UserDefaults = .standard) {
         self.app = app
+        self.dataVolume = dataVolume
         self.defaults = defaults
         settings = TransmissionSettings.load(from: defaults)
         if let id = defaults.string(forKey: "mqttClientId") {
@@ -99,6 +102,7 @@ final class SensorService {
 
     /// The item keys this phone offers.
     let offered: Set<String> = DeviceSampler.offered
+        .union(["dataVolume"])
         .union(LocationSampler.offered)
         .union(MotionSampler.offered)
         .union(EnvironmentSampler.offered)
@@ -185,6 +189,7 @@ final class SensorService {
             for await _ in center.notifications(named: UIApplication.didEnterBackgroundNotification) {
                 self?.isInForeground = false
                 self?.updateSensorUse()
+                self?.dataVolume.save()
             }
         }
         Task { [weak self] in
@@ -236,7 +241,7 @@ final class SensorService {
 
     private func measureSelected() -> [String: TelemetryValue] {
         let keys = Set(settings.selection.items(offered: offered).flatMap(\.sentKeys))
-        var values = sampler.measure()
+        var values = sampler.measure().merging(dataVolume.telemetry()) { $1 }
         for measured in [location.measure(), motion.measure(), environment.measure(), activity.measure(), sound.measure()] {
             values.merge(measured) { $1 }
         }
@@ -307,6 +312,9 @@ final class SensorService {
             },
             queueChanged: { [weak self] in
                 Task { @MainActor in self?.refreshQueueStatus() }
+            },
+            transferred: { [dataVolume] direction, bytes in
+                dataVolume.record(direction, bytes)
             }
         )
     }

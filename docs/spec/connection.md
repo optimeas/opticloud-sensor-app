@@ -136,6 +136,16 @@ The app counts its own data volume, so that the user and optiCLOUD can see what 
 - It counts by network: mobile network or Wi-Fi, as the operating system reports it at that moment. Other networks count as Wi-Fi.
 - It keeps counters per day in the local time of the phone.
 
+What counts, in detail:
+
+- **MQTT packets** are counted with their size in MQTT 3.1.1: one byte of packet type, one to four bytes of remaining length, and the remaining length. The app computes the size from what it sends and receives, because the MQTT libraries do not report it. The test vectors are in [`mqtt-packet-size.json`](vectors/mqtt-packet-size.json).
+  - For each established connection: CONNECT sent, CONNACK received, SUBSCRIBE sent, SUBACK received. Attempts that fail before CONNACK are not counted.
+  - For each message the app publishes with QoS 1: PUBLISH sent, PUBACK received. For each message it receives: PUBLISH received, and PUBACK sent if it came with QoS 1.
+  - The client sends a PINGREQ after the keep-alive time of 60 seconds without a sent packet. The app counts a PINGREQ sent and a PINGRESP received for every full 60 seconds without a sent packet.
+- **REST requests and answers** are counted as the app sees them: the start line as in HTTP/1.1 (`POST /api/auth/login HTTP/1.1`, `HTTP/1.1 200`), each header line, the empty line, and the body. Headers the system adds on its own are not seen and not counted.
+- The 80 bytes of overhead are added to each MQTT packet and to each REST request and each answer.
+- The totals per period and the values of `dataVolume` are the sums of the days; the test vectors are in [`data-volume.json`](vectors/data-volume.json).
+
 The app shows sent and received data for today, this week (from Monday), and this month, separately for mobile network and Wi-Fi. The item `dataVolume` of the group `device` sends the totals for today and for the month to optiCLOUD (see [sensors.md](sensors.md#device)).
 
 ## Open points
