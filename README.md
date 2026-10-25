@@ -11,7 +11,7 @@ Early development. Nothing here is ready for use yet, and the apps are not in th
 | Specification | Draft for stage 1 in [`docs/spec/`](docs/spec/), parts tested against an optiCLOUD test server |
 | Shared test vectors | Draft in [`docs/spec/vectors/`](docs/spec/vectors/) |
 | Android app | Passes the shared test vectors. Sign-in and device selection work against an optiCLOUD server. No connection or transmission yet |
-| iOS app | Passes the shared test vectors. Sign-in, device selection, the MQTT connection, the offline queue, commands, and transmission of the sensor groups `device`, `location`, `motion`, `environment`, `activity`, and `sound` work against an optiCLOUD server, also in the background (the sound level only while the app is open). The sensors are selected on the phone or in optiCLOUD. The app counts its own data volume. The test area shows commands, shared attributes, and the offline queue, and sends single values; alarms are not in it yet. The iOS app leads the implementation of stage 1 |
+| iOS app | Passes the shared test vectors. Sign-in, device selection, the MQTT connection, the offline queue, commands, and transmission of the sensor groups `device`, `location`, `motion`, `environment`, `activity`, and `sound` work against an optiCLOUD server, also in the background (the sound level only while the app is open). The sensors are selected on the phone or in optiCLOUD. The app counts its own data volume. It has three tabs: Live with the switch for sending and the current values, Diagnosis, and Settings with the open source licenses. Diagnosis, the test area, shows commands, shared attributes, the offline queue, and the last launches of the app, and sends single values; alarms are not in it yet. The iOS app leads the implementation of stage 1 |
 
 ## Planned features
 
@@ -78,4 +78,4 @@ The apps are developed by optiMEAS. Rules for working in this repository are in 
 
 ## License
 
-[MIT](LICENSE). Libraries used by the apps keep their own licenses; the apps will show them on a license screen.
+[MIT](LICENSE). Libraries used by the apps keep their own licenses; the iOS app shows them, and its own license, under Settings › About.

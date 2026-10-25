@@ -39,6 +39,7 @@ final class MotionSampler {
     }
 
     func stop() {
+        guard manager.isDeviceMotionActive else { return }
         manager.stopDeviceMotionUpdates()
         aggregates = [:]
         latest = nil

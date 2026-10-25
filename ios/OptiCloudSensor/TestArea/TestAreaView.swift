@@ -11,8 +11,9 @@ struct TestAreaView: View {
             SendValueSection()
             QueueSection()
             LogSection(log: service.log)
+            LaunchSection()
         }
-        .navigationTitle("Test Area")
+        .navigationTitle("Diagnosis")
         .navigationBarTitleDisplayMode(.inline)
     }
 }
@@ -158,6 +159,35 @@ private struct LogSection: View {
                         .font(.footnote)
                 }
             }
+        }
+    }
+}
+
+/// When the app was started, and whether the system started it in the background.
+private struct LaunchSection: View {
+    @State private var entries = LaunchLog.entries()
+
+    var body: some View {
+        Section {
+            ForEach(entries) { entry in
+                HStack {
+                    Label(
+                        entry.opened ? "Opened" : entry.byLocation ? "By Location" : "In Background",
+                        systemImage: entry.opened ? "hand.tap" : entry.byLocation ? "location" : "moon"
+                    )
+                    Spacer()
+                    VStack(alignment: .trailing, spacing: 2) {
+                        Text(entry.date, format: .dateTime.day().month().hour().minute().second())
+                        Text(entry.transmitting ? "Sending" : "Not sending")
+                            .foregroundStyle(.secondary)
+                    }
+                    .font(.footnote)
+                }
+            }
+        } header: {
+            Text("Launches")
+        } footer: {
+            Text("The last \(LaunchLog.capacity) launches of the app, the newest first.")
         }
     }
 }

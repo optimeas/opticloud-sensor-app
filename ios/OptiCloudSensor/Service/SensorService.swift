@@ -32,6 +32,12 @@ final class SensorService {
     }
     private(set) var connectionState: ConnectionState = .disconnected
     private(set) var queueStatus: TelemetryQueue.Status?
+    /// The values of the last tick, rounded as they are sent, and the last kind of activity, for the live view.
+    private(set) var liveValues: [String: TelemetryValue] = [:]
+    private(set) var lastTick: Date?
+    /// Since when transmission is on, and how many samples went into the queue since then.
+    private(set) var transmittingSince: Date?
+    private(set) var samplesSinceStart = 0
     /// The log of the test area.
     let log = TestLog()
 
@@ -153,6 +159,8 @@ final class SensorService {
     private func startTicks() {
         ticks?.cancel()
         filter = SendFilter(mode: settings.sendMode)
+        transmittingSince = Date()
+        samplesSinceStart = 0
         ticks = Task { [weak self] in
             let clock = ContinuousClock()
             var next = clock.now
@@ -212,6 +220,7 @@ final class SensorService {
               settings.selection.items(offered: offered).contains(where: { $0.key == "activityType" })
         else { return }
         let ts = Int64((date.timeIntervalSince1970 * 1000).rounded())
+        liveValues["activityType"] = .string(type)
         Task {
             try? await queue.append(Sample(ts: ts, values: ["activityType": .string(type)]))
             refreshQueueStatus()
@@ -221,11 +230,22 @@ final class SensorService {
     private func stopTicks() {
         ticks?.cancel()
         ticks = nil
+        transmittingSince = nil
+        liveValues = [:]
+        lastTick = nil
     }
 
     private func tick() async {
-        guard let sample = filter.sample(at: Self.now(), measured: measureSelected()) else { return }
+        let measured = measureSelected()
+        var live = measured.filter { $0.value.isSendable }.reduce(into: [String: TelemetryValue]()) { result, entry in
+            result[entry.key] = SendFilter.round(entry.value, key: entry.key)
+        }
+        live["activityType"] = liveValues["activityType"]
+        liveValues = live
+        lastTick = Date()
+        guard let sample = filter.sample(at: Self.now(), measured: measured) else { return }
         try? await queue.append(sample)
+        samplesSinceStart += 1
         refreshQueueStatus()
     }
 

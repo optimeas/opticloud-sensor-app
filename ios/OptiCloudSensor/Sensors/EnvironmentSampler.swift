@@ -9,7 +9,7 @@ final class EnvironmentSampler {
     /// The items of the group this phone offers.
     static let offered: Set<String> = CMAltimeter.isRelativeAltitudeAvailable() ? ["pressure"] : []
 
-    private let altimeter = CMAltimeter()
+    private lazy var altimeter = CMAltimeter()
     private var pressure: Double?
     private var running = false
 
@@ -25,6 +25,8 @@ final class EnvironmentSampler {
     }
 
     func stop() {
+        // Calling Core Motion while it is not running can already ask for the permission.
+        guard running else { return }
         altimeter.stopRelativeAltitudeUpdates()
         running = false
         pressure = nil
