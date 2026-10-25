@@ -28,6 +28,8 @@ final class AppModel {
     private(set) var device: SelectedDevice?
     /// The random identifier of this installation; it binds devices to this phone.
     let installationId: String
+    /// Called after a device was picked or forgotten. `isOtherDevice` is false when the same device was picked again.
+    @ObservationIgnored var deviceChanged: ((_ device: SelectedDevice?, _ isOtherDevice: Bool) -> Void)?
 
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
@@ -77,15 +79,19 @@ final class AppModel {
     }
 
     func select(_ device: SelectedDevice, token: String) {
+        let isOtherDevice = self.device?.id != device.id
         Keychain.set(token, for: .deviceToken)
         self.device = device
         defaults.set(try? JSONEncoder().encode(device), forKey: DefaultsKey.device)
+        deviceChanged?(device, isOtherDevice)
     }
 
     func forgetDevice() {
+        guard device != nil else { return }
         Keychain.set(nil as Data?, for: .deviceToken)
         device = nil
         defaults.removeObject(forKey: DefaultsKey.device)
+        deviceChanged?(nil, true)
     }
 
     private func makeClient(address: ServerAddress, tokens: TokenPair?) -> OptiCloudClient {
