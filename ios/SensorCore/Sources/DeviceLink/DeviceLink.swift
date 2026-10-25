@@ -57,6 +57,10 @@ public struct DeviceLinkHandlers: Sendable {
     }
 }
 
+public enum DeviceLinkError: Error, Sendable {
+    case notConnected
+}
+
 /// The MQTT connection of the device: signing on, subscriptions, the binding check, delivery of the offline queue,
 /// commands, and reconnecting (see `docs/spec/connection.md` and `docs/spec/messages.md`).
 public actor DeviceLink {
@@ -130,6 +134,13 @@ public actor DeviceLink {
     public func publishClientAttributes() async {
         guard isConnected, let connection else { return }
         try? await publishClientAttributes(on: connection)
+    }
+
+    /// Publishes single client attributes, for the test area. Throws `DeviceLinkError.notConnected` while not connected.
+    public func publishClientAttributes(_ values: [String: TelemetryValue]) async throws {
+        guard isConnected, let connection else { throw DeviceLinkError.notConnected }
+        let payload = try DeviceMessages.clientAttributes(values)
+        try await connection.publish(to: DeviceMessages.attributesTopic, payload: ByteBuffer(data: payload), qos: .atLeastOnce)
     }
 
     // MARK: Connecting

@@ -1,3 +1,5 @@
+import Foundation
+
 /// Any JSON value, for payloads whose shape is not fixed, such as the parameters of a command.
 public enum JSONValue: Hashable, Sendable {
     case null
@@ -6,6 +8,15 @@ public enum JSONValue: Hashable, Sendable {
     case string(String)
     case array([JSONValue])
     case object([String: JSONValue])
+}
+
+extension JSONValue {
+    /// The value as compact JSON with sorted keys, for display.
+    public var jsonText: String {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes]
+        return (try? encoder.encode(self)).map { String(decoding: $0, as: UTF8.self) } ?? ""
+    }
 }
 
 extension JSONValue: Codable {

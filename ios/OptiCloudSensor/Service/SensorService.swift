@@ -23,6 +23,8 @@ final class SensorService {
     }
     private(set) var connectionState: ConnectionState = .disconnected
     private(set) var queueStatus: TelemetryQueue.Status?
+    /// The log of the test area.
+    let log = TestLog()
 
     /// The MQTT client identifier, created once and kept.
     private let clientId: String
@@ -86,6 +88,36 @@ final class SensorService {
 
     /// The item keys this phone offers.
     var offered: Set<String> { DeviceSampler.offered }
+
+    // MARK: Test area
+
+    /// Puts a single telemetry value into the offline queue. It is sent as it is, without rounding.
+    func sendTestTelemetry(key: String, value: TelemetryValue) async {
+        do {
+            try await queue.append(Sample(ts: Self.now(), values: [key: value]))
+            log.add(.sent, "Telemetry \(key)", detail: value.text)
+        } catch {
+            log.add(.problem, "Telemetry \(key) not queued", detail: error.localizedDescription)
+        }
+        refreshQueueStatus()
+    }
+
+    /// Publishes a single client attribute. Needs a connection.
+    func sendTestAttribute(key: String, value: TelemetryValue) async {
+        do {
+            try await link.publishClientAttributes([key: value])
+            log.add(.sent, "Client attribute \(key)", detail: value.text)
+        } catch {
+            log.add(.problem, "Client attribute \(key) not sent", detail: String(localized: "Not connected."))
+        }
+    }
+
+    func resetDiscardedCount() {
+        Task {
+            try? await queue.resetDiscarded()
+            refreshQueueStatus()
+        }
+    }
 
     // MARK: Sampling
 
@@ -201,6 +233,13 @@ final class SensorService {
 
     private func connectionStateChanged(_ state: ConnectionState) {
         connectionState = state
+        switch state {
+        case .connected: log.add(.connection, "Connected")
+        case .disconnected: log.add(.connection, "Disconnected")
+        case .waiting(let problem, _): log.add(.connection, "Waiting", detail: problem.rawValue)
+        case .refused(let problem): log.add(.connection, "Refused", detail: problem.rawValue)
+        case .connecting: break
+        }
         if case .refused(.boundToAnotherPhone) = state {
             setTransmitting(false)
         }
@@ -245,6 +284,11 @@ final class SensorService {
     /// Applies the settings optiCLOUD manages (see `docs/spec/messages.md`, Changes of shared attributes).
     /// A value the app cannot use is ignored.
     private func apply(_ attributes: [String: JSONValue], complete: Bool) {
+        log.add(
+            .sharedAttribute,
+            complete ? String(localized: "Shared attributes after connect") : String(localized: "Shared attributes changed"),
+            detail: JSONValue.object(attributes).jsonText
+        )
         let before = settings
         for key in ["sendRate", "sensors", "dashboard"] {
             switch (key, attributes[key]) {
@@ -262,7 +306,7 @@ final class SensorService {
                 settings.dashboard = value
                 settings.managed.insert(key)
             default:
-                break
+                log.add(.problem, "Ignored \(key)", detail: String(localized: "The value \(attributes[key]?.jsonText ?? "") cannot be used."))
             }
         }
         if settings.sensors != before.sensors { filter.selectionDidChange() }
@@ -271,8 +315,19 @@ final class SensorService {
         }
     }
 
-    /// Carries out a command (see `docs/spec/messages.md`, Commands).
+    /// Carries out a command and shows it with its answer in the test area.
     private func carryOut(_ command: DeviceMessages.Command) async -> [String: JSONValue] {
+        let answer = await answer(command)
+        log.add(
+            .command,
+            String(localized: "Command \(command.method)"),
+            detail: String(localized: "Params: \(command.params?.jsonText ?? "none")\nAnswer: \(JSONValue.object(answer).jsonText)")
+        )
+        return answer
+    }
+
+    /// The effect and the answer of a command (see `docs/spec/messages.md`, Commands).
+    private func answer(_ command: DeviceMessages.Command) async -> [String: JSONValue] {
         switch command.method {
         case "ping":
             return ["pong": .bool(true)]

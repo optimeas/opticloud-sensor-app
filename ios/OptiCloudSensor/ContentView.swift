@@ -15,6 +15,9 @@ struct ContentView: View {
                     List {
                         ConnectionSection()
                         TransmissionSection()
+                        Section {
+                            NavigationLink("Test Area") { TestAreaView() }
+                        }
                         Section("Device") {
                             LabeledContent("Device", value: device.name)
                             LabeledContent("Project", value: device.projectName)

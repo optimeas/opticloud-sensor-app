@@ -29,3 +29,14 @@ struct TransmissionSettings: Codable, Hashable {
         defaults.set(try? JSONEncoder().encode(self), forKey: Self.defaultsKey)
     }
 }
+
+extension TelemetryValue {
+    /// The value as it is written in a payload, for display.
+    var text: String {
+        switch self {
+        case .number(let value): JSONValue.number(value).jsonText
+        case .bool(let value): value ? "true" : "false"
+        case .string(let value): JSONValue.string(value).jsonText
+        }
+    }
+}

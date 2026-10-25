@@ -29,6 +29,7 @@ struct VectorTests {
         let resolution: Double
         let value: Double
         let rounded: Double
+        let written: String?
         var testDescription: String { name }
     }
 
@@ -40,6 +41,9 @@ struct VectorTests {
         #expect(rounded == vector.rounded)
         // Compared as a JSON number, as it is sent.
         #expect(try jsonValue(TelemetryValue.number(rounded)) == .number(vector.rounded))
+        if let written = vector.written {
+            #expect(try String(decoding: JSONEncoder().encode(TelemetryValue.number(rounded)), as: UTF8.self) == written)
+        }
     }
 
     @Test func negativeZeroIsSentAsZero() throws {
