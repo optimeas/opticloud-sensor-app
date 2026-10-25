@@ -11,6 +11,8 @@ final class SensorService {
     private let app: AppModel
     private let defaults: UserDefaults
     private let sampler = DeviceSampler()
+    /// The location sensor. It also keeps the app running in the background while it is in use.
+    let location = LocationSampler()
     private let queue: TelemetryQueue
     @ObservationIgnored private var link: DeviceLink!
     /// Calls to the connection, kept in order.
@@ -50,6 +52,7 @@ final class SensorService {
 
         if settings.connected { connect() }
         if settings.transmitting { startTicks() }
+        updateLocationUse()
         refreshQueueStatus()
     }
 
@@ -72,6 +75,7 @@ final class SensorService {
         guard on != settings.transmitting else { return }
         settings.transmitting = on
         if on { startTicks() } else { stopTicks() }
+        updateLocationUse()
         publishClientAttributes()
     }
 
@@ -87,7 +91,7 @@ final class SensorService {
     }
 
     /// The item keys this phone offers.
-    var offered: Set<String> { DeviceSampler.offered }
+    var offered: Set<String> { DeviceSampler.offered.union(LocationSampler.offered) }
 
     // MARK: Test area
 
@@ -137,6 +141,16 @@ final class SensorService {
         }
     }
 
+    /// The location runs while transmission is on and a location item is selected. The permission is asked for then.
+    private func updateLocationUse() {
+        let selected = settings.selection.items(offered: LocationSampler.offered)
+        if settings.transmitting && !selected.isEmpty {
+            location.start()
+        } else {
+            location.stop()
+        }
+    }
+
     private func stopTicks() {
         ticks?.cancel()
         ticks = nil
@@ -160,7 +174,7 @@ final class SensorService {
 
     private func measureSelected() -> [String: TelemetryValue] {
         let keys = Set(settings.selection.items(offered: offered).flatMap(\.sentKeys))
-        return sampler.measure().filter { keys.contains($0.key) }
+        return sampler.measure().merging(location.measure()) { $1 }.filter { keys.contains($0.key) }
     }
 
     private static func now() -> Int64 {
@@ -309,7 +323,10 @@ final class SensorService {
                 log.add(.problem, "Ignored \(key)", detail: String(localized: "The value \(attributes[key]?.jsonText ?? "") cannot be used."))
             }
         }
-        if settings.sensors != before.sensors { filter.selectionDidChange() }
+        if settings.sensors != before.sensors {
+            filter.selectionDidChange()
+            updateLocationUse()
+        }
         if settings.sendRate != before.sendRate || settings.sensors != before.sensors {
             publishClientAttributes()
         }

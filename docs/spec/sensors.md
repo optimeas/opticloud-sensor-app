@@ -1,6 +1,6 @@
 # Sensors
 
-**Status: draft.** Keys, units, and the list are agreed but not yet implemented.
+**Status: draft.** Keys, units, and the list are agreed. The iOS app implements the groups `device` and `location`; on 2026-10-25 it sent both to an optiCLOUD server, also with the app in the background. The other groups are not implemented yet.
 
 The app offers every sensor the phone has. This document defines how sensors are found, selected, and sampled, and which keys and units their values have. How the values are sent is in [messages.md](messages.md).
 
@@ -143,4 +143,7 @@ Health values are personal data of a special kind. The group is never selected b
 ## Open points
 
 1. Which permission texts and which consent text does the app show? These are needed before a store release.
-2. Which values are really available on which platform has to be established when the apps are built. The catalog will then get a column for it.
+2. Which values are really available on which platform has to be established when the apps are built. The catalog will then get a column for it. Found so far:
+   - iOS offers no `cellularSignal`: the system has no public interface for it.
+   - iOS does not count `dataVolume` yet.
+   - iOS offers all items of `location`. `speed` and `course` are left out while the phone does not move, because the system then reports them as invalid.

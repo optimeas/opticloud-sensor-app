@@ -24,6 +24,7 @@ The iOS app leads (see the [project brief](../docs/project-brief.md#decisions)).
 
 - The service layer (sensor sampling, buffering, MQTT) does not depend on the user interface and has its own reconnect logic.
 - Background operation uses the location background mode with "Always" permission. Without that permission the app transmits only while it is open. Location is therefore a visible feature of the app with a clear permission text, not a hidden means to stay alive.
+- While transmitting with a location item selected, `LocationSampler` runs `CLLocationUpdate.liveUpdates()` inside a `CLBackgroundActivitySession`, started in the foreground. It asks for "When in use" first and for "Always" once after that; later changes are up to the user in Settings. Tested with "Always" on the test device: sampling and sending go on with the app in the background and the screen locked.
 - Keep three layers apart: sensor sources, the buffer / offline queue, and the sender. Later stages add a second sender. Do not let the MQTT client reach into sensor code or the other way round.
 - Secrets go into the Keychain: the device access token, the refresh token, and the installation identifier. Never into UserDefaults, never into logs. The password is never stored.
 - Every permission the app asks for has a usage text in the Info.plist that says plainly why the app needs it. The app has a privacy manifest (`PrivacyInfo.xcprivacy`) that lists the data it collects and the required-reason APIs it uses.
