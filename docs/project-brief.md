@@ -19,6 +19,7 @@ Spelling is exact: **optiMEAS**, **optiCLOUD**, **optiCLOUD Sensor**.
 | Technology | Native apps: Swift with SwiftUI on iOS, Kotlin with Jetpack Compose on Android. No cross-platform framework. |
 | Design | Each app follows its platform's design standards (Apple Human Interface Guidelines, Material Design) and uses the system font. The optiMEAS brand shows in colors and logo only. |
 | Languages | Both apps are in German, English, French, Italian, and Spanish and follow the language of the phone; English is the fallback. The apps address the user informally where the language allows it (German "du", Italian "tu", Spanish "tú"; French "vous", as is usual on the platforms). Product and optiCLOUD terms such as Tenant, Shared Attribute, Access Token, and Dashboard stay as in the optiCLOUD documentation. Since 2026-10-25. |
+| User manual | The user manual lives in `docs/manual/` in German, English, French, Italian, and Spanish, written for the optiMEAS documentation site (Docusaurus). German is the source of the French, Italian, and Spanish pages; English is maintained by hand. `docs/manual/scripts/sync-to-docusaurus.py` copies it into that site under optiCLOUD › Sensor App, where it also explains why the app is open source; the site is never edited directly. The manual is under CC BY 4.0 (attribution: optiMEAS GmbH and optiMEAS Switzerland GmbH); the code stays under MIT. A change to the app that the manual describes changes the manual in the same pull request. Since 2026-10-25. |
 | Background | The app must keep transmitting in the background when the user has agreed to it. |
 | Source | Open source in this public repository under the MIT license. All code in this repository is under the MIT license. Dependencies must have a permissive license compatible with it (MIT, BSD, Apache 2.0); no dependencies with copyleft (GPL, LGPL, EPL, MPL). This applies to everything that ships with an app. Tools used only to build or test the apps, such as JUnit, are exempt (since 2026-10-25). |
 | Order | One app leads, the other follows. The leading app implements a stage first; the following app catches up from `docs/spec/`. The lead can change between the apps; a change is recorded here. **The iOS app leads since 2026-10-17.** Since 2026-10-25 the Android app does not follow in parallel: it catches up once the iOS app has reached a productive state. Each app is developed in its own working session and on its own branches. |
@@ -114,6 +115,7 @@ A button opens the default dashboard from the settings. If none is set, it opens
 ```
 docs/        this brief, setup guides, decisions
 docs/spec/   platform-neutral specification and test vectors (the master)
+docs/manual/ user manual in five languages, synced into the optiMEAS documentation
 ios/         Swift app, with its own CLAUDE.md for platform rules
 android/     Kotlin app, with its own CLAUDE.md for platform rules
 ```
@@ -170,6 +172,7 @@ Read from the optiCLOUD source. Each one still needs a test against a running se
 - Health data needs the user's explicit consent and its own statements in both stores.
 - The privacy declarations for both stores must list location, photos, user-written text, and health data.
 - The app needs a screen with the open-source license notices.
+- External testers and the store listing need a privacy policy URL; the privacy page of the user manual can serve once it is published.
 
 ## Answers from the optiCLOUD source
 

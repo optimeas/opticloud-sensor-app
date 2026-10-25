@@ -1,0 +1,41 @@
+{
+  "pages": {
+    "es": {
+      "background.md": "8032655e88942e80ae3ed436fe097df84dc056984b1cb0edd2ecd1d275230bca",
+      "data-volume.md": "11305d0185ce51788d333b8e5587f6825bed93e2ae949a972ca970b10daedece",
+      "device-in-opticloud.md": "068245543dd5dc8aad9a906d7724052dcaeeb29a68c5977b5170c25f0b959730",
+      "diagnosis.md": "cd17f870197953ffed10e6281d35998378ffc90a198c2fd156c59fed13fad786",
+      "getting-started.md": "2a2b9f73bcccca8138b8981b708fd400f098bff8e3423a3ad48c1ec0e8af8e0a",
+      "index.md": "10ae950ef6a2906b26338c1901f8738be4e7a23be709381f858004974f94620b",
+      "open-source.md": "da208027bebc0097dc4e9815f63e22e6c68fe8cb1c0a9828152d84a410b22b3e",
+      "privacy.md": "b9cd538e313986ddc8f0e82ff507a123f57924e6d3cdf7ba182fc318071e1311",
+      "sending.md": "375056b8046eff1b96906a0eece172c4aff89e0c1a42d4f7803ebf77aeee3c98",
+      "sensors.md": "6a81f2acb4288fe4810267fb3e4801cbb238d1894601c3b49fcc017c5485ccbb"
+    },
+    "fr": {
+      "background.md": "8032655e88942e80ae3ed436fe097df84dc056984b1cb0edd2ecd1d275230bca",
+      "data-volume.md": "11305d0185ce51788d333b8e5587f6825bed93e2ae949a972ca970b10daedece",
+      "device-in-opticloud.md": "068245543dd5dc8aad9a906d7724052dcaeeb29a68c5977b5170c25f0b959730",
+      "diagnosis.md": "cd17f870197953ffed10e6281d35998378ffc90a198c2fd156c59fed13fad786",
+      "getting-started.md": "2a2b9f73bcccca8138b8981b708fd400f098bff8e3423a3ad48c1ec0e8af8e0a",
+      "index.md": "10ae950ef6a2906b26338c1901f8738be4e7a23be709381f858004974f94620b",
+      "open-source.md": "da208027bebc0097dc4e9815f63e22e6c68fe8cb1c0a9828152d84a410b22b3e",
+      "privacy.md": "b9cd538e313986ddc8f0e82ff507a123f57924e6d3cdf7ba182fc318071e1311",
+      "sending.md": "375056b8046eff1b96906a0eece172c4aff89e0c1a42d4f7803ebf77aeee3c98",
+      "sensors.md": "6a81f2acb4288fe4810267fb3e4801cbb238d1894601c3b49fcc017c5485ccbb"
+    },
+    "it": {
+      "background.md": "8032655e88942e80ae3ed436fe097df84dc056984b1cb0edd2ecd1d275230bca",
+      "data-volume.md": "11305d0185ce51788d333b8e5587f6825bed93e2ae949a972ca970b10daedece",
+      "device-in-opticloud.md": "068245543dd5dc8aad9a906d7724052dcaeeb29a68c5977b5170c25f0b959730",
+      "diagnosis.md": "cd17f870197953ffed10e6281d35998378ffc90a198c2fd156c59fed13fad786",
+      "getting-started.md": "2a2b9f73bcccca8138b8981b708fd400f098bff8e3423a3ad48c1ec0e8af8e0a",
+      "index.md": "10ae950ef6a2906b26338c1901f8738be4e7a23be709381f858004974f94620b",
+      "open-source.md": "da208027bebc0097dc4e9815f63e22e6c68fe8cb1c0a9828152d84a410b22b3e",
+      "privacy.md": "b9cd538e313986ddc8f0e82ff507a123f57924e6d3cdf7ba182fc318071e1311",
+      "sending.md": "375056b8046eff1b96906a0eece172c4aff89e0c1a42d4f7803ebf77aeee3c98",
+      "sensors.md": "6a81f2acb4288fe4810267fb3e4801cbb238d1894601c3b49fcc017c5485ccbb"
+    }
+  },
+  "source": "de"
+}
