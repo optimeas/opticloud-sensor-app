@@ -33,6 +33,7 @@ Later stages: journal entries stored as notes in optiCLOUD, photos, and values m
 docs/project-brief.md   product idea, decisions, stages, open questions
 docs/spec/              platform-neutral specification, the master for both apps
 docs/spec/vectors/      test vectors both apps run in their protocol tests
+docs/design/            app icon sources and brand colors, shared by both apps
 ios/                    iOS app (Swift, SwiftUI)
 android/                Android app (Kotlin, Jetpack Compose)
 ```
