@@ -39,7 +39,7 @@ The send mode is a setting (see [configuration.md](configuration.md)). There are
 
 **On change** is the default. At every tick the app sends only the sampled and aggregated values that have changed since they were last sent:
 
-1. The app rounds every number to the resolution of its key in the catalog: it divides the value by the resolution, rounds the quotient to a whole number, half away from zero, and multiplies by the resolution. It sends the result with no more decimals than the resolution has, and sends a negative zero as `0`.
+1. The app rounds every number to the resolution of its key in the catalog: it divides the value by the resolution, rounds the quotient to a whole number, half away from zero, and multiplies by the resolution. For a resolution below 1 it multiplies by the inverse instead, a whole power of ten such as 100, rounds, and divides by it: that power of ten is exact in floating point and the resolution is not, so both apps get the same result for a value at a half. It writes the result in plain notation with no more decimals than the resolution has: without an exponent, a whole number without a decimal point (`63`, not `63.0`), and a negative zero as `0`.
 2. A value has changed when its rounded value differs from the rounded value last sent for the same key. Booleans and strings have changed when they differ.
 3. Each key is compared on its own, also the `Min` and `Max` keys of aggregated values and the single axes of an item.
 4. A value that is not available at a tick is left out (see [Principles](#principles)). It does not count as a change, and the last sent value stays the reference.

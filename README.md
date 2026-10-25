@@ -10,7 +10,7 @@ Early development. Nothing here is ready for use yet, and the apps are not in th
 | --- | --- |
 | Specification | Draft for stage 1 in [`docs/spec/`](docs/spec/), parts tested against an optiCLOUD test server |
 | Shared test vectors | Draft in [`docs/spec/vectors/`](docs/spec/vectors/) |
-| Android app | A minimal app that starts and shows the toolchain works; no features yet |
+| Android app | Passes the shared test vectors. The app itself only starts and shows the toolchain works; no sign-in, connection, or transmission yet |
 | iOS app | Passes the shared test vectors; sign-in and device selection work against an optiCLOUD server. No connection or transmission yet. The iOS app leads the implementation of stage 1 |
 
 ## Planned features
@@ -48,9 +48,10 @@ Requirements: Android Studio, current stable release. The app needs Android 12 (
 ```
 cd android
 ./gradlew assembleDebug
+./gradlew :core:test
 ```
 
-Or open the `android` directory in Android Studio.
+The second command runs the tests of the platform-neutral logic, including the shared test vectors, on the JVM without a device. Or open the `android` directory in Android Studio.
 
 ### iOS
 
