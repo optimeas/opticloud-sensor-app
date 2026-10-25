@@ -35,7 +35,7 @@ struct SettingsView: View {
         ) {
             Button("Choose Another Device", role: .destructive) { isSigningIn = true }
         } message: {
-            Text("^[\(service.queueStatus?.count ?? 0) sample](inflect: true) have not been delivered yet. They are discarded when you pick another device.")
+            Text("\(service.queueStatus?.count ?? 0) samples have not been delivered yet. They are discarded when you pick another device.")
         }
     }
 
@@ -86,8 +86,12 @@ private struct ConnectionSection: View {
                 Label("Connected", systemImage: "link")
             }
             .disabled(!service.canConnect)
-            LabeledContent("Status") {
+            // LabeledContent with a Label as content made the row several times too tall.
+            HStack {
+                Text("Status")
+                Spacer()
                 ConnectionStatusLabel(state: service.connectionState)
+                    .foregroundStyle(.secondary)
             }
         } header: {
             Text("Connection")
@@ -104,6 +108,13 @@ private struct ConnectionSection: View {
 private struct TransmissionSection: View {
     @Environment(SensorService.self) private var service
 
+    /// How many of the groups this phone offers are selected.
+    private var sensorSummary: String {
+        let offered = Catalog.groups.filter { group in group.items.contains { service.offered.contains($0.key) } }
+        let selected = Set(service.settings.selection.items(offered: service.offered).map(\.groupKey))
+        return String(localized: "\(selected.count) of \(offered.count) selected")
+    }
+
     var body: some View {
         Section {
             if service.settings.managed.contains("sendRate") {
@@ -117,10 +128,16 @@ private struct TransmissionSection: View {
                     get: { service.settings.sendRate },
                     set: { service.setSendRate($0) }
                 ), in: TransmissionSettings.sendRates) {
-                    LabeledContent {
+                    // A LabeledContent inside the stepper put the symbol above the title.
+                    HStack {
+                        Label {
+                            Text("Send Rate")
+                        } icon: {
+                            Image(systemName: "metronome").foregroundStyle(.tint)
+                        }
+                        Spacer()
                         Text("Every \(service.settings.sendRate) s")
-                    } label: {
-                        Label("Send Rate", systemImage: "metronome")
+                            .foregroundStyle(.secondary)
                     }
                 }
             }
@@ -137,7 +154,7 @@ private struct TransmissionSection: View {
                 SensorSelectionView()
             } label: {
                 LabeledContent {
-                    Text(service.settings.selection.reported(offered: service.offered))
+                    Text(sensorSummary)
                 } label: {
                     Label("Sensors", systemImage: "sensor")
                 }

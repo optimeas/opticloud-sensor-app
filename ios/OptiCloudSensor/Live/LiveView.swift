@@ -176,7 +176,7 @@ enum ValueFormat {
         case .bool(let on):
             return on ? String(localized: "Yes") : String(localized: "No")
         case .string(let text):
-            return text
+            return word(text, key: key)
         case .number(let number):
             if item.key == "batteryLevel" { return number.formatted(.percent.precision(.fractionLength(0))) }
             if item.key == "dataVolume" { return Int64(number).formatted(.byteCount(style: .file)) }
@@ -184,6 +184,27 @@ enum ValueFormat {
             let text = number.formatted(.number.precision(.fractionLength(decimals)))
             let unit = unit(item)
             return withUnit && !unit.isEmpty ? "\(text) \(unit)" : text
+        }
+    }
+
+    /// The words of the string values in the language of the app; they are sent as written in the catalog.
+    static func word(_ value: String, key: String) -> String {
+        switch (key, value) {
+        case ("activityType", "stationary"): String(localized: "Stationary")
+        case ("activityType", "walking"): String(localized: "Walking")
+        case ("activityType", "running"): String(localized: "Running")
+        case ("activityType", "cycling"): String(localized: "Cycling")
+        case ("activityType", "automotive"): String(localized: "In a Vehicle")
+        case ("activityType", "unknown"): String(localized: "Unknown")
+        case ("network", "wifi"): String(localized: "Wi-Fi")
+        case ("network", "cellular"): String(localized: "Mobile Network")
+        case ("network", "other"): String(localized: "Other")
+        case ("network", "none"): String(localized: "None")
+        case ("thermalState", "nominal"): String(localized: "Normal")
+        case ("thermalState", "fair"): String(localized: "Slightly Raised")
+        case ("thermalState", "serious"): String(localized: "High")
+        case ("thermalState", "critical"): String(localized: "Critical")
+        default: value
         }
     }
 

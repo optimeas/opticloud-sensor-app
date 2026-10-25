@@ -130,9 +130,9 @@ final class SensorService {
     func sendTestTelemetry(key: String, value: TelemetryValue) async {
         do {
             try await queue.append(Sample(ts: Self.now(), values: [key: value]))
-            log.add(.sent, "Telemetry \(key)", detail: value.text)
+            log.add(.sent, String(localized: "Telemetry \(key)"), detail: value.text)
         } catch {
-            log.add(.problem, "Telemetry \(key) not queued", detail: error.localizedDescription)
+            log.add(.problem, String(localized: "Telemetry \(key) not queued"), detail: error.localizedDescription)
         }
         refreshQueueStatus()
     }
@@ -141,9 +141,9 @@ final class SensorService {
     func sendTestAttribute(key: String, value: TelemetryValue) async {
         do {
             try await link.publishClientAttributes([key: value])
-            log.add(.sent, "Client attribute \(key)", detail: value.text)
+            log.add(.sent, String(localized: "Client attribute \(key)"), detail: value.text)
         } catch {
-            log.add(.problem, "Client attribute \(key) not sent", detail: String(localized: "Not connected."))
+            log.add(.problem, String(localized: "Client attribute \(key) not sent"), detail: String(localized: "Not connected."))
         }
     }
 
@@ -342,10 +342,10 @@ final class SensorService {
     private func connectionStateChanged(_ state: ConnectionState) {
         connectionState = state
         switch state {
-        case .connected: log.add(.connection, "Connected")
-        case .disconnected: log.add(.connection, "Disconnected")
-        case .waiting(let problem, _): log.add(.connection, "Waiting", detail: problem.rawValue)
-        case .refused(let problem): log.add(.connection, "Refused", detail: problem.rawValue)
+        case .connected: log.add(.connection, String(localized: "Connected"))
+        case .disconnected: log.add(.connection, String(localized: "Disconnected"))
+        case .waiting(let problem, _): log.add(.connection, String(localized: "Waiting"), detail: problem.rawValue)
+        case .refused(let problem): log.add(.connection, String(localized: "Refused"), detail: problem.rawValue)
         case .connecting: break
         }
         if case .refused(.boundToAnotherPhone) = state {
@@ -414,7 +414,7 @@ final class SensorService {
                 settings.dashboard = value
                 settings.managed.insert(key)
             default:
-                log.add(.problem, "Ignored \(key)", detail: String(localized: "The value \(attributes[key]?.jsonText ?? "") cannot be used."))
+                log.add(.problem, String(localized: "Ignored \(key)"), detail: String(localized: "The value \(attributes[key]?.jsonText ?? "") cannot be used."))
             }
         }
         if settings.sensors != before.sensors {

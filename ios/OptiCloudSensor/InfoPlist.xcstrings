@@ -1,0 +1,145 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "CFBundleDisplayName" : {
+      "shouldTranslate" : false
+    },
+    "NSLocationAlwaysAndWhenInUseUsageDescription" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With “Always”, optiCLOUD Sensor keeps sending the location and the other selected sensor values to your optiCLOUD device while the app is in the background or the screen is locked."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit „Immer“ sendet optiCLOUD Sensor den Standort und die anderen ausgewählten Sensorwerte auch dann an dein optiCLOUD-Gerät, wenn die App im Hintergrund läuft oder der Bildschirm gesperrt ist."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec « Toujours », optiCLOUD Sensor continue d’envoyer la position et les autres valeurs de capteurs sélectionnées à votre appareil optiCLOUD lorsque l’app est en arrière-plan ou l’écran verrouillé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con «Sempre», optiCLOUD Sensor continua a inviare la posizione e gli altri valori dei sensori selezionati al tuo dispositivo optiCLOUD anche quando l’app è in background o lo schermo è bloccato."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con «Siempre», optiCLOUD Sensor sigue enviando la ubicación y los demás valores de sensores seleccionados a tu dispositivo de optiCLOUD cuando la app está en segundo plano o la pantalla está bloqueada."
+          }
+        }
+      }
+    },
+    "NSLocationWhenInUseUsageDescription" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "optiCLOUD Sensor sends the position, altitude, speed, and course of this phone to your optiCLOUD device when location is selected for transmission."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "optiCLOUD Sensor sendet Position, Höhe, Geschwindigkeit und Kurs dieses Telefons an dein optiCLOUD-Gerät, wenn der Standort zum Senden ausgewählt ist."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "optiCLOUD Sensor envoie la position, l’altitude, la vitesse et le cap de ce téléphone à votre appareil optiCLOUD lorsque la localisation est sélectionnée pour l’envoi."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "optiCLOUD Sensor invia posizione, altitudine, velocità e rotta di questo telefono al tuo dispositivo optiCLOUD quando la posizione è selezionata per l’invio."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "optiCLOUD Sensor envía la posición, la altitud, la velocidad y el rumbo de este teléfono a tu dispositivo de optiCLOUD cuando la ubicación está seleccionada para el envío."
+          }
+        }
+      }
+    },
+    "NSMicrophoneUsageDescription" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "optiCLOUD Sensor measures the sound level when it is selected for transmission. Only the level is sent; no audio is recorded."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "optiCLOUD Sensor misst den Schallpegel, wenn er zum Senden ausgewählt ist. Gesendet wird nur der Pegel; es wird kein Ton aufgezeichnet."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "optiCLOUD Sensor mesure le niveau sonore lorsqu’il est sélectionné pour l’envoi. Seul le niveau est envoyé ; aucun son n’est enregistré."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "optiCLOUD Sensor misura il livello sonoro quando è selezionato per l’invio. Viene inviato solo il livello; nessun audio viene registrato."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "optiCLOUD Sensor mide el nivel sonoro cuando está seleccionado para el envío. Solo se envía el nivel; no se graba ningún audio."
+          }
+        }
+      }
+    },
+    "NSMotionUsageDescription" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "optiCLOUD Sensor sends your steps, your kind of activity, and the air pressure to your optiCLOUD device when they are selected for transmission."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "optiCLOUD Sensor sendet deine Schritte, die Art deiner Aktivität und den Luftdruck an dein optiCLOUD-Gerät, wenn sie zum Senden ausgewählt sind."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "optiCLOUD Sensor envoie vos pas, votre type d’activité et la pression atmosphérique à votre appareil optiCLOUD lorsqu’ils sont sélectionnés pour l’envoi."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "optiCLOUD Sensor invia i tuoi passi, il tipo di attività e la pressione atmosferica al tuo dispositivo optiCLOUD quando sono selezionati per l’invio."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "optiCLOUD Sensor envía tus pasos, tu tipo de actividad y la presión atmosférica a tu dispositivo de optiCLOUD cuando están seleccionados para el envío."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

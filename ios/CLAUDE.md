@@ -34,6 +34,7 @@ The iOS app leads (see the [project brief](../docs/project-brief.md#decisions)).
 
 - Follow the Apple Human Interface Guidelines. Use the system font, standard SwiftUI controls, and SF Symbols. Support Dynamic Type, dark mode, and VoiceOver.
 - The optiMEAS brand shows in the accent color and the logo only. Do not copy the look of the Android app.
+- Every text the user sees is in the string catalogs `Localizable.xcstrings` and `InfoPlist.xcstrings` (permission texts), with English as the source and German, French, Italian, and Spanish translations (see the [project brief](../docs/project-brief.md#decisions), Languages). A pull request that adds or changes a text brings all four translations. Write texts as string literals in SwiftUI views or with `String(localized:)`, so that the compiler extracts them; Xcode adds them to the catalog when it builds. Without the Xcode editor: a clean build, then `xcrun xcstringstool sync` with the `.stringsdata` files from the build folder.
 
 ## MQTT client
 
