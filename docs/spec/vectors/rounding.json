@@ -1,5 +1,5 @@
 {
-  "description": "Rounding of a number to the resolution of its key: divide by the resolution, round half away from zero, multiply. Input: key, resolution, value. Expected: rounded, compared as a JSON number. See sensors.md, Sending on change.",
+  "description": "Rounding of a number to the resolution of its key: divide by the resolution, round half away from zero, multiply. Input: key, resolution, value. Expected: rounded, compared as a JSON number. Where a case has written, the number must be written in JSON as exactly this text. See sensors.md, Sending on change.",
   "cases": [
     {
       "name": "rounded down",
@@ -90,7 +90,32 @@
       "key": "course",
       "resolution": 1,
       "value": 359.6,
-      "rounded": 360
+      "rounded": 360,
+      "written": "360"
+    },
+    {
+      "name": "small number is written without exponent",
+      "key": "longitude",
+      "resolution": 0.00001,
+      "value": 0.0000123,
+      "rounded": 0.00001,
+      "written": "0.00001"
+    },
+    {
+      "name": "small negative number is written without exponent",
+      "key": "latitude",
+      "resolution": 0.00001,
+      "value": -0.0000347,
+      "rounded": -0.00003,
+      "written": "-0.00003"
+    },
+    {
+      "name": "large number is written without exponent",
+      "key": "dataWifiMonth",
+      "resolution": 1000,
+      "value": 12345678901234567,
+      "rounded": 12345678901235000,
+      "written": "12345678901235000"
     }
   ]
 }
