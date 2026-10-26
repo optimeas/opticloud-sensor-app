@@ -212,14 +212,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AA0000000000000000000013 /* Base.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Dev";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Config/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "optiCLOUD Sensor";
+				INFOPLIST_KEY_CFBundleDisplayName = "optiCLOUD Sensor Dev";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "With “Always”, optiCLOUD Sensor keeps sending the location and the other selected sensor values to your optiCLOUD device while the app is in the background or the screen is locked.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "optiCLOUD Sensor sends the position, altitude, speed, and course of this phone to your optiCLOUD device when location is selected for transmission.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "optiCLOUD Sensor measures the sound level when it is selected for transmission. Only the level is sent; no audio is recorded.";
@@ -233,7 +234,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ch.optimeas.opticloudsensor;
+				PRODUCT_BUNDLE_IDENTIFIER = ch.optimeas.opticloudsensor.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -254,6 +255,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Config/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "optiCLOUD Sensor";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "With “Always”, optiCLOUD Sensor keeps sending the location and the other selected sensor values to your optiCLOUD device while the app is in the background or the screen is locked.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "optiCLOUD Sensor sends the position, altitude, speed, and course of this phone to your optiCLOUD device when location is selected for transmission.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "optiCLOUD Sensor measures the sound level when it is selected for transmission. Only the level is sent; no audio is recorded.";

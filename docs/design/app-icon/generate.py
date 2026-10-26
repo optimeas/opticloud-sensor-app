@@ -1,5 +1,5 @@
 # Writes the icon sources of this folder, one subfolder per variant. Usage: python3 generate.py <this folder>
-# b1 is the icon of the apps; b2 and b3 are kept as alternatives.
+# b1 is the icon of the apps; b2 and b3 are kept as alternatives. dev is b1 in orange for the iOS development build.
 import math, os, sys
 out = sys.argv[1]
 
@@ -41,6 +41,12 @@ VARIANTS = {
         "background": ("gradient", BLUE_LIGHT, BLUE),
         "light": [("stroke", CLOUD, WHITE), ("stroke", ZIGZAG, ORANGE)],
         "dark": [("stroke", CLOUD, BLUE_LIGHT), ("stroke", ZIGZAG, ORANGE)],
+        "tinted": [("stroke", CLOUD, "#f0f0f0"), ("stroke", ZIGZAG, "#a0a0a0")],
+    },
+    "dev": {
+        "background": ("gradient", ORANGE, ORANGE_DEEP),
+        "light": [("stroke", CLOUD, WHITE), ("stroke", ZIGZAG, BLACK)],
+        "dark": [("stroke", CLOUD, ORANGE), ("stroke", ZIGZAG, GREY)],
         "tinted": [("stroke", CLOUD, "#f0f0f0"), ("stroke", ZIGZAG, "#a0a0a0")],
     },
     "b2": {
@@ -150,6 +156,8 @@ for name, v in VARIANTS.items():
     write(f"{base}/icon-light.svg", svg(v["background"], v["light"]))
     write(f"{base}/icon-dark.svg", svg(None, v["dark"]))
     write(f"{base}/icon-tinted.svg", svg(None, v["tinted"]))
+    if name == "dev":
+        continue
     write(f"{base}/android/drawable/ic_launcher_foreground.xml", vector(v["light"]))
     write(f"{base}/android/drawable/ic_launcher_monochrome.xml", vector(v["light"], WHITE))
     write(f"{base}/android/drawable/ic_launcher_background.xml", android_background(v["background"]))

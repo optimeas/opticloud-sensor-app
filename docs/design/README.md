@@ -19,7 +19,7 @@ The optiMEAS logo is a trademark and is not part of this repository.
 
 ## App icon
 
-A cloud with a measured curve. It refers to optiCLOUD and to the values the phone measures. There are three variants; **b1 is the icon of both apps**, b2 and b3 are kept as alternatives.
+A cloud with a measured curve. It refers to optiCLOUD and to the values the phone measures. There are three variants; **b1 is the icon of both apps**, b2 and b3 are kept as alternatives. `dev` is b1 in orange; it is the icon of the iOS development build, so that it cannot be mistaken for the TestFlight or App Store build on the same phone.
 
 | Variant | Look |
 | --- | --- |
@@ -46,6 +46,9 @@ cd docs/design/app-icon
 python3 generate.py .
 for v in light dark tinted; do
   swift render.swift b1/icon-$v.svg ../../../ios/OptiCloudSensor/Assets.xcassets/AppIcon.appiconset/AppIcon-$v.png
+done
+for v in light dark tinted; do
+  swift render.swift dev/icon-$v.svg ../../../ios/OptiCloudSensor/Assets.xcassets/AppIcon-Dev.appiconset/AppIcon-Dev-$v.png
 done
 ```
 
