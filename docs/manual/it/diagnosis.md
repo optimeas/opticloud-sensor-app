@@ -10,7 +10,7 @@ keywords:
   - supporto
   - coda offline
 last_update:
-  date: 2026-10-25
+  date: 2026-10-26
   author: optiMEAS GmbH
 license: CC-BY-4.0
 copyright: © 2026 optiMEAS GmbH und optiMEAS Switzerland GmbH
@@ -51,13 +51,15 @@ Il registro mostra, dal più recente:
 - le modifiche degli Shared Attributes, anche di chiavi che l’app non usa,
 - i valori che l’app non ha potuto usare, per esempio una frequenza di invio non valida,
 - le modifiche della connessione con il loro motivo, per esempio «Nessuna rete»,
+- l’avvio e l’arresto della localizzazione e i relativi problemi,
+- quando l’app è passata in background e di nuovo in primo piano, e **In pausa** quando iOS ha sospeso l’app, con la durata della pausa,
 - i valori che hai inviato a mano.
 
 Il registro si trova solo nella memoria del telefono, conserva le ultime 200 voci e ricomincia da capo a ogni avvio dell’app. Con **Cancella** lo svuoti.
 
 ## Esporta registro
 
-Tocca **Esporta registro** in alto a destra. L’app crea un testo che puoi condividere via e-mail, messaggio o in un file. Contiene:
+Tocca il simbolo di condivisione in alto a destra (un quadrato con una freccia verso l’alto). VoiceOver lo chiama **Esporta registro**. L’app crea un testo che puoi condividere via e-mail, messaggio o in un file. Contiene:
 
 - versione dell’app, modello del telefono e versione di iOS,
 - dispositivo, progetto, tenant e server,

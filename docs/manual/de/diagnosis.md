@@ -10,7 +10,7 @@ keywords:
   - Support
   - Offline-Warteschlange
 last_update:
-  date: 2026-10-25
+  date: 2026-10-26
   author: optiMEAS GmbH
 license: CC-BY-4.0
 copyright: © 2026 optiMEAS GmbH und optiMEAS Switzerland GmbH
@@ -51,13 +51,15 @@ Das Protokoll zeigt, das Neueste zuerst:
 - Änderungen der Shared Attributes, auch von Schlüsseln, die die App nicht verwendet,
 - Werte, die die App nicht verwenden konnte, zum Beispiel eine ungültige Senderate,
 - Änderungen der Verbindung mit ihrem Grund, zum Beispiel „Kein Netzwerk“,
+- Start und Ende der Standortmessung und Probleme damit,
+- wann die App in den Hintergrund und wieder in den Vordergrund ging, und **Pausiert**, wenn iOS die App angehalten hat, mit der Dauer der Pause,
 - Werte, die du von Hand gesendet hast.
 
 Das Protokoll liegt nur im Speicher des Telefons, hält die letzten 200 Einträge und beginnt bei jedem Start der App neu. Mit **Löschen** leerst du es.
 
 ## Protokoll exportieren
 
-Tippe oben rechts auf **Protokoll exportieren**. Die App erstellt einen Text, den du per Mail, Nachricht oder in eine Datei weitergeben kannst. Er enthält:
+Tippe oben rechts auf das Teilen-Symbol (ein Quadrat mit einem Pfeil nach oben). VoiceOver nennt es **Protokoll exportieren**. Die App erstellt einen Text, den du per Mail, Nachricht oder in eine Datei weitergeben kannst. Er enthält:
 
 - Version der App, Modell des Telefons und iOS-Version,
 - Gerät, Projekt, Tenant und Server,

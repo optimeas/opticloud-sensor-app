@@ -1,6 +1,6 @@
 # Sensors
 
-**Status: draft.** Keys, units, and the list are agreed. The iOS app implements the groups `device`, `location`, `motion`, `environment`, `activity`, and `sound`; on 2026-10-25 it sent all of them to an optiCLOUD server, also with the app in the background. The group `health` is planned for stage 4.
+**Status: draft.** Keys, units, and the list are agreed. The iOS app implements the groups `device`, `location`, `motion`, `environment`, `activity`, and `sound`; on 2026-10-25 it sent all of them to an optiCLOUD server. Sending in the background did not hold in a first test on 2026-10-26; after a fix it did in a second test the same day. The group `health` is planned for stage 4.
 
 The app offers every sensor the phone has. This document defines how sensors are found, selected, and sampled, and which keys and units their values have. How the values are sent is in [messages.md](messages.md).
 
@@ -32,6 +32,16 @@ There are three kinds of values.
 **Aggregated values** change faster than any send rate, such as acceleration. A single value at a tick would miss shocks and vibration between two ticks. While transmission is on, the app therefore measures them continuously at 50 Hz and, at every tick, sends the mean, the minimum, and the maximum of the measurements since the previous tick. The mean has the plain key, for example `accelX`; minimum and maximum add `Min` and `Max`, for example `accelXMin` and `accelXMax`. They belong to the sample of that tick. If the platform delivers fewer measurements than 50 Hz, the app uses those it has; if there was none, the keys are left out. `accelMagnitude` is computed for each measurement from its three axes; mean, minimum, and maximum are then taken over these magnitudes. Mean, minimum, and maximum are computed from the measured values and rounded only afterwards.
 
 **Event values** appear when something is measured or changes, such as a heart rate reading from a watch. The app sends each one when it arrives, with the time stamp of the measurement. The send rate does not apply.
+
+## Age of values
+
+A sample carries the time of its tick, so every value in it must describe that moment. The system can pause the app, and a sensor can stop delivering, while the app still holds its last value. That value must not be sent with the time stamp of a later tick.
+
+- The **maximum age** is twice the send rate, and at least 10 seconds: 10 s for a send rate of 1 to 5 s, 20 s for 10 s, 60 s for 30 s.
+- A sampled value whose last measurement is older than the maximum age at a tick is not available at that tick and is left out. For the location, the age is that of the position fix, not of its arrival in the app.
+- An aggregated value takes only the measurements of the last maximum age. When there was none, its keys are left out.
+- A value that the platform reports only when it changes, such as `steps`, stays current while the app runs. When the time since the previous tick is longer than the maximum age, the app was paused: the value from before the pause is left out until the platform reports it again.
+- Values that the app reads at the tick itself, such as `batteryLevel`, are always current.
 
 ## Sending on change
 

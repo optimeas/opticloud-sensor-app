@@ -25,6 +25,8 @@ final class SensorService {
     /// Calls to the connection, kept in order.
     @ObservationIgnored private var linkCalls: Task<Void, Never>?
     @ObservationIgnored private var ticks: Task<Void, Never>?
+    /// The time of the previous tick, to see a pause of the app.
+    @ObservationIgnored private var previousTick: Date?
     @ObservationIgnored private var filter = SendFilter()
 
     private(set) var settings: TransmissionSettings {
@@ -68,6 +70,7 @@ final class SensorService {
         if settings.connected { connect() }
         if settings.transmitting { startTicks() }
         activity.activityChanged = { [weak self] type, date in self?.activityChanged(type, at: date) }
+        location.logged = { [weak self] kind, title, detail in self?.log.add(kind, title, detail: detail) }
         observeForeground()
         updateSensorUse()
         refreshQueueStatus()
@@ -196,6 +199,7 @@ final class SensorService {
         let center = NotificationCenter.default
         Task { [weak self] in
             for await _ in center.notifications(named: UIApplication.didEnterBackgroundNotification) {
+                self?.log.add(.app, String(localized: "In the background"))
                 self?.isInForeground = false
                 self?.updateSensorUse()
                 self?.dataVolume.save()
@@ -203,6 +207,7 @@ final class SensorService {
         }
         Task { [weak self] in
             for await _ in center.notifications(named: UIApplication.willEnterForegroundNotification) {
+                self?.log.add(.app, String(localized: "In the foreground"))
                 self?.isInForeground = true
                 self?.updateSensorUse()
             }
@@ -234,10 +239,20 @@ final class SensorService {
         transmittingSince = nil
         liveValues = [:]
         lastTick = nil
+        previousTick = nil
     }
 
+    /// A value older than this is not available (see `docs/spec/sensors.md`, Age of values).
+    private var maxAge: TimeInterval { max(10, 2 * Double(settings.sendRate)) }
+
     private func tick() async {
-        let measured = measureSelected()
+        let now = Date()
+        if let previousTick, now.timeIntervalSince(previousTick) > maxAge {
+            let seconds = Int(now.timeIntervalSince(previousTick).rounded())
+            log.add(.app, String(localized: "Paused"), detail: String(localized: "No tick for \(seconds) s, since \(previousTick.formatted(date: .omitted, time: .standard))."))
+        }
+        previousTick = now
+        let measured = measureSelected(at: now)
         var live = measured.filter { $0.value.isSendable }.reduce(into: [String: TelemetryValue]()) { result, entry in
             result[entry.key] = SendFilter.round(entry.value, key: entry.key)
         }
@@ -252,7 +267,7 @@ final class SensorService {
 
     /// One sample of all selected values, rounded, for the command `sendNow`.
     private func sendNow() async {
-        let values = measureSelected().filter { $0.value.isSendable }.reduce(into: [:]) { result, entry in
+        let values = measureSelected(at: Date()).filter { $0.value.isSendable }.reduce(into: [:]) { result, entry in
             result[entry.key] = SendFilter.round(entry.value, key: entry.key)
         }
         guard !values.isEmpty else { return }
@@ -260,10 +275,17 @@ final class SensorService {
         refreshQueueStatus()
     }
 
-    private func measureSelected() -> [String: TelemetryValue] {
+    private func measureSelected(at now: Date) -> [String: TelemetryValue] {
         let keys = Set(settings.selection.items(offered: offered).flatMap(\.sentKeys))
         var values = sampler.measure().merging(dataVolume.telemetry()) { $1 }
-        for measured in [location.measure(), motion.measure(), environment.measure(), activity.measure(), sound.measure()] {
+        let measurements = [
+            location.measure(now: now, maxAge: maxAge),
+            motion.measure(now: now, maxAge: maxAge),
+            environment.measure(now: now, maxAge: maxAge),
+            activity.measure(now: now, maxAge: maxAge),
+            sound.measure(),
+        ]
+        for measured in measurements {
             values.merge(measured) { $1 }
         }
         return values.filter { keys.contains($0.key) }

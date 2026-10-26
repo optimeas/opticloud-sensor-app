@@ -10,7 +10,7 @@ keywords:
   - support
   - offline queue
 last_update:
-  date: 2026-10-25
+  date: 2026-10-26
   author: optiMEAS GmbH
 license: CC-BY-4.0
 copyright: © 2026 optiMEAS GmbH und optiMEAS Switzerland GmbH
@@ -51,13 +51,15 @@ The log shows, newest first:
 - changes of shared attributes, also of keys the app does not use,
 - values the app could not use, for example an invalid send rate,
 - changes of the connection with their reason, for example "No network",
+- the start and end of the location updates and problems with them,
+- when the app went to the background and back to the foreground, and **Paused** when iOS halted the app, with the length of the pause,
 - values you sent by hand.
 
 The log is kept only in the memory of the phone, holds the last 200 entries, and starts anew with every start of the app. **Clear** empties it.
 
 ## Exporting the log
 
-Tap **Export Log** at the top right. The app creates a text that you can pass on by mail, by message, or as a file. It contains:
+Tap the share symbol at the top right (a square with an arrow pointing up). VoiceOver calls it **Export Log**. The app creates a text that you can pass on by mail, by message, or as a file. It contains:
 
 - the version of the app, the model of the phone, and the iOS version,
 - device, project, tenant, and server,
