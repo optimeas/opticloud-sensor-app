@@ -19,7 +19,7 @@ The iOS app leads (see the [project brief](../docs/project-brief.md#decisions)).
 - The development team is set in `ios/Config/Local.xcconfig`, which Git ignores. `Local.xcconfig.example` shows the format.
 - Tests use Swift Testing. Protocol tests load the shared test vectors from `../docs/spec/vectors/` and run every case. A failing vector is a defect in the app, not in the vector.
 - TestFlight builds are made with `Tools/upload-testflight.sh` from a clean checkout of `main`. It archives the Release configuration and uploads it with `Config/ExportOptions.plist`. The version is `MARKETING_VERSION` in the project; the build number is the number of commits on `HEAD`, set at archive time, so it rises with every merge. The app declares `ITSAppUsesNonExemptEncryption = NO`: it uses only the encryption of the system and of TLS.
-- The Debug configuration has the bundle identifier `ch.optimeas.opticloudsensor.dev` and the name "optiCLOUD Sensor Dev", so that a development build and the TestFlight build live side by side on one iPhone. They have separate settings, Keychain, and offline queue, and each binds its own device in optiCLOUD.
+- The Debug configuration has the bundle identifier `ch.optimeas.opticloudsensor.dev` and the name "optiCLOUD Sensor Dev", and the orange icon `AppIcon-Dev`, so that a development build and the TestFlight build live side by side on one iPhone. They have separate settings, Keychain, and offline queue, and each binds its own device in optiCLOUD.
 - Sensors, background location, and MQTT over the mobile network need a real iPhone. The simulator is enough for the user interface and the package tests.
 
 ## Architecture
