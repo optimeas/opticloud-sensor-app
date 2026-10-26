@@ -69,6 +69,10 @@ final class SensorService {
         link = DeviceLink(queue: queue, handlers: handlers())
         app.deviceChanged = { [weak self] device, isOtherDevice in self?.deviceChanged(device, isOtherDevice: isOtherDevice) }
 
+        // A start by iOS in the background happens when the app was ended while it sent in the background.
+        let started = UIApplication.shared.applicationState == .background
+            ? String(localized: "Started by iOS in the background") : nil
+        log.add(.app, String(localized: "App started"), detail: started)
         if settings.connected { connect() }
         if settings.transmitting { startTicks() }
         activity.activityChanged = { [weak self] type, date in self?.activityChanged(type, at: date) }
@@ -441,7 +445,7 @@ final class SensorService {
         log.add(
             .sharedAttribute,
             complete ? String(localized: "Shared attributes after connect") : String(localized: "Shared attributes changed"),
-            detail: JSONValue.object(attributes).jsonText
+            detail: JSONValue.object(loggable(attributes)).jsonText
         )
         let before = settings
         for key in ["sendRate", "sensors", "dashboard"] {
@@ -468,6 +472,16 @@ final class SensorService {
         } else if settings.sendRate != before.sendRate {
             publishClientAttributes()
         }
+    }
+
+    /// The installation identifier is a secret and does not go into the log; the log says only whose it is.
+    private func loggable(_ attributes: [String: JSONValue]) -> [String: JSONValue] {
+        guard case .string(let binding)? = attributes[DeviceMessages.bindingKey] else { return attributes }
+        var result = attributes
+        result[DeviceMessages.bindingKey] = .string(
+            binding == app.installationId ? String(localized: "this phone") : String(localized: "another phone")
+        )
+        return result
     }
 
     /// Carries out a command and shows it with its answer in the test area.

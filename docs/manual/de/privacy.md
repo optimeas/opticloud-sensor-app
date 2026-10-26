@@ -11,7 +11,7 @@ keywords:
   - Access Token
   - Schlüsselbund
 last_update:
-  date: 2026-10-25
+  date: 2026-10-26
   author: optiMEAS GmbH
 license: CC-BY-4.0
 copyright: © 2026 optiMEAS GmbH und optiMEAS Switzerland GmbH
@@ -46,8 +46,7 @@ Die Verbindung ist verschlüsselt (TLS).
 ## Was auf dem Telefon bleibt
 
 - **Im Schlüsselbund von iOS:** das Access Token des Geräts, die Sitzung deiner Anmeldung und eine Kennung der Installation, mit der die App das Gerät an dieses Telefon bindet.
-- **In den Daten der App:** die Einstellungen, die Offline-Warteschlange mit noch nicht gesendeten Werten und die Zähler für das Datenvolumen.
-- **Nur im Speicher:** das Protokoll im Tab Diagnose. Es verlässt das Telefon nur, wenn du es selbst exportierst.
+- **In den Daten der App:** die Einstellungen, die Offline-Warteschlange mit noch nicht gesendeten Werten, die Zähler für das Datenvolumen und das Protokoll im Tab Diagnose. Das Protokoll verlässt das Telefon nur, wenn du es selbst exportierst.
 
 ## Erlaubnisse
 

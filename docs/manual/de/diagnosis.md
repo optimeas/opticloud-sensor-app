@@ -48,14 +48,15 @@ Mit **Zähler „Verworfen“ zurücksetzen** setzt du den Zähler auf null. Wie
 Das Protokoll zeigt, das Neueste zuerst:
 
 - Befehle aus optiCLOUD mit ihren Parametern und der Antwort der App,
-- Änderungen der Shared Attributes, auch von Schlüsseln, die die App nicht verwendet,
+- Änderungen der Shared Attributes, auch von Schlüsseln, die die App nicht verwendet; statt der Kennung der Installation in `sensorAppInstallation` steht dort nur, ob die Bindung zu diesem Telefon gehört,
 - Werte, die die App nicht verwenden konnte, zum Beispiel eine ungültige Senderate,
 - Änderungen der Verbindung mit ihrem Grund, zum Beispiel „Kein Netzwerk“,
 - Start und Ende der Standortmessung und Probleme damit,
+- jeden Start der App, mit dem Hinweis, wenn iOS sie im Hintergrund gestartet hat,
 - wann die App in den Hintergrund und wieder in den Vordergrund ging, und **Pausiert**, wenn iOS die App angehalten hat, mit der Dauer der Pause,
 - Werte, die du von Hand gesendet hast.
 
-Das Protokoll liegt nur im Speicher des Telefons, hält die letzten 200 Einträge und beginnt bei jedem Start der App neu. Mit **Löschen** leerst du es.
+Das Protokoll liegt in den Daten der App auf dem Telefon und hält die letzten 1000 Einträge, auch über einen Neustart der App hinweg. Einträge von früheren Tagen zeigen das Datum. Mit **Löschen** leerst du es.
 
 ## Protokoll exportieren
 

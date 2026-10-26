@@ -11,7 +11,7 @@ keywords:
   - access token
   - keychain
 last_update:
-  date: 2026-10-25
+  date: 2026-10-26
   author: optiMEAS GmbH
 license: CC-BY-4.0
 copyright: © 2026 optiMEAS GmbH und optiMEAS Switzerland GmbH
@@ -46,8 +46,7 @@ The connection is encrypted (TLS).
 ## What stays on the phone
 
 - **In the iOS keychain:** the access token of the device, the session of your sign-in, and an identifier of the installation with which the app binds the device to this phone.
-- **In the data of the app:** the settings, the offline queue with values not yet sent, and the counters for the data volume.
-- **In memory only:** the log on the Diagnosis tab. It leaves the phone only when you export it yourself.
+- **In the data of the app:** the settings, the offline queue with values not yet sent, the counters for the data volume, and the log on the Diagnosis tab. The log leaves the phone only when you export it yourself.
 
 ## Permissions
 

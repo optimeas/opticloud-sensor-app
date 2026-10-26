@@ -11,7 +11,7 @@ keywords:
   - Access Token
   - trousseau
 last_update:
-  date: 2026-10-25
+  date: 2026-10-26
   author: optiMEAS GmbH
 license: CC-BY-4.0
 copyright: © 2026 optiMEAS GmbH und optiMEAS Switzerland GmbH
@@ -46,8 +46,7 @@ La connexion est chiffrée (TLS).
 ## Ce qui reste sur le téléphone
 
 - **Dans le trousseau d’iOS :** l’Access Token de l’appareil, la session de votre connexion et un identifiant de l’installation, avec lequel l’app lie l’appareil à ce téléphone.
-- **Dans les données de l’app :** les réglages, la file hors ligne avec les valeurs pas encore envoyées et les compteurs du volume de données.
-- **Uniquement en mémoire :** le journal de l’onglet Diagnostic. Il ne quitte le téléphone que si vous l’exportez vous-même.
+- **Dans les données de l’app :** les réglages, la file hors ligne avec les valeurs pas encore envoyées, les compteurs du volume de données et le journal de l’onglet Diagnostic. Le journal ne quitte le téléphone que si vous l’exportez vous-même.
 
 ## Autorisations
 

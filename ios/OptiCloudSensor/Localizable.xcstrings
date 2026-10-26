@@ -493,6 +493,34 @@
         }
       }
     },
+    "App started" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App gestartet"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App démarrée"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App avviata"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App iniciada"
+          }
+        }
+      }
+    },
     "Asked When Sending" : {
       "localizations" : {
         "de" : {
@@ -3912,6 +3940,34 @@
         }
       }
     },
+    "Started by iOS in the background" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Von iOS im Hintergrund gestartet"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Démarrée par iOS en arrière-plan"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avviata da iOS in background"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iniciada por iOS en segundo plano"
+          }
+        }
+      }
+    },
     "Stationary" : {
       "localizations" : {
         "de" : {
@@ -5368,6 +5424,34 @@
         }
       }
     },
+    "another phone" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ein anderes Telefon"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "un autre téléphone"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "un altro telefono"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "otro teléfono"
+          }
+        }
+      }
+    },
     "optiCLOUD" : {
       "shouldTranslate" : false
     },
@@ -5426,6 +5510,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "optiCLOUD gestiona la selección de este dispositivo. Cámbiala allí."
+          }
+        }
+      }
+    },
+    "this phone" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dieses Telefon"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ce téléphone"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "questo telefono"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "este teléfono"
           }
         }
       }

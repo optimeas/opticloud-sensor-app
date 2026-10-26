@@ -146,7 +146,7 @@ private struct LogSection: View {
                         Label(entry.title, systemImage: entry.kind.symbol)
                             .foregroundStyle(entry.kind == .problem ? .red : .primary)
                         Spacer()
-                        Text(entry.date, format: .dateTime.hour().minute().second())
+                        Text(entry.timeText)
                             .font(.footnote)
                             .foregroundStyle(.secondary)
                     }
@@ -169,6 +169,15 @@ private struct LogSection: View {
                 }
             }
         }
+    }
+}
+
+extension TestLog.Entry {
+    /// The time of the entry, with the day for an entry of an earlier day.
+    var timeText: String {
+        Calendar.current.isDateInToday(date)
+            ? date.formatted(.dateTime.hour().minute().second())
+            : date.formatted(.dateTime.day().month().hour().minute().second())
     }
 }
 

@@ -48,14 +48,15 @@ Con **Restablecer el contador de descartados** pones el contador a cero. Cómo f
 El registro muestra, lo más reciente primero:
 
 - los comandos de optiCLOUD con sus parámetros y la respuesta de la app,
-- los cambios de los Shared Attributes, también de claves que la app no usa,
+- los cambios de los Shared Attributes, también de claves que la app no usa; en lugar del identificador de la instalación en `sensorAppInstallation` solo indica si la vinculación pertenece a este teléfono,
 - los valores que la app no ha podido usar, por ejemplo una frecuencia de envío no válida,
 - los cambios de la conexión con su motivo, por ejemplo «Sin red»,
 - el inicio y el fin de la ubicación y los problemas con ella,
+- cada inicio de la app, con una indicación cuando iOS la inició en segundo plano,
 - cuándo la app pasó a segundo plano y volvió a primer plano, y **En pausa** cuando iOS detuvo la app, con la duración de la pausa,
 - los valores que has enviado a mano.
 
-El registro solo está en la memoria del teléfono, guarda las últimas 200 entradas y empieza de nuevo cada vez que se inicia la app. Con **Borrar** lo vacías.
+El registro está en los datos de la app en el teléfono y guarda las últimas 1000 entradas, también tras un nuevo inicio de la app. Las entradas de días anteriores muestran la fecha. Con **Borrar** lo vacías.
 
 ## Exportar el registro
 
