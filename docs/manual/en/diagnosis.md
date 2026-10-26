@@ -48,14 +48,15 @@ Telemetry goes through the offline queue like every measured value and arrives e
 The log shows, newest first:
 
 - commands from optiCLOUD with their parameters and the answer of the app,
-- changes of shared attributes, also of keys the app does not use,
+- changes of shared attributes, also of keys the app does not use; instead of the identifier of the installation in `sensorAppInstallation` it says only whether the binding belongs to this phone,
 - values the app could not use, for example an invalid send rate,
 - changes of the connection with their reason, for example "No network",
 - the start and end of the location updates and problems with them,
+- every start of the app, with a note when iOS started it in the background,
 - when the app went to the background and back to the foreground, and **Paused** when iOS halted the app, with the length of the pause,
 - values you sent by hand.
 
-The log is kept only in the memory of the phone, holds the last 200 entries, and starts anew with every start of the app. **Clear** empties it.
+The log is kept in the data of the app on the phone and holds the last 1000 entries, also across a new start of the app. Entries of earlier days show the date. **Clear** empties it.
 
 ## Exporting the log
 

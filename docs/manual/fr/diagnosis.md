@@ -48,14 +48,15 @@ Avec **Réinitialiser le compteur de rejets**, vous remettez le compteur à zér
 Le journal affiche, le plus récent en premier :
 
 - les commandes provenant d’optiCLOUD avec leurs paramètres et la réponse de l’app,
-- les modifications des Shared Attributes, y compris pour des clés que l’app n’utilise pas,
+- les modifications des Shared Attributes, y compris pour des clés que l’app n’utilise pas ; au lieu de l’identifiant de l’installation dans `sensorAppInstallation`, il indique seulement si la liaison appartient à ce téléphone,
 - les valeurs que l’app n’a pas pu utiliser, par exemple une fréquence d’envoi non valide,
 - les changements de la connexion avec leur raison, par exemple « Pas de réseau »,
 - le début et la fin de la localisation et les problèmes rencontrés,
+- chaque démarrage de l’app, avec une mention lorsque iOS l’a démarrée en arrière-plan,
 - quand l’app est passée en arrière-plan et revenue au premier plan, et **En pause** lorsque iOS a suspendu l’app, avec la durée de la pause,
 - les valeurs que vous avez envoyées à la main.
 
-Le journal se trouve uniquement dans la mémoire du téléphone, conserve les 200 dernières entrées et recommence à zéro à chaque démarrage de l’app. Avec **Effacer**, vous le videz.
+Le journal se trouve dans les données de l’app sur le téléphone et conserve les 1000 dernières entrées, même après un redémarrage de l’app. Les entrées des jours précédents affichent la date. Avec **Effacer**, vous le videz.
 
 ## Exporter le journal
 

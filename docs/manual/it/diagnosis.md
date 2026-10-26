@@ -48,14 +48,15 @@ Con **Azzera il contatore degli scartati** riporti il contatore a zero. Come fun
 Il registro mostra, dal più recente:
 
 - i comandi da optiCLOUD con i loro parametri e la risposta dell’app,
-- le modifiche degli Shared Attributes, anche di chiavi che l’app non usa,
+- le modifiche degli Shared Attributes, anche di chiavi che l’app non usa; al posto dell’identificativo dell’installazione in `sensorAppInstallation` indica solo se l’associazione appartiene a questo telefono,
 - i valori che l’app non ha potuto usare, per esempio una frequenza di invio non valida,
 - le modifiche della connessione con il loro motivo, per esempio «Nessuna rete»,
 - l’avvio e l’arresto della localizzazione e i relativi problemi,
+- ogni avvio dell’app, con un’indicazione quando iOS l’ha avviata in background,
 - quando l’app è passata in background e di nuovo in primo piano, e **In pausa** quando iOS ha sospeso l’app, con la durata della pausa,
 - i valori che hai inviato a mano.
 
-Il registro si trova solo nella memoria del telefono, conserva le ultime 200 voci e ricomincia da capo a ogni avvio dell’app. Con **Cancella** lo svuoti.
+Il registro si trova nei dati dell’app sul telefono e conserva le ultime 1000 voci, anche dopo un nuovo avvio dell’app. Le voci dei giorni precedenti mostrano la data. Con **Cancella** lo svuoti.
 
 ## Esporta registro
 

@@ -11,7 +11,7 @@ keywords:
   - Access Token
   - portachiavi
 last_update:
-  date: 2026-10-25
+  date: 2026-10-26
   author: optiMEAS GmbH
 license: CC-BY-4.0
 copyright: © 2026 optiMEAS GmbH und optiMEAS Switzerland GmbH
@@ -46,8 +46,7 @@ La connessione è crittografata (TLS).
 ## Cosa resta sul telefono
 
 - **Nel portachiavi di iOS:** l’Access Token del dispositivo, la sessione del tuo accesso e un identificativo dell’installazione con cui l’app associa il dispositivo a questo telefono.
-- **Nei dati dell’app:** le impostazioni, la coda offline con i valori non ancora inviati e i contatori del volume dati.
-- **Solo in memoria:** il registro nel tab Diagnostica. Lascia il telefono solo se lo esporti tu stesso.
+- **Nei dati dell’app:** le impostazioni, la coda offline con i valori non ancora inviati, i contatori del volume dati e il registro nel tab Diagnostica. Il registro lascia il telefono solo se lo esporti tu stesso.
 
 ## Autorizzazioni
 

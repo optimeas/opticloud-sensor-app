@@ -11,7 +11,7 @@ keywords:
   - Access Token
   - llavero
 last_update:
-  date: 2026-10-25
+  date: 2026-10-26
   author: optiMEAS GmbH
 license: CC-BY-4.0
 copyright: © 2026 optiMEAS GmbH und optiMEAS Switzerland GmbH
@@ -46,8 +46,7 @@ La conexión está cifrada (TLS).
 ## Qué se queda en el teléfono
 
 - **En el llavero de iOS:** el Access Token del dispositivo, la sesión de tu inicio de sesión y un identificador de la instalación con el que la app vincula el dispositivo a este teléfono.
-- **En los datos de la app:** los ajustes, la cola sin conexión con los valores aún no enviados y los contadores del volumen de datos.
-- **Solo en memoria:** el registro de la pestaña Diagnóstico. Solo sale del teléfono si lo exportas tú.
+- **En los datos de la app:** los ajustes, la cola sin conexión con los valores aún no enviados, los contadores del volumen de datos y el registro de la pestaña Diagnóstico. El registro solo sale del teléfono si lo exportas tú.
 
 ## Permisos
 

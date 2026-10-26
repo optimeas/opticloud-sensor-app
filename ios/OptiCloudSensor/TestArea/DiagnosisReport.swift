@@ -30,7 +30,7 @@ enum DiagnosisReport {
         }
         lines += ["", String(localized: "Log")]
         for entry in service.log.entries {
-            lines.append("\(entry.date.formatted(.dateTime.hour().minute().second()))  \(entry.title)")
+            lines.append("\(entry.timeText)  \(entry.title)")
             if let detail = entry.detail {
                 lines += detail.split(separator: "\n", omittingEmptySubsequences: false).map { "          \($0)" }
             }
