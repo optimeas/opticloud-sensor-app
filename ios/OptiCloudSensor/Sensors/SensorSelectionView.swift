@@ -103,6 +103,7 @@ extension CatalogGroup {
         case "device": String(localized: "Device")
         case "sound": String(localized: "Sound")
         case "health": String(localized: "Health")
+        case "test": String(localized: "Test Signal")
         default: key
         }
     }
@@ -133,6 +134,8 @@ extension CatalogItem {
         case "cellularSignal": String(localized: "Signal Strength")
         case "dataVolume": String(localized: "Data Volume")
         case "soundLevel": String(localized: "Sound Level")
+        case "testCounter": String(localized: "Tick Counter")
+        case "testSine": String(localized: "Sine")
         default: key
         }
     }

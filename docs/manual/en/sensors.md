@@ -11,7 +11,7 @@ keywords:
   - location
   - sound level
 last_update:
-  date: 2026-10-25
+  date: 2026-10-26
   author: optiMEAS GmbH
 license: CC-BY-4.0
 copyright: © 2026 optiMEAS GmbH und optiMEAS Switzerland GmbH
@@ -102,6 +102,25 @@ The app measures the sound level only while it is open. iOS restricts the microp
 ## Health
 
 Values such as heart rate or oxygen saturation from a watch are planned and come in a later version.
+
+## Test signal
+
+| Value | Key | Unit | Resolution |
+|---|---|---|---|
+| Tick counter | `testCounter` | count | 1 |
+| Sine | `testSine` | −1 to 1 | 0.001 |
+
+The test signal measures nothing. It sends values that are known in advance, so that you can check in optiCLOUD whether everything arrived, for example in a test in the background. It needs no permission and is not selected by default.
+
+`testCounter` starts at 1 each time sending starts and goes up by 1 with every tick. `testSine` is a sine with one period per minute, computed from the time stamp of the value.
+
+After the test, export the telemetry of the device in optiCLOUD as CSV and check it with the script [`check-test-signal.py`](https://github.com/optimeas/opticloud-sensor-app/blob/main/docs/spec/tools/check-test-signal.py):
+
+```bash
+python3 check-test-signal.py device-data.csv
+```
+
+It reports lost values, pauses in which the app did not run, restarts of sending, and values that do not match their time stamp.
 
 ## More details
 

@@ -108,6 +108,7 @@ extension CatalogGroup {
         case "device": "iphone"
         case "sound": "waveform"
         case "health": "heart.fill"
+        case "test": "waveform.path.ecg"
         default: "sensor"
         }
     }

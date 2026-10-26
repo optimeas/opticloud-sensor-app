@@ -1,0 +1,15 @@
+{
+  "description": "testSine of the group test. Input: ts, the time stamp of the sample in milliseconds. Expected: testSine, sin(2π · (ts mod 60000) / 60000) rounded to the resolution of testSine, compared as a JSON number. Where a case has written, the number must be written in JSON as exactly this text. See sensors.md, test.",
+  "cases": [
+    { "name": "start of the minute", "ts": 0, "testSine": 0, "written": "0" },
+    { "name": "a twenty-fourth of the period", "ts": 2500, "testSine": 0.259, "written": "0.259" },
+    { "name": "a twelfth of the period", "ts": 5000, "testSine": 0.5, "written": "0.5" },
+    { "name": "quarter period", "ts": 15000, "testSine": 1, "written": "1" },
+    { "name": "half period", "ts": 30000, "testSine": 0, "written": "0" },
+    { "name": "three quarters", "ts": 45000, "testSine": -1, "written": "-1" },
+    { "name": "just before the minute gives no negative zero", "ts": 59999, "testSine": 0, "written": "0" },
+    { "name": "next minute", "ts": 60000, "testSine": 0 },
+    { "name": "time stamp of 2026", "ts": 1793040367162, "testSine": 0.682, "written": "0.682" },
+    { "name": "two seconds later", "ts": 1793040369222, "testSine": 0.822, "written": "0.822" }
+  ]
+}

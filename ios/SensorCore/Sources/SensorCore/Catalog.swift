@@ -80,6 +80,10 @@ public enum Catalog {
             ("oxygenSaturation", ["oxygenSaturation"], "%", 0, .event),
             ("respiratoryRate", ["respiratoryRate"], "1/min", 0, .event),
         ]),
+        group("test", [
+            ("testCounter", ["testCounter"], "count", 0, .sampled),
+            ("testSine", ["testSine"], "", -3, .sampled),
+        ]),
     ]
 
     /// All items in catalog order.

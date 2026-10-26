@@ -11,7 +11,7 @@ keywords:
   - ubicación
   - nivel sonoro
 last_update:
-  date: 2026-10-25
+  date: 2026-10-26
   author: optiMEAS GmbH
 license: CC-BY-4.0
 copyright: © 2026 optiMEAS GmbH und optiMEAS Switzerland GmbH
@@ -102,6 +102,25 @@ La app solo mide el nivel sonoro mientras está abierta. iOS limita el micrófon
 ## Salud
 
 Los valores como la frecuencia cardiaca o la saturación de oxígeno de un reloj están previstos y llegarán en una versión posterior.
+
+## Señal de prueba
+
+| Valor | Clave | Unidad | Resolución |
+|---|---|---|---|
+| Contador de ciclos | `testCounter` | cantidad | 1 |
+| Seno | `testSine` | −1 a 1 | 0,001 |
+
+La señal de prueba no mide nada. Envía valores conocidos de antemano, para que puedas comprobar en optiCLOUD si ha llegado todo, por ejemplo en una prueba en segundo plano. No necesita ningún permiso y no está seleccionada de fábrica.
+
+`testCounter` empieza en 1 cada vez que se inicia el envío y aumenta en 1 con cada ciclo. `testSine` es un seno con un periodo por minuto, calculado a partir de la marca de tiempo del valor.
+
+Después de la prueba, exporta la telemetría del dispositivo en optiCLOUD como CSV y compruébala con el script [`check-test-signal.py`](https://github.com/optimeas/opticloud-sensor-app/blob/main/docs/spec/tools/check-test-signal.py):
+
+```bash
+python3 check-test-signal.py device-data.csv
+```
+
+Informa de los valores perdidos, las pausas en las que la app no se estaba ejecutando, los reinicios del envío y los valores que no corresponden a su marca de tiempo.
 
 ## Más detalles
 
