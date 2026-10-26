@@ -9,10 +9,21 @@ struct AboutView: View {
         return "\(short) (\(build))"
     }()
 
+    /// The user manual in the language the app is shown in. It lives in `docs/manual/` until it is published in the
+    /// optiMEAS documentation.
+    private let manual: URL = {
+        let language = Bundle.main.preferredLocalizations.first ?? "en"
+        let folder = ["de", "en", "fr", "it", "es"].contains(language) ? language : "en"
+        return URL(string: "\(PackageLicense.app.url)/blob/main/docs/manual/\(folder)/index.md")!
+    }()
+
     var body: some View {
         List {
             Section {
                 LabeledContent("Version", value: version)
+                Link(destination: manual) {
+                    Label("User Manual", systemImage: "book")
+                }
                 Link(destination: URL(string: PackageLicense.app.url)!) {
                     Label("Source Code", systemImage: "chevron.left.forwardslash.chevron.right")
                 }
