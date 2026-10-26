@@ -5,7 +5,8 @@ import SensorCore
 /// The values of the group `activity` (see `docs/spec/sensors.md`, Catalog).
 ///
 /// `steps` counts from midnight, local time. `activityType` is an event value: it is reported when it changes,
-/// with the time the system detected it.
+/// with the time the system detected it. The pedometer reports the count only when it changes, so the count stays
+/// current while the app runs; after a pause it is read again (see `docs/spec/sensors.md`, Age of values).
 final class ActivitySampler {
     /// The items of the group this phone offers.
     static let offered: Set<String> = {
@@ -21,6 +22,8 @@ final class ActivitySampler {
     private lazy var pedometer = CMPedometer()
     private lazy var activities = CMMotionActivityManager()
     private var steps: Int?
+    /// The time of the previous call of `measure`.
+    private var measuredAt: Date?
     private var countingSince: Date?
     private var lastType: String?
     private var running = false
@@ -46,14 +49,20 @@ final class ActivitySampler {
         steps = nil
         countingSince = nil
         lastType = nil
+        measuredAt = nil
     }
 
-    func measure() -> [String: TelemetryValue] {
+    func measure(now: Date, maxAge: TimeInterval) -> [String: TelemetryValue] {
+        defer { measuredAt = now }
         // A new day starts the count again.
         if running, let countingSince, !Calendar.current.isDateInToday(countingSince) {
             pedometer.stopUpdates()
             steps = nil
             startCounting()
+        } else if running, let measuredAt, now.timeIntervalSince(measuredAt) > maxAge {
+            // The app was paused: the count from before the pause is old. It is read again and sent once it is there.
+            steps = nil
+            readCount()
         }
         return steps.map { ["steps": .number(Double($0))] } ?? [:]
     }
@@ -63,6 +72,13 @@ final class ActivitySampler {
         let midnight = Calendar.current.startOfDay(for: Date())
         countingSince = midnight
         pedometer.startUpdates(from: midnight, withHandler: Self.handler { [weak self] steps in self?.steps = steps })
+    }
+
+    private func readCount() {
+        guard CMPedometer.isStepCountingAvailable(), let countingSince else { return }
+        pedometer.queryPedometerData(from: countingSince, to: Date(), withHandler: Self.handler { [weak self] steps in
+            if self?.running == true { self?.steps = steps }
+        })
     }
 
     /// The pedometer calls its handler on a queue of its own, not on the main actor.

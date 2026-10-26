@@ -6,7 +6,8 @@ import SensorCore
 ///
 /// Acceleration and rotation rate are measured at 50 Hz and aggregated between two ticks; the magnetic field and
 /// the orientation are the latest values at a tick. Core Motion reports the acceleration in g with the opposite
-/// sign of the catalog, so it is converted.
+/// sign of the catalog, so it is converted. Measurements older than the maximum age are left out (see
+/// `docs/spec/sensors.md`, Age of values).
 final class MotionSampler {
     /// The items of the group this phone offers.
     static let offered: Set<String> = {
@@ -25,6 +26,9 @@ final class MotionSampler {
     private let manager = CMMotionManager()
     private var aggregates: [String: Aggregate] = [:]
     private var latest: CMDeviceMotion?
+    /// When the latest measurement arrived, and the maximum age of the previous call of `measure`.
+    private var latestDate: Date?
+    private var maxAge: TimeInterval = 10
 
     var isRunning: Bool { manager.isDeviceMotionActive }
 
@@ -43,10 +47,18 @@ final class MotionSampler {
         manager.stopDeviceMotionUpdates()
         aggregates = [:]
         latest = nil
+        latestDate = nil
     }
 
     /// The values since the previous call. Starts the next aggregation period.
-    func measure() -> [String: TelemetryValue] {
+    func measure(now: Date, maxAge: TimeInterval) -> [String: TelemetryValue] {
+        self.maxAge = maxAge
+        if let latestDate, now.timeIntervalSince(latestDate) > maxAge {
+            // No measurement for longer than the maximum age: the app was paused, or Core Motion stopped.
+            aggregates = [:]
+            latest = nil
+            self.latestDate = nil
+        }
         var values: [String: TelemetryValue] = [:]
         for (key, aggregate) in aggregates {
             values.merge(aggregate.values(key: key, resolution: nil)) { $1 }
@@ -68,7 +80,11 @@ final class MotionSampler {
     }
 
     private func add(_ motion: CMDeviceMotion) {
+        let now = Date()
+        // After a pause the measurements from before it are older than the maximum age at the next tick.
+        if let latestDate, now.timeIntervalSince(latestDate) > maxAge { aggregates = [:] }
         latest = motion
+        latestDate = now
         let total = CMAcceleration(
             x: motion.gravity.x + motion.userAcceleration.x,
             y: motion.gravity.y + motion.userAcceleration.y,

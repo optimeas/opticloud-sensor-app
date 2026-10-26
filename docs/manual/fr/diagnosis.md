@@ -10,7 +10,7 @@ keywords:
   - assistance
   - file hors ligne
 last_update:
-  date: 2026-10-25
+  date: 2026-10-26
   author: optiMEAS GmbH
 license: CC-BY-4.0
 copyright: © 2026 optiMEAS GmbH und optiMEAS Switzerland GmbH
@@ -51,13 +51,15 @@ Le journal affiche, le plus récent en premier :
 - les modifications des Shared Attributes, y compris pour des clés que l’app n’utilise pas,
 - les valeurs que l’app n’a pas pu utiliser, par exemple une fréquence d’envoi non valide,
 - les changements de la connexion avec leur raison, par exemple « Pas de réseau »,
+- le début et la fin de la localisation et les problèmes rencontrés,
+- quand l’app est passée en arrière-plan et revenue au premier plan, et **En pause** lorsque iOS a suspendu l’app, avec la durée de la pause,
 - les valeurs que vous avez envoyées à la main.
 
 Le journal se trouve uniquement dans la mémoire du téléphone, conserve les 200 dernières entrées et recommence à zéro à chaque démarrage de l’app. Avec **Effacer**, vous le videz.
 
 ## Exporter le journal
 
-Touchez **Exporter le journal** en haut à droite. L’app crée un texte que vous pouvez transmettre par e-mail, par message ou dans un fichier. Il contient :
+Touchez le symbole de partage en haut à droite (un carré avec une flèche vers le haut). VoiceOver l’appelle **Exporter le journal**. L’app crée un texte que vous pouvez transmettre par e-mail, par message ou dans un fichier. Il contient :
 
 - la version de l’app, le modèle du téléphone et la version d’iOS,
 - l’appareil, le projet, le Tenant et le serveur,

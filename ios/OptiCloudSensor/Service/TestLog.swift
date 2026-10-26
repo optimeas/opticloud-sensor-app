@@ -2,7 +2,8 @@ import Foundation
 import Observation
 
 /// What the test area shows about the communication: commands and their answers, changes of shared attributes,
-/// values the app could not use, and the reasons of the connection state. It is kept in memory only.
+/// values the app could not use, the reasons of the connection state, the location updates, and the times the app
+/// went to the background or was paused. It is kept in memory only.
 @Observable
 final class TestLog {
     struct Entry: Identifiable {
@@ -12,6 +13,8 @@ final class TestLog {
             case problem
             case connection
             case sent
+            case location
+            case app
         }
 
         let id = UUID()

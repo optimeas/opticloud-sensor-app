@@ -180,6 +180,8 @@ private extension TestLog.Entry.Kind {
         case .problem: "exclamationmark.triangle"
         case .connection: "antenna.radiowaves.left.and.right"
         case .sent: "arrow.up.circle"
+        case .location: "location"
+        case .app: "app"
         }
     }
 }

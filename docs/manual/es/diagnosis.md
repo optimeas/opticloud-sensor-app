@@ -10,7 +10,7 @@ keywords:
   - soporte
   - cola sin conexión
 last_update:
-  date: 2026-10-25
+  date: 2026-10-26
   author: optiMEAS GmbH
 license: CC-BY-4.0
 copyright: © 2026 optiMEAS GmbH und optiMEAS Switzerland GmbH
@@ -51,13 +51,15 @@ El registro muestra, lo más reciente primero:
 - los cambios de los Shared Attributes, también de claves que la app no usa,
 - los valores que la app no ha podido usar, por ejemplo una frecuencia de envío no válida,
 - los cambios de la conexión con su motivo, por ejemplo «Sin red»,
+- el inicio y el fin de la ubicación y los problemas con ella,
+- cuándo la app pasó a segundo plano y volvió a primer plano, y **En pausa** cuando iOS detuvo la app, con la duración de la pausa,
 - los valores que has enviado a mano.
 
 El registro solo está en la memoria del teléfono, guarda las últimas 200 entradas y empieza de nuevo cada vez que se inicia la app. Con **Borrar** lo vacías.
 
 ## Exportar el registro
 
-Toca **Exportar registro** arriba a la derecha. La app crea un texto que puedes compartir por correo, por mensaje o en un archivo. Contiene:
+Toca el símbolo de compartir arriba a la derecha (un cuadrado con una flecha hacia arriba). VoiceOver lo llama **Exportar registro**. La app crea un texto que puedes compartir por correo, por mensaje o en un archivo. Contiene:
 
 - la versión de la app, el modelo del teléfono y la versión de iOS,
 - el dispositivo, el proyecto, el Tenant y el servidor,
