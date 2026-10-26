@@ -1,6 +1,6 @@
 # Sensors
 
-**Status: draft.** Keys, units, and the list are agreed. The iOS app implements the groups `device`, `location`, `motion`, `environment`, `activity`, and `sound`; on 2026-10-25 it sent all of them to an optiCLOUD server. Sending in the background did not hold in a first test on 2026-10-26; after a fix it did in a second test the same day. The group `health` is planned for stage 4.
+**Status: draft.** Keys, units, and the list are agreed. The iOS app implements the groups `device`, `location`, `motion`, `environment`, `activity`, and `sound`; on 2026-10-25 it sent all of them to an optiCLOUD server. Sending in the background did not hold in a first test on 2026-10-26; after a fix it did in a second test the same day. The group `health` is planned for stage 4. The group `test` is for checking the delivery.
 
 The app offers every sensor the phone has. This document defines how sensors are found, selected, and sampled, and which keys and units their values have. How the values are sent is in [messages.md](messages.md).
 
@@ -171,6 +171,26 @@ Values measured on the body. A phone does not measure them itself. They come fro
 | `respiratoryRate` | `respiratoryRate` | 1/min | 1 | E | Breaths per minute |
 
 Health values are personal data of a special kind. The group is never selected by default. Selecting it needs the user's explicit consent on the phone, with a text that says the values are sent to optiCLOUD. Selecting it through a shared attribute does not replace this consent: without it the app does not send health values.
+
+### `test`
+
+| Item | Key | Unit | Resolution | Kind | Meaning |
+| --- | --- | --- | --- | --- | --- |
+| `testCounter` | `testCounter` | count | 1 | S | Number of the tick since transmission was switched on |
+| `testSine` | `testSine` | −1 to 1 | 0.001 | S | Sine of the time stamp, one period per minute |
+
+The group sends values that are known in advance, so that the delivery can be checked on the server: that every tick arrived, that nothing was lost, and that every value belongs to its time stamp. It needs no sensor and no permission, and every phone offers it. It is never selected by default.
+
+- `testCounter` is 1 at the first tick after transmission is switched on, also when the app starts again with transmission on, and goes up by 1 at every tick. It changes at every tick, so while it is selected every tick sends a sample, also in the send mode "on change". A sample sent by the command `sendNow` is not a tick and leaves `testCounter` out.
+- `testSine` = sin(2π · (*t* mod 60000) / 60000), with *t* the time stamp of the sample in milliseconds. The test vectors are in [`test-signal.json`](vectors/test-signal.json).
+- Both values are computed at the tick itself and are always current.
+
+The script [`tools/check-test-signal.py`](tools/check-test-signal.py) reads the device data exported from optiCLOUD as CSV and reports:
+
+- **lost samples:** `testCounter` goes up by more than 1 between two samples,
+- **pauses:** two successive ticks are further apart than the maximum age (see [Age of values](#age-of-values)), so the app did not run in between,
+- **restarts:** `testCounter` starts again at 1,
+- **wrong values:** `testSine` does not belong to the time stamp of its sample.
 
 ## Open points
 

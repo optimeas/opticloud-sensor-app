@@ -16,6 +16,7 @@ This directory is the master for the behavior of optiCLOUD Sensor. The iOS app a
 | [offline-queue.md](offline-queue.md) | Buffering and delivery of telemetry | Draft, journal entries follow with stage 2 |
 | [journal.md](journal.md) | Journal entries as notes | Draft |
 | [vectors/](vectors/) | Test vectors shared by both apps | Draft |
+| [tools/](tools/) | Scripts that check data exported from optiCLOUD | Draft |
 
 Planned, not yet written:
 
@@ -45,6 +46,7 @@ Numbers are compared as numbers: `0`, `0.0`, and `-0.0` are equal. A description
 | [aggregation.json](vectors/aggregation.json) | Mean, minimum, and maximum of aggregated values |
 | [orientation.json](vectors/orientation.json) | Roll, pitch, and yaw from gravity and the magnetic field |
 | [sound-level.json](vectors/sound-level.json) | Estimated sound level from the microphone samples |
+| [test-signal.json](vectors/test-signal.json) | The sine of the test group from the time stamp |
 | [mqtt-packet-size.json](vectors/mqtt-packet-size.json) | Size of the MQTT packets counted for the data volume |
 | [data-volume.json](vectors/data-volume.json) | Data volume per day and per period |
 | [queue-batching.json](vectors/queue-batching.json) | Division of the offline queue into telemetry messages |

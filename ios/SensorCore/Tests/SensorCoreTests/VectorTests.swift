@@ -110,6 +110,25 @@ struct VectorTests {
         #expect(level.level.map { Catalog.resolution(ofValueKey: "soundLevel")!.round($0) } == vector.level)
     }
 
+    // MARK: test-signal.json
+
+    struct TestSignalCase: Decodable, CustomTestStringConvertible {
+        let name: String
+        let ts: Int64
+        let testSine: Double
+        let written: String?
+        var testDescription: String { name }
+    }
+
+    @Test(arguments: try TestVectors.cases("test-signal", as: TestSignalCase.self))
+    func testSignal(_ vector: TestSignalCase) throws {
+        let value = SendFilter.round(.number(TestSignal.sine(at: vector.ts)), key: "testSine")
+        #expect(try jsonValue(value) == .number(vector.testSine))
+        if let written = vector.written {
+            #expect(try String(decoding: JSONEncoder().encode(value), as: UTF8.self) == written)
+        }
+    }
+
     // MARK: mqtt-packet-size.json
 
     struct PacketSizeCase: Decodable, CustomTestStringConvertible {

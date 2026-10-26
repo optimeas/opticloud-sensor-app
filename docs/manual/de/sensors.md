@@ -11,7 +11,7 @@ keywords:
   - Standort
   - Schallpegel
 last_update:
-  date: 2026-10-25
+  date: 2026-10-26
   author: optiMEAS GmbH
 license: CC-BY-4.0
 copyright: © 2026 optiMEAS GmbH und optiMEAS Switzerland GmbH
@@ -102,6 +102,25 @@ Den Schallpegel misst die App nur, solange sie geöffnet ist. iOS schränkt das 
 ## Gesundheit
 
 Werte wie Herzfrequenz oder Sauerstoffsättigung von einer Uhr sind geplant und kommen in einer späteren Version.
+
+## Testsignal
+
+| Wert | Schlüssel | Einheit | Auflösung |
+|---|---|---|---|
+| Taktzähler | `testCounter` | Anzahl | 1 |
+| Sinus | `testSine` | −1 bis 1 | 0,001 |
+
+Das Testsignal misst nichts. Es sendet Werte, die im Voraus feststehen, damit du in optiCLOUD prüfen kannst, ob alles angekommen ist, zum Beispiel bei einem Test im Hintergrund. Es braucht keine Erlaubnis und ist ab Werk nicht gewählt.
+
+`testCounter` beginnt mit jedem Start des Sendens bei 1 und steigt mit jedem Takt um 1. `testSine` ist ein Sinus mit einer Periode pro Minute, berechnet aus dem Zeitstempel des Werts.
+
+Exportiere nach dem Test die Telemetrie des Geräts in optiCLOUD als CSV und prüfe sie mit dem Skript [`check-test-signal.py`](https://github.com/optimeas/opticloud-sensor-app/blob/main/docs/spec/tools/check-test-signal.py):
+
+```bash
+python3 check-test-signal.py device-data.csv
+```
+
+Es meldet verlorene Werte, Pausen, in denen die App nicht lief, Neustarts des Sendens und Werte, die nicht zu ihrem Zeitstempel passen.
 
 ## Mehr Details
 

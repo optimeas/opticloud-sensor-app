@@ -27,6 +27,8 @@ final class SensorService {
     @ObservationIgnored private var ticks: Task<Void, Never>?
     /// The time of the previous tick, to see a pause of the app.
     @ObservationIgnored private var previousTick: Date?
+    /// The number of the tick since transmission was switched on, for `testCounter`.
+    @ObservationIgnored private var tickCount = 0
     @ObservationIgnored private var filter = SendFilter()
 
     private(set) var settings: TransmissionSettings {
@@ -118,6 +120,7 @@ final class SensorService {
         .union(EnvironmentSampler.offered)
         .union(ActivitySampler.offered)
         .union(SoundSampler.offered)
+        .union(["testCounter", "testSine"])
 
     /// Changes the selection on the phone. Not possible while optiCLOUD manages it.
     func setSelection(_ selection: Selection) {
@@ -165,6 +168,7 @@ final class SensorService {
         filter = SendFilter(mode: settings.sendMode)
         transmittingSince = Date()
         samplesSinceStart = 0
+        tickCount = 0
         ticks = Task { [weak self] in
             let clock = ContinuousClock()
             var next = clock.now
@@ -252,14 +256,17 @@ final class SensorService {
             log.add(.app, String(localized: "Paused"), detail: String(localized: "No tick for \(seconds) s, since \(previousTick.formatted(date: .omitted, time: .standard))."))
         }
         previousTick = now
-        let measured = measureSelected(at: now)
+        tickCount += 1
+        // The time stamp of the sample is the time of the tick; `testSine` is computed from it.
+        let ts = Self.milliseconds(now)
+        let measured = measureSelected(at: now, ts: ts, tick: tickCount)
         var live = measured.filter { $0.value.isSendable }.reduce(into: [String: TelemetryValue]()) { result, entry in
             result[entry.key] = SendFilter.round(entry.value, key: entry.key)
         }
         live["activityType"] = liveValues["activityType"]
         liveValues = live
         lastTick = Date()
-        guard let sample = filter.sample(at: Self.now(), measured: measured) else { return }
+        guard let sample = filter.sample(at: ts, measured: measured) else { return }
         try? await queue.append(sample)
         samplesSinceStart += 1
         refreshQueueStatus()
@@ -267,15 +274,18 @@ final class SensorService {
 
     /// One sample of all selected values, rounded, for the command `sendNow`.
     private func sendNow() async {
-        let values = measureSelected(at: Date()).filter { $0.value.isSendable }.reduce(into: [:]) { result, entry in
+        let now = Date()
+        let ts = Self.milliseconds(now)
+        // Not a tick, so without `testCounter`.
+        let values = measureSelected(at: now, ts: ts, tick: nil).filter { $0.value.isSendable }.reduce(into: [:]) { result, entry in
             result[entry.key] = SendFilter.round(entry.value, key: entry.key)
         }
         guard !values.isEmpty else { return }
-        try? await queue.append(Sample(ts: Self.now(), values: values))
+        try? await queue.append(Sample(ts: ts, values: values))
         refreshQueueStatus()
     }
 
-    private func measureSelected(at now: Date) -> [String: TelemetryValue] {
+    private func measureSelected(at now: Date, ts: Int64, tick: Int?) -> [String: TelemetryValue] {
         let keys = Set(settings.selection.items(offered: offered).flatMap(\.sentKeys))
         var values = sampler.measure().merging(dataVolume.telemetry()) { $1 }
         let measurements = [
@@ -284,6 +294,7 @@ final class SensorService {
             environment.measure(now: now, maxAge: maxAge),
             activity.measure(now: now, maxAge: maxAge),
             sound.measure(),
+            TestSignal.values(at: ts, counter: tick),
         ]
         for measured in measurements {
             values.merge(measured) { $1 }
@@ -292,7 +303,11 @@ final class SensorService {
     }
 
     private static func now() -> Int64 {
-        Int64((Date().timeIntervalSince1970 * 1000).rounded())
+        milliseconds(Date())
+    }
+
+    private static func milliseconds(_ date: Date) -> Int64 {
+        Int64((date.timeIntervalSince1970 * 1000).rounded())
     }
 
     // MARK: Device
