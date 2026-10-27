@@ -1,13 +1,12 @@
 {
-  "originHash" : "ba2c9b4f7325e4f8a32bd785bf7fadb2954274152cf64e6dbe0b85c60b7c42c1",
+  "originHash" : "bd3ba062639ec19f6abf135f735ffc337a16bc23307f81bf3101a68690d61414",
   "pins" : [
     {
       "identity" : "mqtt-nio",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/swift-server-community/mqtt-nio.git",
+      "location" : "https://github.com/optimeas/mqtt-nio.git",
       "state" : {
-        "revision" : "64c9fb4d7cb9ed40a8f21a195db0e295a9c06265",
-        "version" : "3.0.0-rc.1"
+        "revision" : "faa68d6ff52e19fff03df7992243b18c526ce4ed"
       }
     },
     {
@@ -132,8 +131,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-nio-extras.git",
       "state" : {
-        "revision" : "41449336c8ecfadac6b4b5be75f9c3c306e61ced",
-        "version" : "1.35.1"
+        "revision" : "8e1249b29f92574e05e0d91637f239e378a9a95b",
+        "version" : "1.35.2"
       }
     },
     {

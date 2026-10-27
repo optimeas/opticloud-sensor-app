@@ -13,8 +13,10 @@ let package = Package(
         .library(name: "DeviceLink", targets: ["DeviceLink"]),
     ],
     dependencies: [
-        // Apache 2.0. Version 3 is chosen in docs/project-brief.md; pinned until it has a final release.
-        .package(url: "https://github.com/swift-server-community/mqtt-nio.git", exact: "3.0.0-rc.1"),
+        // Apache 2.0. Version 3 is chosen in docs/project-brief.md. Our fork: 3.0.0-rc.1 with the fix for a crash
+        // when packets arrive after the connection closed (upstream issue #274, pull request #280). Back to the
+        // original once a release has the fix.
+        .package(url: "https://github.com/optimeas/mqtt-nio.git", revision: "faa68d6ff52e19fff03df7992243b18c526ce4ed"),
         // Apache 2.0. Lets MQTTNIO use the Network framework, which iOS requires.
         .package(url: "https://github.com/apple/swift-nio-transport-services.git", from: "1.26.0"),
         // Apache 2.0. Only to switch off the log of MQTTNIO.
