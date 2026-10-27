@@ -1,0 +1,68 @@
+{
+  "description": "Which versions the screen What's New shows. Input: lastSeen (the last seen version, null for none), version (the version of the app), withHighlights (the versions that have highlights, in any order). Expected: versions, newest first. See whats-new.md, What the screen shows.",
+  "cases": [
+    {
+      "name": "update by one version",
+      "lastSeen": "0.8.0",
+      "version": "0.9.0",
+      "withHighlights": ["0.8.0", "0.9.0"],
+      "versions": ["0.9.0"]
+    },
+    {
+      "name": "update over several versions",
+      "lastSeen": "0.1.0",
+      "version": "0.9.0",
+      "withHighlights": ["0.8.0", "0.9.0"],
+      "versions": ["0.9.0", "0.8.0"]
+    },
+    {
+      "name": "no last seen version",
+      "lastSeen": null,
+      "version": "0.9.0",
+      "withHighlights": ["0.9.0", "0.8.0"],
+      "versions": ["0.9.0", "0.8.0"]
+    },
+    {
+      "name": "versions after the app are left out",
+      "lastSeen": null,
+      "version": "0.8.0",
+      "withHighlights": ["0.8.0", "0.9.0"],
+      "versions": ["0.8.0"]
+    },
+    {
+      "name": "the version of the app has no highlights",
+      "lastSeen": "0.8.0",
+      "version": "0.9.1",
+      "withHighlights": ["0.8.0", "0.9.0"],
+      "versions": ["0.9.0"]
+    },
+    {
+      "name": "nothing new",
+      "lastSeen": "0.9.0",
+      "version": "0.9.1",
+      "withHighlights": ["0.8.0", "0.9.0"],
+      "versions": []
+    },
+    {
+      "name": "same version",
+      "lastSeen": "0.9.0",
+      "version": "0.9.0",
+      "withHighlights": ["0.8.0", "0.9.0"],
+      "versions": []
+    },
+    {
+      "name": "numbers compare as numbers",
+      "lastSeen": "0.9.0",
+      "version": "0.10.0",
+      "withHighlights": ["0.9.0", "0.10.0"],
+      "versions": ["0.10.0"]
+    },
+    {
+      "name": "older version installed",
+      "lastSeen": "0.9.0",
+      "version": "0.8.0",
+      "withHighlights": ["0.8.0", "0.9.0"],
+      "versions": ["0.8.0"]
+    }
+  ]
+}

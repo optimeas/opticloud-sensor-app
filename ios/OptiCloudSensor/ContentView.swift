@@ -10,7 +10,7 @@ struct ContentView: View {
     @AppStorage("selectedTab") private var selectedTab = "live"
     /// The version whose welcome or what's-new screen was last shown (see `docs/spec/whats-new.md`).
     @AppStorage("lastSeenVersion") private var lastSeenVersion: String?
-    @State private var startScreen: StartScreen?
+    @State private var startScreen: StartSheet?
 
     var body: some View {
         Group {
@@ -47,9 +47,9 @@ struct ContentView: View {
         .sheet(isPresented: $isSigningIn) {
             SignInView(app: app)
         }
-        .sheet(item: $startScreen, onDismiss: startScreenClosed) { screen in
+        .sheet(item: $startScreen, onDismiss: startScreenClosed) { sheet in
             NavigationStack {
-                WelcomeView(screen: screen) { startScreen = nil }
+                WelcomeView(screen: sheet.screen, releases: sheet.releases) { startScreen = nil }
             }
             .interactiveDismissDisabled()
         }
@@ -68,10 +68,11 @@ extension ContentView {
     private func showStartScreen() {
         guard startScreen == nil else { return }
         let version = ReleaseNotes.currentVersion
+        let releases = ReleaseNotes.new(since: lastSeenVersion)
         startScreen = StartScreen.at(
             lastSeen: lastSeenVersion, version: version,
-            hasDevice: app.device != nil, hasHighlights: !(ReleaseNotes.current?.highlights.isEmpty ?? true)
-        )
+            hasDevice: app.device != nil, hasHighlights: !releases.isEmpty
+        ).map { StartSheet(screen: $0, releases: releases) }
         if startScreen == nil { lastSeenVersion = version }
     }
 
@@ -82,8 +83,12 @@ extension ContentView {
     }
 }
 
-extension StartScreen: @retroactive Identifiable {
-    public var id: Self { self }
+/// The screen at start with the releases that "What's New" shows.
+private struct StartSheet: Identifiable {
+    let screen: StartScreen
+    let releases: [Release]
+
+    var id: StartScreen { screen }
 }
 
 /// The connection state as a short label with a symbol and its color.

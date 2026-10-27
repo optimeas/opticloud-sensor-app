@@ -338,4 +338,21 @@ struct VectorTests {
         let screen = StartScreen.at(lastSeen: vector.lastSeen, version: vector.version, hasDevice: vector.hasDevice, hasHighlights: vector.hasHighlights)
         #expect(screen == vector.screen)
     }
+
+    // MARK: whats-new-versions.json
+
+    struct WhatsNewVersionsCase: Decodable, CustomTestStringConvertible {
+        let name: String
+        let lastSeen: String?
+        let version: String
+        let withHighlights: [String]
+        let versions: [String]
+        var testDescription: String { name }
+    }
+
+    @Test(arguments: try TestVectors.cases("whats-new-versions", as: WhatsNewVersionsCase.self))
+    func whatsNewVersions(_ vector: WhatsNewVersionsCase) {
+        let versions = StartScreen.versions(lastSeen: vector.lastSeen, version: vector.version, withHighlights: vector.withHighlights)
+        #expect(versions == vector.versions)
+    }
 }

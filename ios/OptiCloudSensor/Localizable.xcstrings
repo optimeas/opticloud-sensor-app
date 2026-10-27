@@ -654,6 +654,35 @@
         }
       }
     },
+    "After an update over several versions, What’s New shows the highlights of each of them." : {
+      "comment" : "Change in version 0.9",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nach einem Update über mehrere Versionen zeigt „Neu in optiCLOUD Sensor“ die Highlights jeder dieser Versionen."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Après une mise à jour sur plusieurs versions, « Nouveautés d’optiCLOUD Sensor » montre les points forts de chacune."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dopo un aggiornamento di più versioni, «Novità di optiCLOUD Sensor» mostra i punti salienti di ciascuna."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tras una actualización de varias versiones, «Novedades de optiCLOUD Sensor» muestra lo más destacado de cada una."
+          }
+        }
+      }
+    },
     "Air Pressure" : {
       "localizations" : {
         "de" : {
@@ -8310,6 +8339,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Historial de versiones"
+          }
+        }
+      }
+    },
+    "Versions %@ to %@" : {
+      "comment" : "Subtitle of the screen What's New when it shows several versions",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versionen %1$@ bis %2$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versions %1$@ à %2$@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versioni da %1$@ a %2$@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versiones %1$@ a %2$@"
           }
         }
       }

@@ -23,7 +23,7 @@ Diese Seite listet alle Versionen der App für iOS, die neueste zuerst.
 ## Willkommen und Neuigkeiten in der App
 
 - Beim ersten Start begrüßt dich die App mit einem **Willkommensbildschirm**. Er zeigt in wenigen Punkten, was die App kann. Mit **Los geht’s** geht es weiter zur Anmeldung.
-- Nach einem Update zeigt die App einmal **Neu in optiCLOUD Sensor** mit den wichtigsten Neuerungen der Version. Mit **Weiter** schließt du den Bildschirm. Neue Builds derselben Version zeigen ihn nicht noch einmal.
+- Nach einem Update zeigt die App einmal **Neu in optiCLOUD Sensor** mit den wichtigsten Neuerungen der Version. Hast du Versionen übersprungen, zeigt sie die jeder Version seit der zuletzt gesehenen. Mit **Weiter** schließt du den Bildschirm. Neue Builds derselben Version zeigen ihn nicht noch einmal.
 - Beide Bildschirme findest du jederzeit unter **Einstellungen** → **Über optiCLOUD Sensor**: **Willkommen** und **Versionsverlauf**. Im Versionsverlauf ist jede Änderung als neu (✦), verbessert (↑) oder behoben (Werkzeug) markiert.
 
 ## Version 0.9.0
@@ -32,6 +32,7 @@ Diese Seite listet alle Versionen der App für iOS, die neueste zuerst.
 
 - **Neu:** Solange die App sendet, zeigt eine Live-Aktivität auf dem Sperrbildschirm und in der Dynamic Island den Zustand, das Gerät und die wartenden Werte, mit einem Knopf zum Stoppen. Siehe [Hintergrund und Standort](background.md).
 - **Neu:** Das Steuerelement „An optiCLOUD senden“ startet und stoppt das Senden aus dem Kontrollzentrum, vom Sperrbildschirm oder mit der Aktionstaste.
+- **Verbessert:** Nach einem Update über mehrere Versionen zeigt „Neu in optiCLOUD Sensor“ die Highlights jeder dieser Versionen.
 
 ## Version 0.8.0
 

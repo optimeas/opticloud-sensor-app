@@ -9,6 +9,10 @@ Every version of the iOS app, newest first, in the format of [Keep a Changelog](
 - Live Activity on the Lock Screen and in the Dynamic Island while the app sends: the state, the device, the time since sending started, and the waiting values, with a button to stop.
 - Control "Send to optiCLOUD" for Control Center, the Lock Screen, and the Action button.
 
+### Changed
+
+- After an update over several versions, the screen "What's New" shows the highlights of each version since the last one seen, and of all versions when none was kept.
+
 ## 0.8.0 – 2026-10-27
 
 ### Added
