@@ -54,6 +54,7 @@ The app is open source under the MIT license. Why we do this is explained in [Wh
 | [Notes](notes.md) | Writing notes in the app and with Siri, also without a network |
 | [Diagnosis](diagnosis.md) | Log, queue, notes, test values, and export |
 | [Privacy](privacy.md) | Which data the app collects and where it goes |
+| [What's New](whats-new.md) | What is new, improved, and fixed in each version |
 
 ## Requirements
 

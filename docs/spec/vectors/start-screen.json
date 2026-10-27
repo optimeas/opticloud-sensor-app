@@ -1,0 +1,85 @@
+{
+  "description": "Which screen appears at start. Input: lastSeen (the last seen version, null for none), version (the version of the app), hasDevice (a device is chosen), hasHighlights (the version has highlights). Expected: screen, one of welcome, whatsNew, or null for none. See whats-new.md, When a screen appears.",
+  "cases": [
+    {
+      "name": "first install",
+      "lastSeen": null,
+      "version": "0.8.0",
+      "hasDevice": false,
+      "hasHighlights": true,
+      "screen": "welcome"
+    },
+    {
+      "name": "first install of a version without highlights",
+      "lastSeen": null,
+      "version": "0.9.0",
+      "hasDevice": false,
+      "hasHighlights": false,
+      "screen": "welcome"
+    },
+    {
+      "name": "used before the last seen version was kept",
+      "lastSeen": null,
+      "version": "0.8.0",
+      "hasDevice": true,
+      "hasHighlights": true,
+      "screen": "whatsNew"
+    },
+    {
+      "name": "used before, version without highlights",
+      "lastSeen": null,
+      "version": "0.8.0",
+      "hasDevice": true,
+      "hasHighlights": false,
+      "screen": null
+    },
+    {
+      "name": "update",
+      "lastSeen": "0.1.0",
+      "version": "0.8.0",
+      "hasDevice": true,
+      "hasHighlights": true,
+      "screen": "whatsNew"
+    },
+    {
+      "name": "update without a device",
+      "lastSeen": "0.1.0",
+      "version": "0.8.0",
+      "hasDevice": false,
+      "hasHighlights": true,
+      "screen": "whatsNew"
+    },
+    {
+      "name": "update to a version without highlights",
+      "lastSeen": "0.8.0",
+      "version": "0.8.1",
+      "hasDevice": true,
+      "hasHighlights": false,
+      "screen": null
+    },
+    {
+      "name": "same version",
+      "lastSeen": "0.8.0",
+      "version": "0.8.0",
+      "hasDevice": true,
+      "hasHighlights": true,
+      "screen": null
+    },
+    {
+      "name": "same version without a device",
+      "lastSeen": "0.8.0",
+      "version": "0.8.0",
+      "hasDevice": false,
+      "hasHighlights": true,
+      "screen": null
+    },
+    {
+      "name": "older version installed",
+      "lastSeen": "0.9.0",
+      "version": "0.8.0",
+      "hasDevice": true,
+      "hasHighlights": true,
+      "screen": "whatsNew"
+    }
+  ]
+}

@@ -48,6 +48,7 @@ Use **MQTTNIO** 3.x (`swift-server-community/mqtt-nio`, Apache 2.0). Do not add 
 
 - Work on branches named `ios/<topic>`. Merge into `main` through a pull request.
 - Change only files under `ios/` and, when the specification needs it, under `docs/`. Never touch `android/`.
+- A change the user notices gets a line in the version history: `OptiCloudSensor/WhatsNew/ReleaseNotes.swift` (with highlights for the screen "What's New" when it matters), [`CHANGELOG.md`](CHANGELOG.md), and the manual page "What's New", under the version in `MARKETING_VERSION`. A new version raises `MARKETING_VERSION`; builds of one version share its notes.
 - The user manual in [`docs/manual/`](../docs/manual/) describes the iOS app. A change the user can see goes into the German and English pages in the same pull request, and into the French, Italian, and Spanish pages as described in [`docs/manual/TRANSLATING.md`](../docs/manual/TRANSLATING.md).
 - When the specification is unclear or wrong, stop and say so. Do not resolve it in the code. The fix goes into `docs/spec/` first, then into both apps.
 - Never read the predecessor app "optiCLOUD Demo App" for this work; nothing is derived from it.

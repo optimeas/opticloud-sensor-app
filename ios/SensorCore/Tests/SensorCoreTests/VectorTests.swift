@@ -320,4 +320,22 @@ struct VectorTests {
         let entry = JournalEntry(title: vector.title, text: vector.text, savedAt: 0, utcOffsetMinutes: 0)
         #expect(entry.noteName == vector.expected)
     }
+
+    // MARK: start-screen.json
+
+    struct StartScreenCase: Decodable, CustomTestStringConvertible {
+        let name: String
+        let lastSeen: String?
+        let version: String
+        let hasDevice: Bool
+        let hasHighlights: Bool
+        let screen: StartScreen?
+        var testDescription: String { name }
+    }
+
+    @Test(arguments: try TestVectors.cases("start-screen", as: StartScreenCase.self))
+    func startScreen(_ vector: StartScreenCase) {
+        let screen = StartScreen.at(lastSeen: vector.lastSeen, version: vector.version, hasDevice: vector.hasDevice, hasHighlights: vector.hasHighlights)
+        #expect(screen == vector.screen)
+    }
 }
