@@ -11,7 +11,7 @@ keywords:
   - dispositivo
   - Access Token
 last_update:
-  date: 2026-10-25
+  date: 2026-10-27
   author: optiMEAS GmbH
 license: CC-BY-4.0
 copyright: © 2026 optiMEAS GmbH und optiMEAS Switzerland GmbH
@@ -60,6 +60,7 @@ Con **Detener envío** dejas de enviar.
 | Pestaña | Contenido |
 |---|---|
 | **Live** | Iniciar y detener el envío, los valores actuales |
+| **Favoritos** | Abrir páginas de optiCLOUD en Safari (consulta [Favoritos](favorites.md)) |
 | **Diagnóstico** | Registro, cola sin conexión, enviar valores de prueba (consulta [Diagnóstico](diagnosis.md)) |
 | **Ajustes** | Dispositivo, Conexión, Envío, Sensores, Volumen de datos, Cuenta, Acerca de |
 

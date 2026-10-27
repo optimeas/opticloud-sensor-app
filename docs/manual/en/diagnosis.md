@@ -2,7 +2,7 @@
 title: Diagnosis
 description: Log, offline queue, and test values on the Diagnosis tab of the optiCLOUD Sensor app, and how to export the log.
 sidebar_label: Diagnosis
-sidebar_position: 8
+sidebar_position: 9
 image: "/img/om_social_card.png"
 keywords:
   - diagnosis

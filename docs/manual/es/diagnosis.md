@@ -2,7 +2,7 @@
 title: Diagnóstico
 description: Registro, cola sin conexión y valores de prueba en la pestaña Diagnóstico de la app optiCLOUD Sensor, y cómo exportar el registro.
 sidebar_label: Diagnóstico
-sidebar_position: 8
+sidebar_position: 9
 image: "/img/om_social_card.png"
 keywords:
   - diagnóstico

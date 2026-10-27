@@ -2,7 +2,7 @@
 title: Diagnostica
 description: Registro, coda offline e valori di prova nel tab Diagnostica dell’app optiCLOUD Sensor, e come esportare il registro.
 sidebar_label: Diagnostica
-sidebar_position: 8
+sidebar_position: 9
 image: "/img/om_social_card.png"
 keywords:
   - diagnostica

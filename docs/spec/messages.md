@@ -94,7 +94,7 @@ optiCLOUD controls settings of the app through these shared attributes:
 | --- | --- | --- |
 | `sendRate` | number | The send rate in seconds |
 | `sensors` | string | The selection for transmission: group keys and item keys, separated by commas. See [sensors.md](sensors.md#selection). |
-| `dashboard` | string | Identifier of the default dashboard for the jump to optiCLOUD |
+| `dashboard` | string | Identifier of the default dashboard, the first entry of the tab Favorites (see [favorites.md](favorites.md)) |
 
 The shared attribute `sensorAppInstallation` is not a setting. It binds the device to one phone; see [sign-in.md](sign-in.md#binding-to-the-phone) and [connection.md](connection.md#checking-the-binding).
 

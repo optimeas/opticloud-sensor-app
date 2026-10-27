@@ -96,9 +96,9 @@ Nobody handles tokens by hand. The details are in [docs/spec/sign-in.md](spec/si
 
 After that the user only has to connect and start transmitting.
 
-### Jump to optiCLOUD
+### Favorites
 
-A button opens the default dashboard from the settings. If none is set, it opens the home view of optiCLOUD.
+The tab Favorites opens pages of the optiCLOUD web application in a browser view of the app, already signed in: first the default dashboard from the settings, or the home view of optiCLOUD if none is set; then the favorites the user keeps in the web application; then pages the user picks on the phone from the lists of dashboards and devices. Details in [docs/spec/favorites.md](spec/favorites.md).
 
 ## Architecture requirements
 
@@ -124,12 +124,19 @@ The two apps are developed in separate working sessions, usually on separate com
 
 ## Stages
 
-1. **Foundation.** Sign-in and device selection through the REST API, service layer with background operation, configuration, connect and transmit as separate states, sensor selection and send rate, location, test area, jump to optiCLOUD.
+1. **Foundation.** Sign-in and device selection through the REST API, service layer with background operation, configuration, connect and transmit as separate states, sensor selection and send rate, location, test area, favorites with the jump to optiCLOUD.
 2. **Journal entries** with the offline queue.
 3. **Photos.**
 4. **Health data.** Values measured on the body, such as heart rate and body temperature, from the health store of the platform. This stage comes only after the app is in productive use and ships as a release of its own, because health data needs explicit consent, its own store statements, and a closer review by both stores.
 
 The leading app works through a stage first, and the following app catches up (see the decision on order). A stage is finished when both apps implement it and pass the shared test vectors.
+
+## Ideas
+
+Ideas of the user, collected on 2026-10-27. None is planned or assigned to a stage yet.
+
+- **Notes on the phone.** The app mirrors the notes from optiCLOUD, so that their whole history is on the phone, with older notes loaded on demand. Open: notes that belong to the tenant instead of a device, and which of them the app shows.
+- **Messages from optiCLOUD.** optiCLOUD sends messages to the app, and the phone shows them as a banner. They can come from the rule engine, for example from rules the device keeps for itself, or from a person at a dashboard who sends one by hand. Open: how a message reaches the phone while the app is not running, which would need push notifications sent by optiCLOUD, and whether that is work in optiCLOUD.
 
 ## Working with the optiCLOUD source
 
@@ -197,5 +204,6 @@ On 2026-10-24 sign-in with a role, renewing the session, the project tree, creat
 
 1. Who provides the dashboard widget for the latest photo of a series? The source has an image widget and a file explorer widget; a widget for the latest photo of a series was not found. Building it is work in optiCLOUD, not in this repository.
 2. optiMEAS is asked to extend notes in optiCLOUD: a time stamp set by the client, and a history that shows which user changed a note when. Until then the app carries the moment of saving in the additional information and in the text.
-3. On the test server, alarm messages were not acknowledged and the alarms were not found (2026-10-24). This needs to be cleared up before the app relies on alarms.
-4. Two-factor sign-in and users with restricted rights still need a test, with a second test account that is not a tenant administrator.
+3. optiMEAS is asked for a supported way to open a page of the web application signed in, with a return address. Until then the app hands its session to a browser view in a way that depends on internal behavior of the web application (see [docs/spec/favorites.md](spec/favorites.md#opening-a-page)).
+4. On the test server, alarm messages were not acknowledged and the alarms were not found (2026-10-24). This needs to be cleared up before the app relies on alarms.
+5. Two-factor sign-in and users with restricted rights still need a test, with a second test account that is not a tenant administrator.

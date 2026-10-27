@@ -11,7 +11,7 @@ keywords:
   - Gerät
   - Access Token
 last_update:
-  date: 2026-10-25
+  date: 2026-10-27
   author: optiMEAS GmbH
 license: CC-BY-4.0
 copyright: © 2026 optiMEAS GmbH und optiMEAS Switzerland GmbH
@@ -60,6 +60,7 @@ Mit **Senden stoppen** hörst du auf zu senden.
 | Tab | Inhalt |
 |---|---|
 | **Live** | Senden starten und stoppen, die aktuellen Werte |
+| **Favoriten** | Seiten von optiCLOUD in Safari öffnen (siehe [Favoriten](favorites.md)) |
 | **Diagnose** | Protokoll, Offline-Warteschlange, Testwerte senden (siehe [Diagnose](diagnosis.md)) |
 | **Einstellungen** | Gerät, Verbindung, Senden, Sensoren, Datenvolumen, Konto, Über die App |
 
