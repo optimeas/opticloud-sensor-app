@@ -95,7 +95,8 @@ def main():
             lost.append((ts0, ts1, counter0, counter1))
         elif counter1 < counter0:
             restarts.append(ts1)
-        if counter1 == counter0 + 1 and ts1 - ts0 > max_age_ms:
+        # A gap before a restart is a pause too: the app did not run in between.
+        if counter1 != counter0 and counter1 <= counter0 + 1 and ts1 - ts0 > max_age_ms:
             pauses.append((ts0, ts1))
 
     wrong = [(ts, sine, expected_sine(ts)) for ts, _, sine in rows
