@@ -5,6 +5,8 @@ import SwiftUI
 /// Without `onContinue`, it is shown from the information about the app and has no button.
 struct WelcomeView: View {
     let screen: StartScreen
+    /// For "What's New": the releases to show, newest first. With more than one, each gets its version as a heading.
+    var releases: [Release] = []
     var onContinue: (() -> Void)?
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -15,11 +17,21 @@ struct WelcomeView: View {
             VStack(spacing: 36) {
                 header
                 VStack(alignment: .leading, spacing: 24) {
-                    ForEach(Array(highlights.enumerated()), id: \.element.id) { index, highlight in
-                        HighlightRow(highlight: highlight, hasAppeared: hasAppeared)
-                            .opacity(hasAppeared || reduceMotion ? 1 : 0)
-                            .offset(y: hasAppeared || reduceMotion ? 0 : 16)
-                            .animation(reduceMotion ? nil : .spring(duration: 0.6).delay(0.15 + 0.1 * Double(index)), value: hasAppeared)
+                    ForEach(Array(rows.enumerated()), id: \.element.id) { index, row in
+                        Group {
+                            switch row {
+                            case .version(let version):
+                                Text("Version \(version)")
+                                    .font(.title3.bold())
+                                    .padding(.top, index == 0 ? 0 : 12)
+                                    .accessibilityAddTraits(.isHeader)
+                            case .highlight(let highlight):
+                                HighlightRow(highlight: highlight, hasAppeared: hasAppeared)
+                            }
+                        }
+                        .opacity(hasAppeared || reduceMotion ? 1 : 0)
+                        .offset(y: hasAppeared || reduceMotion ? 0 : 16)
+                        .animation(reduceMotion ? nil : .spring(duration: 0.6).delay(0.15 + 0.1 * Double(min(index, 8))), value: hasAppeared)
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -80,12 +92,20 @@ struct WelcomeView: View {
                     .font(.largeTitle.bold())
                     .multilineTextAlignment(.center)
                     .accessibilityAddTraits(.isHeader)
-                Text(screen == .welcome ? "Your iPhone as a sensor for optiCLOUD." : "Version \(ReleaseNotes.currentVersion)")
+                Text(subtitle)
                     .font(.title3)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
             }
         }
+    }
+
+    private var subtitle: LocalizedStringResource {
+        if screen == .welcome { return "Your iPhone as a sensor for optiCLOUD." }
+        if releases.count > 1, let newest = releases.first, let oldest = releases.last {
+            return LocalizedStringResource("Versions \(oldest.version) to \(newest.version)", comment: "Subtitle of the screen What's New when it shows several versions")
+        }
+        return "Version \(ReleaseNotes.currentVersion)"
     }
 
     /// The colors of the logo, faded into the background.
@@ -99,10 +119,26 @@ struct WelcomeView: View {
         .ignoresSafeArea()
     }
 
-    private var highlights: [Highlight] {
+    private enum Row: Identifiable {
+        case version(String)
+        case highlight(Highlight)
+
+        var id: String {
+            switch self {
+            case .version(let version): "version \(version)"
+            case .highlight(let highlight): highlight.id
+            }
+        }
+    }
+
+    private var rows: [Row] {
         switch screen {
-        case .welcome: ReleaseNotes.welcome
-        case .whatsNew: ReleaseNotes.current?.highlights ?? ReleaseNotes.welcome
+        case .welcome:
+            ReleaseNotes.welcome.map(Row.highlight)
+        case .whatsNew where releases.count == 1:
+            releases[0].highlights.map(Row.highlight)
+        case .whatsNew:
+            releases.flatMap { [Row.version($0.version)] + $0.highlights.map(Row.highlight) }
         }
     }
 }
@@ -137,7 +173,11 @@ private struct HighlightRow: View {
 }
 
 #Preview("What's New") {
-    NavigationStack { WelcomeView(screen: .whatsNew, onContinue: {}) }
+    NavigationStack { WelcomeView(screen: .whatsNew, releases: ReleaseNotes.new(since: "0.8.0"), onContinue: {}) }
+}
+
+#Preview("What's New, Several Versions") {
+    NavigationStack { WelcomeView(screen: .whatsNew, releases: ReleaseNotes.new(since: nil), onContinue: {}) }
 }
 
 extension Text {

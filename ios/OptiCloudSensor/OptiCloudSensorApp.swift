@@ -6,6 +6,7 @@ struct OptiCloudSensorApp: App {
     @State private var app: AppModel
     @State private var service: SensorService
     @State private var journal: JournalService
+    private let sendingActivity: SendingActivityController
 
     init() {
         let dataVolume = DataVolumeCounter()
@@ -15,6 +16,7 @@ struct OptiCloudSensorApp: App {
         _app = State(initialValue: app)
         _service = State(initialValue: service)
         _journal = State(initialValue: journal)
+        sendingActivity = SendingActivityController(app: app, service: service)
         // The App Shortcuts of the journal reach the service through this.
         AppDependencyManager.shared.add(dependency: journal)
         NoteShortcuts.updateAppShortcutParameters()

@@ -111,6 +111,27 @@ The reason is also shown in the test area, with the time it occurred.
 - Disconnecting does not switch transmission off, and switching transmission off does not disconnect.
 - The test area works whenever the connection state is Connected, whether transmission is on or off.
 
+## Status outside the app
+
+While transmission is on, the app shows outside of itself that it sends, so that the user sees it on the Lock Screen and can stop it without opening the app. Implemented in the iOS app since 2026-10-28.
+
+The status has three phases, taken from the connection state:
+
+| Connection state | Phase | Shown |
+| --- | --- | --- |
+| Connected | Sending | the number of values waiting in the [offline queue](offline-queue.md), or that all are delivered |
+| Disconnected, Connecting, Waiting | Waiting | the number of values waiting |
+| Refused | Refused | that optiCLOUD refused the device |
+
+- The status also shows the name of the device and the time since transmission was switched on, and has a button that switches transmission off.
+- A change of the phase is shown at once. A change of the number of waiting values alone is shown at most every 15 seconds, to spare the battery.
+- When transmission is switched off, the status goes away.
+- A system control switches transmission on and off. It shows whether transmission is on. Switching on may open the app, where the platform allows a background task or a status to start only from the foreground.
+
+On iOS, the status is a Live Activity on the Lock Screen and in the Dynamic Island, and the control is a control for Control Center, the Lock Screen, and the Action button. A Live Activity can only start while the app is in the foreground, and iOS ends it after eight hours; the app starts a new one when it comes to the foreground while transmission is on. Switching on from the control opens the app.
+
+On Android (planned), the status is the notification of the foreground service with a button to stop, and the control is a tile in Quick Settings.
+
 ## Keeping the connection alive
 
 - The app sends a PINGREQ when it has sent nothing for the keep-alive time of 60 seconds. The server ends a session that has shown no activity for five minutes, so the keep-alive must stay well below that.

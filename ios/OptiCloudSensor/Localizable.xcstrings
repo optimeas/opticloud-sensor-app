@@ -654,6 +654,35 @@
         }
       }
     },
+    "After an update over several versions, What’s New shows the highlights of each of them." : {
+      "comment" : "Change in version 0.9",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nach einem Update über mehrere Versionen zeigt „Neu in optiCLOUD Sensor“ die Highlights jeder dieser Versionen."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Après une mise à jour sur plusieurs versions, « Nouveautés d’optiCLOUD Sensor » montre les points forts de chacune."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dopo un aggiornamento di più versioni, «Novità di optiCLOUD Sensor» mostra i punti salienti di ciascuna."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tras una actualización de varias versiones, «Novedades de optiCLOUD Sensor» muestra lo más destacado de cada una."
+          }
+        }
+      }
+    },
     "Air Pressure" : {
       "localizations" : {
         "de" : {
@@ -2732,6 +2761,35 @@
         }
       }
     },
+    "In Control Center" : {
+      "comment" : "Highlight of version 0.9",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Im Kontrollzentrum"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans le centre de contrôle"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nel Centro di Controllo"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En el centro de control"
+          }
+        }
+      }
+    },
     "In a Vehicle" : {
       "localizations" : {
         "de" : {
@@ -4452,6 +4510,35 @@
         }
       }
     },
+    "On the Lock Screen and in the Dynamic Island you see whether the app sends and how many values wait. One tap stops it." : {
+      "comment" : "Highlight of version 0.9",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auf dem Sperrbildschirm und in der Dynamic Island siehst du, ob die App sendet und wie viele Werte warten. Ein Tippen stoppt sie."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sur l’écran verrouillé et dans la Dynamic Island, vous voyez si l’app envoie et combien de valeurs attendent. Un toucher l’arrête."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sulla schermata di blocco e nella Dynamic Island vedi se l’app invia e quanti valori sono in attesa. Un tocco la ferma."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En la pantalla bloqueada y en la Dynamic Island ves si la app envía y cuántos valores esperan. Un toque la detiene."
+          }
+        }
+      }
+    },
     "Only devices of the type “%@” are listed." : {
       "localizations" : {
         "de" : {
@@ -5491,6 +5578,35 @@
         }
       }
     },
+    "Sending at a Glance" : {
+      "comment" : "Highlight of version 0.9",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Senden im Blick"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’envoi en un coup d’œil"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’invio a colpo d’occhio"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El envío de un vistazo"
+          }
+        }
+      }
+    },
     "Sending in the background and an offline queue that delivers the values later." : {
       "comment" : "Change in version 0.1, build 66",
       "localizations" : {
@@ -6336,6 +6452,35 @@
         }
       }
     },
+    "Start and stop sending from Control Center, the Lock Screen, or the Action button." : {
+      "comment" : "Highlight of version 0.9",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starte und stoppe das Senden aus dem Kontrollzentrum, vom Sperrbildschirm oder mit der Aktionstaste."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Démarrez et arrêtez l’envoi depuis le centre de contrôle, l’écran verrouillé ou le bouton Action."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avvia e interrompi l’invio dal Centro di Controllo, dalla schermata di blocco o con il tasto Azione."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inicia y detén el envío desde el centro de control, la pantalla bloqueada o el botón de acción."
+          }
+        }
+      }
+    },
     "Started by iOS in the background" : {
       "localizations" : {
         "de" : {
@@ -6925,6 +7070,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Se ha perdido la conexión."
+          }
+        }
+      }
+    },
+    "The control “Send to optiCLOUD” starts and stops sending from Control Center, the Lock Screen, or the Action button." : {
+      "comment" : "Change in version 0.9",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Steuerelement „An optiCLOUD senden“ startet und stoppt das Senden aus dem Kontrollzentrum, vom Sperrbildschirm oder mit der Aktionstaste."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La commande « Envoyer à optiCLOUD » démarre et arrête l’envoi depuis le centre de contrôle, l’écran verrouillé ou le bouton Action."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il controllo «Invia a optiCLOUD» avvia e interrompe l’invio dal Centro di Controllo, dalla schermata di blocco o con il tasto Azione."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El control «Enviar a optiCLOUD» inicia y detiene el envío desde el centro de control, la pantalla bloqueada o el botón de acción."
           }
         }
       }
@@ -8169,6 +8343,35 @@
         }
       }
     },
+    "Versions %@ to %@" : {
+      "comment" : "Subtitle of the screen What's New when it shows several versions",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versionen %1$@ bis %2$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versions %1$@ à %2$@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versioni da %1$@ a %2$@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versiones %1$@ a %2$@"
+          }
+        }
+      }
+    },
     "Waiting" : {
       "localizations" : {
         "de" : {
@@ -8446,6 +8649,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mientras hay conexión, optiCLOUD puede enviar comandos al teléfono, también cuando no envía datos."
+          }
+        }
+      }
+    },
+    "While the app sends, a Live Activity on the Lock Screen and in the Dynamic Island shows the state, the device, and the waiting values, with a button to stop." : {
+      "comment" : "Change in version 0.9",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solange die App sendet, zeigt eine Live-Aktivität auf dem Sperrbildschirm und in der Dynamic Island den Zustand, das Gerät und die wartenden Werte, mit einem Knopf zum Stoppen."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tant que l’app envoie, une activité en direct sur l’écran verrouillé et dans la Dynamic Island montre l’état, l’appareil et les valeurs en attente, avec un bouton pour arrêter."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finché l’app invia, un’attività in tempo reale sulla schermata di blocco e nella Dynamic Island mostra lo stato, il dispositivo e i valori in attesa, con un pulsante per interrompere."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mientras la app envía, una Actividad en Vivo en la pantalla bloqueada y en la Dynamic Island muestra el estado, el dispositivo y los valores en espera, con un botón para detener."
           }
         }
       }

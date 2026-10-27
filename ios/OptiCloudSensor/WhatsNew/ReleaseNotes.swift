@@ -1,4 +1,5 @@
 import Foundation
+import SensorCore
 
 /// The versions of the app with their highlights and changes, newest first (see `docs/spec/whats-new.md`).
 /// `ios/CHANGELOG.md` and the manual page "What's new" say the same.
@@ -6,8 +7,12 @@ enum ReleaseNotes {
     /// The version of the app the user sees, without the build number.
     static let currentVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
 
-    /// The release of the running version, if it has notes.
-    static var current: Release? { all.first { $0.version == currentVersion } }
+    /// The releases whose highlights the screen "What's New" shows after the given last seen version, newest first.
+    static func new(since lastSeen: String?) -> [Release] {
+        let withHighlights = all.filter { !$0.highlights.isEmpty }
+        let versions = StartScreen.versions(lastSeen: lastSeen, version: currentVersion, withHighlights: withHighlights.map(\.version))
+        return versions.compactMap { version in withHighlights.first { $0.version == version } }
+    }
 
     /// The features on the welcome screen.
     static let welcome: [Highlight] = [
@@ -34,6 +39,26 @@ enum ReleaseNotes {
     ]
 
     static let all: [Release] = [
+        Release(
+            version: "0.9.0", build: nil, date: day(2026, 10, 28),
+            highlights: [
+                Highlight(
+                    symbol: "lock.iphone",
+                    title: LocalizedStringResource("Sending at a Glance", comment: "Highlight of version 0.9"),
+                    text: LocalizedStringResource("On the Lock Screen and in the Dynamic Island you see whether the app sends and how many values wait. One tap stops it.", comment: "Highlight of version 0.9")
+                ),
+                Highlight(
+                    symbol: "switch.2",
+                    title: LocalizedStringResource("In Control Center", comment: "Highlight of version 0.9"),
+                    text: LocalizedStringResource("Start and stop sending from Control Center, the Lock Screen, or the Action button.", comment: "Highlight of version 0.9")
+                ),
+            ],
+            changes: [
+                Change(.new, LocalizedStringResource("While the app sends, a Live Activity on the Lock Screen and in the Dynamic Island shows the state, the device, and the waiting values, with a button to stop.", comment: "Change in version 0.9")),
+                Change(.new, LocalizedStringResource("The control “Send to optiCLOUD” starts and stops sending from Control Center, the Lock Screen, or the Action button.", comment: "Change in version 0.9")),
+                Change(.improved, LocalizedStringResource("After an update over several versions, What’s New shows the highlights of each of them.", comment: "Change in version 0.9")),
+            ]
+        ),
         Release(
             version: "0.8.0", build: nil, date: day(2026, 10, 27),
             highlights: [

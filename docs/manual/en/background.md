@@ -11,7 +11,7 @@ keywords:
   - iOS
   - battery
 last_update:
-  date: 2026-10-25
+  date: 2026-10-28
   author: optiMEAS GmbH
 license: CC-BY-4.0
 copyright: © 2026 optiMEAS GmbH und optiMEAS Switzerland GmbH
@@ -41,9 +41,17 @@ You see the current state under **Settings → Transmission → Location Access*
 
 While the app uses location, iOS shows an arrow in the status bar next to the time. This is intended: you always see that the app is measuring. When you stop sending, the arrow disappears.
 
+## On the Lock Screen and in Control Center
+
+While the app sends, it shows a **Live Activity** on the Lock Screen and in the Dynamic Island: the cloud of the app with the state, the device, how long it has been sending, and how many values are still waiting. The cloud is green while the app sends, orange while it waits for a connection, and red when optiCLOUD refused the device. **Stop** ends sending without opening the app.
+
+The control **Send to optiCLOUD** starts and stops sending from Control Center, the Lock Screen, or the Action button. Add it in Control Center with **+** → **Add a Control**. To start sending, it opens the app briefly, because iOS starts the Live Activity only from the open app.
+
+iOS ends a Live Activity after eight hours. Sending goes on; the next time you open the app, it shows a new one.
+
 ## Ending sending in the background
 
-Stop sending on the **Live** tab with **Stop Sending**.
+Stop sending on the **Live** tab with **Stop Sending**, with **Stop** in the Live Activity, or with the control **Send to optiCLOUD**.
 
 Swiping the app away in the app switcher is **not** enough. Sending is a setting that survives a restart of the app: when the app starts again, it goes on sending. This is on purpose, because a measuring point should not fail just because the app was ended in between.
 
