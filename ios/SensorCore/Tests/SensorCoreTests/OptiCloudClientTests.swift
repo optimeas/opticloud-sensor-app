@@ -54,6 +54,16 @@ struct OptiCloudClientTests {
 
     let validToken = jwt(["tenantId": "t1", "projectId": "p1", "userId": "u1", "authorityDataId": "a1", "exp": 1_760_003_600])
 
+    @Test func rolesOfTheSession() async throws {
+        let transport = MockTransport([.init(status: 200, body: """
+            [{"authorityId":{"id":"a1"},"authority":"TENANT_USER","tenant":{"id":"t1","name":"Example"},"enabled":true}]
+            """)])
+        let client = OptiCloudClient(address: address, tokens: TokenPair(token: validToken, refreshToken: "r"), transport: transport, now: { now })
+        let roles = try await client.roles()
+        #expect(roles.map(\.tenantName) == ["Example"])
+        #expect(transport.requests.first?.url?.path() == "/api/auth/user/u1/authorities")
+    }
+
     @Test func addressNeedsHTTPS() {
         #expect(ServerAddress(parsing: "http://cloud.example.com") == nil)
         #expect(ServerAddress(parsing: "cloud.example.com") == nil)
@@ -98,10 +108,10 @@ struct OptiCloudClientTests {
         let client = OptiCloudClient(
             address: address, tokens: TokenPair(token: validToken, refreshToken: "r"), transport: transport, now: { now }
         )
-        _ = try await client.devices(tenantId: "t1", projectId: "p1")
+        _ = try await client.devices(projectId: "p1")
         let request = try #require(transport.requests.first)
         #expect(request.value(forHTTPHeaderField: "X-Authorization") == "Bearer \(validToken)")
-        #expect(request.url?.absoluteString == "https://cloud.example.com/api/tenants/t1/devices?projectId=p1&limit=100&page=0")
+        #expect(request.url?.absoluteString == "https://cloud.example.com/api/devices?projectId=p1&limit=100&page=0")
     }
 
     @Test func devicesAreReadPageByPage() async throws {
@@ -112,7 +122,7 @@ struct OptiCloudClientTests {
         let client = OptiCloudClient(
             address: address, tokens: TokenPair(token: validToken, refreshToken: "r"), transport: transport, now: { now }
         )
-        let devices = try await client.devices(tenantId: "t1", projectId: "p1")
+        let devices = try await client.devices(projectId: "p1")
         #expect(devices.map(\.id) == ["d1", "d2"])
         #expect(devices.map(\.isSensorAppDevice) == [true, false])
         #expect(transport.requests.last?.url?.query()?.contains("page=1") == true)

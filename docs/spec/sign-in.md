@@ -84,6 +84,7 @@ If a code is required, the server has already sent it to the address in `twoFact
 - Every renewal extends the session. As long as the app renews in time, the user stays signed in. When the refresh token has expired, the user signs in again.
 - The app stores the refresh token in the Keychain (iOS) or in Keystore-backed storage (Android). It never writes tokens to logs.
 - An expired session does not stop transmission: telemetry uses the device access token, not the user's session. Journal entries wait in the queue until the user has signed in again.
+- With a running session the app reads the user's roles with `GET /api/auth/user/<userId>/authorities`. The answer has the form of the answer in [Tenants](#tenants). The role of the session is the one whose `authorityId` is the claim `authorityDataId`; the app takes the name of the tenant from it, for example when the user picks another device without signing in again. Read from the optiCLOUD source, not yet tested against a server.
 - Signing out deletes both tokens on the phone. The server does not invalidate them, so the app must forget them itself. Signing out does not stop transmission and does not release the device.
 
 ## Project
@@ -105,9 +106,10 @@ Devices that the app uses have the device type **`optiCLOUD Sensor App`**. The a
 
 ### Listing devices
 
-The app lists the devices with `GET /api/tenants/<tenantId>/devices?projectId=<projectId>&limit=<n>&page=<p>`.
+The app lists the devices with `GET /api/devices?projectId=<projectId>&limit=<n>&page=<p>`.
 
-- An optional `textSearch` filters by the start of the name, without regard to case.
+- The list holds the devices of exactly this project, not those of its sub-projects. A device the user picks is therefore in the project the app shows. `GET /api/tenants/<tenantId>/devices?projectId=<projectId>`, which the web application uses for its device list, also returns the devices of all sub-projects; the app does not use it. Changed on 2026-10-27; the Android app still uses the list with sub-projects.
+- An optional `textSearch` filters by the start of the name, with regard to case.
 - The answer is a page: `{ "data": [ … ], "hasNext": true }`. Pages are counted from 0.
 - Each device has the members `id`, `name`, and `type`, and can have a `label`. The app shows the name.
 - The server cannot filter by type. The app keeps only devices whose `type` is `optiCLOUD Sensor App`.

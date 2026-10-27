@@ -146,6 +146,12 @@ public actor OptiCloudClient {
         return pair
     }
 
+    /// The roles of the signed-in user, in the same form as before sign-in (see `docs/spec/sign-in.md`, The session).
+    public func roles() async throws -> [Role] {
+        guard let userId = claims?.userId else { throw OptiCloudError.unexpectedAnswer }
+        return try await authorized("GET", "/api/auth/user/\(userId)/authorities")
+    }
+
     // MARK: Projects
 
     /// The project tree of the role.
@@ -161,8 +167,9 @@ public actor OptiCloudClient {
 
     // MARK: Devices
 
-    /// All devices of the project of the session, of every type. Filter with `Device.isSensorAppDevice`.
-    public func devices(tenantId: String, projectId: String, textSearch: String? = nil) async throws -> [Device] {
+    /// All devices of a project, of every type, without those of its sub-projects. Filter with
+    /// `Device.isSensorAppDevice`. `textSearch` matches the start of the name with regard to case.
+    public func devices(projectId: String, textSearch: String? = nil) async throws -> [Device] {
         var devices: [Device] = []
         var page = 0
         while true {
@@ -174,7 +181,7 @@ public actor OptiCloudClient {
             if let textSearch, !textSearch.isEmpty {
                 query.append(URLQueryItem(name: "textSearch", value: textSearch))
             }
-            let result: Page<Device> = try await authorized("GET", "/api/tenants/\(tenantId)/devices", query: query)
+            let result: Page<Device> = try await authorized("GET", "/api/devices", query: query)
             devices += result.data
             guard result.hasNext else { return devices }
             page += 1
