@@ -20,6 +20,18 @@ struct AboutView: View {
     var body: some View {
         List {
             Section {
+                NavigationLink {
+                    WelcomeView(screen: .welcome)
+                } label: {
+                    Label("Welcome", systemImage: "hand.wave")
+                }
+                NavigationLink {
+                    VersionHistoryView()
+                } label: {
+                    Label("Version History", systemImage: "clock.arrow.circlepath")
+                }
+            }
+            Section {
                 LabeledContent("Version", value: version)
                 Link(destination: manual) {
                     Label("User Manual", systemImage: "book")

@@ -7,6 +7,34 @@
     "%@ · %@" : {
       "shouldTranslate" : false
     },
+    "%@: %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ : %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: %@"
+          }
+        }
+      }
+    },
     "%lld notes refused by optiCLOUD" : {
       "localizations" : {
         "en" : {
@@ -313,6 +341,35 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "A note in seconds, with a tap or with Siri. Without a network, it waits and is sent later." : {
+      "comment" : "Highlight of version 0.8",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine Notiz in Sekunden, mit einem Tipp oder mit Siri. Ohne Netz wartet sie und wird später gesendet."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une note en quelques secondes, d’un toucher ou avec Siri. Sans réseau, elle attend et part plus tard."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una nota in pochi secondi, con un tocco o con Siri. Senza rete aspetta e viene inviata più tardi."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una nota en segundos, con un toque o con Siri. Sin red, espera y se envía más tarde."
           }
         }
       }
@@ -1354,6 +1411,35 @@
         }
       }
     },
+    "Commands and settings from optiCLOUD, and the data volume of the app." : {
+      "comment" : "Change in version 0.1, build 66",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Befehle und Einstellungen aus optiCLOUD und das Datenvolumen der App."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commandes et réglages depuis optiCLOUD, et volume de données de l’app."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comandi e impostazioni da optiCLOUD e volume dati dell’app."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comandos y ajustes desde optiCLOUD, y el volumen de datos de la app."
+          }
+        }
+      }
+    },
     "Confirm" : {
       "localizations" : {
         "de" : {
@@ -1462,6 +1548,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Conexión"
+          }
+        }
+      }
+    },
+    "Continue" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weiter"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuer"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continua"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuar"
           }
         }
       }
@@ -2027,6 +2141,35 @@
         }
       }
     },
+    "Diagnosis with log and test values, in five languages, with a user manual." : {
+      "comment" : "Change in version 0.1, build 66",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagnose mit Protokoll und Testwerten, in fünf Sprachen, mit Handbuch."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagnostic avec journal et valeurs de test, en cinq langues, avec un manuel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagnostica con registro e valori di test, in cinque lingue, con un manuale."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagnóstico con registro y valores de prueba, en cinco idiomas, con un manual."
+          }
+        }
+      }
+    },
     "Discarded" : {
       "localizations" : {
         "de" : {
@@ -2419,6 +2562,63 @@
         }
       }
     },
+    "Fixed" : {
+      "comment" : "Kind of change in the version history",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behoben"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corrigé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corretto"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corregido"
+          }
+        }
+      }
+    },
+    "Get Started" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los geht’s"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commencer"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iniziamo"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empezar"
+          }
+        }
+      }
+    },
     "Health" : {
       "localizations" : {
         "de" : {
@@ -2499,6 +2699,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ ignorado"
+          }
+        }
+      }
+    },
+    "Improved" : {
+      "comment" : "Kind of change in the version history",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verbessert"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Amélioré"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Migliorato"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mejorado"
           }
         }
       }
@@ -2729,6 +2958,35 @@
     },
     "Live" : {
       "shouldTranslate" : false
+    },
+    "Live in optiCLOUD" : {
+      "comment" : "Feature on the welcome screen",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live in optiCLOUD"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En direct dans optiCLOUD"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In diretta su optiCLOUD"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En directo en optiCLOUD"
+          }
+        }
+      }
     },
     "Loading …" : {
       "localizations" : {
@@ -3039,6 +3297,35 @@
         }
       }
     },
+    "Measure What Matters" : {
+      "comment" : "Feature on the welcome screen",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Messen, was zählt"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mesurez ce qui compte"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Misura ciò che conta"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mide lo que importa"
+          }
+        }
+      }
+    },
     "Measured only while the app is open." : {
       "localizations" : {
         "de" : {
@@ -3152,6 +3439,35 @@
         }
       }
     },
+    "Motion, location, air pressure, sound, and more: you choose what your iPhone measures." : {
+      "comment" : "Feature on the welcome screen",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bewegung, Standort, Luftdruck, Schall und mehr: Du wählst, was dein iPhone misst."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mouvement, position, pression de l’air, son et plus encore : vous choisissez ce que mesure votre iPhone."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Movimento, posizione, pressione dell’aria, suono e altro: scegli tu cosa misura il tuo iPhone."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Movimiento, ubicación, presión del aire, sonido y más: tú eliges lo que mide tu iPhone."
+          }
+        }
+      }
+    },
     "Name" : {
       "localizations" : {
         "de" : {
@@ -3204,6 +3520,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Red"
+          }
+        }
+      }
+    },
+    "New" : {
+      "comment" : "Kind of change in the version history",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neu"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouveau"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nuovo"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nuevo"
           }
         }
       }
@@ -3712,6 +4057,35 @@
         }
       }
     },
+    "Note what happens with a tap or with Siri, and open your dashboards right in the app." : {
+      "comment" : "Feature on the welcome screen",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Halte mit einem Tipp oder mit Siri fest, was passiert, und öffne deine Dashboards direkt in der App."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notez ce qui se passe d’un toucher ou avec Siri, et ouvrez vos dashboards directement dans l’app."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annota ciò che succede con un tocco o con Siri e apri le tue dashboard direttamente nell’app."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anota lo que pasa con un toque o con Siri, y abre tus dashboards directamente en la app."
+          }
+        }
+      }
+    },
     "Notes" : {
       "localizations" : {
         "de" : {
@@ -3736,6 +4110,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notas"
+          }
+        }
+      }
+    },
+    "Notes and Favorites" : {
+      "comment" : "Feature on the welcome screen",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notizen und Favoriten"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notes et favoris"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Note e preferiti"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notas y favoritos"
           }
         }
       }
@@ -3792,6 +4195,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Las notas esperan la red"
+          }
+        }
+      }
+    },
+    "Notes wait without a network or sign-in and are sent later. The Diagnosis tab shows them." : {
+      "comment" : "Change in version 0.8",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notizen warten ohne Netz oder Anmeldung und werden später gesendet. Der Tab Diagnose zeigt sie."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sans réseau ou sans connexion au compte, les notes attendent et partent plus tard. L’onglet Diagnostic les montre."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Senza rete o accesso le note aspettano e vengono inviate più tardi. La scheda Diagnostica le mostra."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin red o sin sesión, las notas esperan y se envían más tarde. La pestaña Diagnóstico las muestra."
           }
         }
       }
@@ -4100,6 +4532,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Licencias de código abierto"
+          }
+        }
+      }
+    },
+    "Open and Private" : {
+      "comment" : "Feature on the welcome screen",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Offen und privat"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouverte et privée"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aperta e riservata"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abierta y privada"
           }
         }
       }
@@ -4436,6 +4897,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Proyecto"
+          }
+        }
+      }
+    },
+    "Quick Note" : {
+      "comment" : "Highlight of version 0.8",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schnellnotiz"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Note rapide"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nota rapida"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nota rápida"
+          }
+        }
+      }
+    },
+    "Quick note from the live view. The title is optional; without one, the note takes the first line of the text." : {
+      "comment" : "Change in version 0.8",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schnellnotiz aus der Live-Ansicht. Der Titel ist freiwillig; ohne ihn nimmt die Notiz die erste Zeile des Texts."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Note rapide depuis la vue en direct. Le titre est facultatif ; sans titre, la note prend la première ligne du texte."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nota rapida dalla vista dal vivo. Il titolo è facoltativo; senza, la nota prende la prima riga del testo."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nota rápida desde la vista en directo. El título es opcional; sin él, la nota toma la primera línea del texto."
           }
         }
       }
@@ -4972,6 +5491,64 @@
         }
       }
     },
+    "Sending in the background and an offline queue that delivers the values later." : {
+      "comment" : "Change in version 0.1, build 66",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Senden im Hintergrund und eine Offline-Warteschlange, die Werte nachliefert."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Envoi en arrière-plan et file hors ligne qui livre les valeurs plus tard."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invio in background e una coda offline che consegna i valori più tardi."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Envío en segundo plano y una cola sin conexión que entrega los valores más tarde."
+          }
+        }
+      }
+    },
+    "Sending in the background goes on with the screen locked, with fresh positions." : {
+      "comment" : "Change in version 0.1, build 74",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Senden im Hintergrund läuft bei gesperrtem Bildschirm weiter, mit aktuellen Positionen."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’envoi en arrière-plan continue écran verrouillé, avec des positions à jour."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’invio in background continua a schermo bloccato, con posizioni aggiornate."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El envío en segundo plano sigue con la pantalla bloqueada, con posiciones actuales."
+          }
+        }
+      }
+    },
     "Sending since" : {
       "localizations" : {
         "de" : {
@@ -5024,6 +5601,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sensores"
+          }
+        }
+      }
+    },
+    "Sensors for motion, environment, location, activity, the device, and sound." : {
+      "comment" : "Change in version 0.1, build 66",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sensoren für Bewegung, Umgebung, Standort, Aktivität, das Gerät und Schall."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Capteurs de mouvement, d’environnement, de position, d’activité, de l’appareil et de son."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sensori per movimento, ambiente, posizione, attività, dispositivo e suono."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sensores de movimiento, entorno, ubicación, actividad, dispositivo y sonido."
           }
         }
       }
@@ -5220,6 +5826,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cerrar sesión"
+          }
+        }
+      }
+    },
+    "Sign in to optiCLOUD and choose the device of this phone." : {
+      "comment" : "Change in version 0.1, build 66",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In optiCLOUD anmelden und das Gerät dieses Telefons wählen."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connexion à optiCLOUD et choix de l’appareil de ce téléphone."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accesso a optiCLOUD e scelta del dispositivo di questo telefono."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inicio de sesión en optiCLOUD y elección del dispositivo de este teléfono."
           }
         }
       }
@@ -5472,6 +6107,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Seno"
+          }
+        }
+      }
+    },
+    "Siri and the Shortcuts app: “New optiCLOUD Note” saves a dictated note without opening the app." : {
+      "comment" : "Change in version 0.8",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siri und die App Kurzbefehle: „Neue optiCLOUD-Notiz“ sichert eine diktierte Notiz, ohne die App zu öffnen."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siri et l’app Raccourcis : « Nouvelle note optiCLOUD » enregistre une note dictée sans ouvrir l’app."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siri e l’app Comandi: «Nuova nota optiCLOUD» salva una nota dettata senza aprire l’app."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siri y la app Atajos: «Nueva nota de optiCLOUD» guarda una nota dictada sin abrir la app."
           }
         }
       }
@@ -5756,6 +6420,35 @@
         }
       }
     },
+    "Steady on the Move" : {
+      "comment" : "Highlight of version 0.8",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stabil unterwegs"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stable en déplacement"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stabile in movimento"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estable en movimiento"
+          }
+        }
+      }
+    },
     "Steps Today" : {
       "localizations" : {
         "de" : {
@@ -5980,6 +6673,35 @@
         }
       }
     },
+    "Test signal to check in optiCLOUD that every value has arrived." : {
+      "comment" : "Change in version 0.1, build 74",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Testsignal, um in optiCLOUD zu prüfen, ob jeder Wert angekommen ist."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Signal de test pour vérifier dans optiCLOUD que chaque valeur est arrivée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Segnale di test per verificare in optiCLOUD che ogni valore sia arrivato."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Señal de prueba para comprobar en optiCLOUD que ha llegado cada valor."
+          }
+        }
+      }
+    },
     "Text" : {
       "localizations" : {
         "de" : {
@@ -6060,6 +6782,93 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La dirección de la aplicación web de optiCLOUD."
+          }
+        }
+      }
+    },
+    "The app no longer stops when the connection drops while data arrives." : {
+      "comment" : "Change in version 0.8",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die App bricht nicht mehr ab, wenn die Verbindung abreißt, während Daten ankommen."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’app ne s’arrête plus quand la connexion tombe pendant la réception de données."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’app non si interrompe più quando la connessione cade mentre arrivano dati."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La app ya no se detiene cuando se corta la conexión mientras llegan datos."
+          }
+        }
+      }
+    },
+    "The app no longer stops when the mobile network drops, for example on a train." : {
+      "comment" : "Highlight of version 0.8",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die App bricht nicht mehr ab, wenn das Mobilfunknetz wegfällt, zum Beispiel im Zug."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’app ne s’arrête plus quand le réseau mobile tombe, par exemple dans le train."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’app non si interrompe più quando cade la rete mobile, per esempio in treno."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La app ya no se detiene cuando se cae la red móvil, por ejemplo en el tren."
+          }
+        }
+      }
+    },
+    "The app sends only what you choose, to the device you choose. Its code is open source." : {
+      "comment" : "Feature on the welcome screen",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die App sendet nur, was du wählst, an das Gerät, das du wählst. Ihr Code ist Open Source."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’app n’envoie que ce que vous choisissez, à l’appareil que vous choisissez. Son code est open source."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’app invia solo ciò che scegli, al dispositivo che scegli. Il suo codice è open source."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La app solo envía lo que eliges, al dispositivo que eliges. Su código es abierto."
           }
         }
       }
@@ -6148,6 +6957,35 @@
         }
       }
     },
+    "The diagnosis log is kept when the app restarts." : {
+      "comment" : "Change in version 0.1, build 74",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Diagnoseprotokoll bleibt erhalten, wenn die App neu startet."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le journal de diagnostic est conservé quand l’app redémarre."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il registro di diagnostica resta quando l’app si riavvia."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El registro de diagnóstico se conserva cuando la app se reinicia."
+          }
+        }
+      }
+    },
     "The license of the tenant allows no further device." : {
       "localizations" : {
         "de" : {
@@ -6172,6 +7010,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La licencia del tenant no permite más dispositivos."
+          }
+        }
+      }
+    },
+    "The list of devices shows only the devices of the chosen project." : {
+      "comment" : "Change in version 0.8",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Geräteliste zeigt nur die Geräte des gewählten Projekts."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La liste des appareils ne montre que les appareils du projet choisi."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’elenco dei dispositivi mostra solo i dispositivi del progetto scelto."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La lista de dispositivos solo muestra los dispositivos del proyecto elegido."
+          }
+        }
+      }
+    },
+    "The log no longer shows the identifier of the installation." : {
+      "comment" : "Change in version 0.1, build 74",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Protokoll zeigt die Kennung der Installation nicht mehr."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le journal n’affiche plus l’identifiant de l’installation."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il registro non mostra più l’identificativo dell’installazione."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El registro ya no muestra el identificador de la instalación."
           }
         }
       }
@@ -6484,6 +7380,64 @@
         }
       }
     },
+    "The tab Favorites shows the default dashboard, your favorites from the web application, and favorites of your own, and opens them signed in." : {
+      "comment" : "Change in version 0.8",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Tab Favoriten zeigt das Standard-Dashboard, deine Favoriten aus der Webanwendung und eigene Favoriten und öffnet sie angemeldet."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’onglet Favoris montre le dashboard par défaut, vos favoris de l’application web et vos propres favoris, et les ouvre en étant connecté."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La scheda Preferiti mostra la dashboard predefinita, i tuoi preferiti dell’applicazione web e preferiti tuoi, e li apre con l’accesso già fatto."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La pestaña Favoritos muestra el dashboard predeterminado, tus favoritos de la aplicación web y favoritos propios, y los abre con la sesión iniciada."
+          }
+        }
+      }
+    },
+    "The tenant stays shown after choosing a device." : {
+      "comment" : "Change in version 0.8",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Tenant bleibt angezeigt, nachdem ein Gerät gewählt wurde."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le tenant reste affiché après le choix d’un appareil."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il tenant resta visibile dopo la scelta di un dispositivo."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El tenant sigue visible después de elegir un dispositivo."
+          }
+        }
+      }
+    },
     "The value %@ cannot be used." : {
       "localizations" : {
         "de" : {
@@ -6536,6 +7490,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Los valores aparecen aquí mientras el teléfono envía."
+          }
+        }
+      }
+    },
+    "The values go to your device in optiCLOUD, also with the screen locked. Without a network, they wait and follow later." : {
+      "comment" : "Feature on the welcome screen",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Werte gehen an dein Gerät in optiCLOUD, auch bei gesperrtem Bildschirm. Ohne Netz warten sie und folgen später."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les valeurs vont à votre appareil dans optiCLOUD, même écran verrouillé. Sans réseau, elles attendent et suivent plus tard."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I valori vanno al tuo dispositivo in optiCLOUD, anche a schermo bloccato. Senza rete aspettano e arrivano più tardi."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los valores van a tu dispositivo en optiCLOUD, también con la pantalla bloqueada. Sin red, esperan y llegan más tarde."
           }
         }
       }
@@ -7072,6 +8055,120 @@
         }
       }
     },
+    "Version %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versione %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versión %@"
+          }
+        }
+      }
+    },
+    "Version %@ (%@) · %@" : {
+      "comment" : "Version, build, and date of a release",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %@ (%@) · %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %@ (%@) · %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versione %@ (%@) · %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versión %@ (%@) · %@"
+          }
+        }
+      }
+    },
+    "Version %@ · %@" : {
+      "comment" : "Version and date of a release",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %@ · %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %@ · %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versione %@ · %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versión %@ · %@"
+          }
+        }
+      }
+    },
+    "Version History" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versionsverlauf"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historique des versions"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cronologia versioni"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historial de versiones"
+          }
+        }
+      }
+    },
     "Waiting" : {
       "localizations" : {
         "de" : {
@@ -7156,6 +8253,91 @@
         }
       }
     },
+    "Welcome" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Willkommen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bienvenue"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Benvenuto"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bienvenida"
+          }
+        }
+      }
+    },
+    "Welcome screen, this overview of what is new, and the version history." : {
+      "comment" : "Change in version 0.8",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Willkommensbildschirm, diese Übersicht über das Neue und der Versionsverlauf."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Écran de bienvenue, cet aperçu des nouveautés et l’historique des versions."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schermata di benvenuto, questa panoramica delle novità e la cronologia versioni."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pantalla de bienvenida, este resumen de novedades y el historial de versiones."
+          }
+        }
+      }
+    },
+    "Welcome to optiCLOUD Sensor" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Willkommen bei optiCLOUD Sensor"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bienvenue dans optiCLOUD Sensor"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Benvenuto in optiCLOUD Sensor"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Te damos la bienvenida a optiCLOUD Sensor"
+          }
+        }
+      }
+    },
     "What should the note say?" : {
       "localizations" : {
         "de" : {
@@ -7180,6 +8362,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "¿Qué debe decir la nota?"
+          }
+        }
+      }
+    },
+    "What’s New in optiCLOUD Sensor" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neu in optiCLOUD Sensor"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouveautés d’optiCLOUD Sensor"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Novità di optiCLOUD Sensor"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Novedades de optiCLOUD Sensor"
           }
         }
       }
@@ -7460,6 +8670,63 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tu cuenta no tiene acceso activo a ningún tenant."
+          }
+        }
+      }
+    },
+    "Your dashboards and favorites from optiCLOUD in one tab, opened without signing in again." : {
+      "comment" : "Highlight of version 0.8",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deine Dashboards und Favoriten aus optiCLOUD in einem Tab, geöffnet ohne neue Anmeldung."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vos dashboards et favoris d’optiCLOUD dans un onglet, ouverts sans vous reconnecter."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le tue dashboard e i tuoi preferiti di optiCLOUD in una scheda, aperti senza accedere di nuovo."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tus dashboards y favoritos de optiCLOUD en una pestaña, abiertos sin volver a iniciar sesión."
+          }
+        }
+      }
+    },
+    "Your iPhone as a sensor for optiCLOUD." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein iPhone als Sensor für optiCLOUD."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre iPhone comme capteur pour optiCLOUD."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il tuo iPhone come sensore per optiCLOUD."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu iPhone como sensor para optiCLOUD."
           }
         }
       }

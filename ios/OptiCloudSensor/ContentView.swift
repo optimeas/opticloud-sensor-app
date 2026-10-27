@@ -8,6 +8,9 @@ struct ContentView: View {
     @State private var isSigningIn = false
     /// The tab opens again where the user left it.
     @AppStorage("selectedTab") private var selectedTab = "live"
+    /// The version whose welcome or what's-new screen was last shown (see `docs/spec/whats-new.md`).
+    @AppStorage("lastSeenVersion") private var lastSeenVersion: String?
+    @State private var startScreen: StartScreen?
 
     var body: some View {
         Group {
@@ -44,6 +47,13 @@ struct ContentView: View {
         .sheet(isPresented: $isSigningIn) {
             SignInView(app: app)
         }
+        .sheet(item: $startScreen, onDismiss: startScreenClosed) { screen in
+            NavigationStack {
+                WelcomeView(screen: screen) { startScreen = nil }
+            }
+            .interactiveDismissDisabled()
+        }
+        .task { showStartScreen() }
         .sheet(isPresented: Bindable(journal).isComposing) {
             QuickNoteView()
         }
@@ -52,6 +62,28 @@ struct ContentView: View {
             if signedIn { journal.deliver() }
         }
     }
+}
+
+extension ContentView {
+    private func showStartScreen() {
+        guard startScreen == nil else { return }
+        let version = ReleaseNotes.currentVersion
+        startScreen = StartScreen.at(
+            lastSeen: lastSeenVersion, version: version,
+            hasDevice: app.device != nil, hasHighlights: !(ReleaseNotes.current?.highlights.isEmpty ?? true)
+        )
+        if startScreen == nil { lastSeenVersion = version }
+    }
+
+    /// Without a device, the user goes on to the sign-in.
+    private func startScreenClosed() {
+        lastSeenVersion = ReleaseNotes.currentVersion
+        if app.device == nil { isSigningIn = true }
+    }
+}
+
+extension StartScreen: @retroactive Identifiable {
+    public var id: Self { self }
 }
 
 /// The connection state as a short label with a symbol and its color.

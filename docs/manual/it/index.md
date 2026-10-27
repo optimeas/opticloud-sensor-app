@@ -54,6 +54,7 @@ L’app è open source con licenza MIT. Perché lo facciamo è spiegato in [Perc
 | [Note](notes.md) | Scrivere note nell’app e con Siri, anche senza rete |
 | [Diagnostica](diagnosis.md) | Registro, coda, note, valori di prova ed esportazione |
 | [Privacy](privacy.md) | Quali dati raccoglie l’app e dove vanno |
+| [Novità](whats-new.md) | Cosa c’è di nuovo, di migliorato e di corretto in ogni versione |
 
 ## Requisiti
 

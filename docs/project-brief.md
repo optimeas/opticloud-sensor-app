@@ -49,6 +49,7 @@ Spelling is exact: **optiMEAS**, **optiCLOUD**, **optiCLOUD Sensor**.
 - **Location.** Geographic position, sent with the other data.
 - **Journal entries.** A text written by the user, with an optional title, status, and priority; without a title the first line of the text is the title. optiCLOUD stores them as notes of the signed-in user on the device. The time stamp of an entry is the moment the user saved it in the app, also when it is delivered later. optiCLOUD sets the time of a note itself, so the app sends the moment of saving, and the position if known, as additional information and adds the moment of saving to the text.
 - **Quick note.** A journal entry written in a few seconds: from a button in the live view, or through the App Shortcut "New optiCLOUD Note", which takes the text by dictation through Siri and saves it without opening the app. Details in [docs/spec/journal.md](spec/journal.md#quick-note).
+- **Welcome and what is new.** A welcome screen at the first start, a screen with the highlights after each update, and the history of all versions, all reachable later from the information about the app. Details in [docs/spec/whats-new.md](spec/whats-new.md). The iOS app has it since version 0.8.0 (2026-10-27); the Android app follows.
 - **Photos.** Taken in the app, sent with a time stamp and, where available, the position. The app uploads them through the device storage interface; optiCLOUD stores them, and a dashboard widget shows the latest photo of a series.
 
 ### Connection and transmission

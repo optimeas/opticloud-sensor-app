@@ -54,6 +54,7 @@ Die App ist Open Source unter der MIT-Lizenz. Warum wir das so machen, steht unt
 | [Notizen](notes.md) | Notizen in der App und mit Siri schreiben, auch ohne Netz |
 | [Diagnose](diagnosis.md) | Protokoll, Warteschlange, Notizen, Testwerte und Export |
 | [Datenschutz](privacy.md) | Welche Daten die App erhebt und wohin sie gehen |
+| [Neuigkeiten](whats-new.md) | Was in jeder Version neu ist, verbessert und behoben wurde |
 
 ## Voraussetzungen
 

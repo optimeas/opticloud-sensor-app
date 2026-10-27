@@ -54,6 +54,7 @@ L’app est open source sous licence MIT. Pourquoi nous faisons ce choix est exp
 | [Notes](notes.md) | Écrire des notes dans l’app et avec Siri, même sans réseau |
 | [Diagnostic](diagnosis.md) | Journal, file d’attente, notes, valeurs de test et export |
 | [Confidentialité](privacy.md) | Quelles données l’app collecte et où elles vont |
+| [Nouveautés](whats-new.md) | Ce qui est nouveau, amélioré et corrigé dans chaque version |
 
 ## Prérequis
 

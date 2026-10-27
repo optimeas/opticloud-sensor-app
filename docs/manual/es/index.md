@@ -54,6 +54,7 @@ La app es de código abierto bajo la licencia MIT. Por qué lo hacemos así se e
 | [Notas](notes.md) | Escribir notas en la app y con Siri, también sin red |
 | [Diagnóstico](diagnosis.md) | Registro, cola, notas, valores de prueba y exportación |
 | [Privacidad](privacy.md) | Qué datos recoge la app y adónde van |
+| [Novedades](whats-new.md) | Qué hay de nuevo, de mejorado y de corregido en cada versión |
 
 ## Requisitos
 
