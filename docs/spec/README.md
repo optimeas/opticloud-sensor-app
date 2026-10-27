@@ -2,7 +2,7 @@
 
 This directory is the master for the behavior of optiCLOUD Sensor. The iOS app and the Android app both implement it. Neither app is the reference for the other.
 
-**Status: draft.** The specification is being worked out. Both apps pass the shared test vectors. The iOS app implements sign-in, device selection, the connection, the offline queue, commands, the sensor selection, the data volume, transmission of all sensor groups of stage 1, also in the background, the test area without alarms, and the favorites. The Android app implements sign-in and device selection. Protocol facts were read from the optiCLOUD source; each document says which parts were tested against an optiCLOUD test server.
+**Status: draft.** The specification is being worked out. Both apps pass the shared test vectors. The iOS app implements sign-in, device selection, the connection, the offline queue, commands, the sensor selection, the data volume, transmission of all sensor groups of stage 1, also in the background, the test area without alarms, the favorites, and the journal with the quick note. The Android app implements sign-in and device selection. Protocol facts were read from the optiCLOUD source; each document says which parts were tested against an optiCLOUD test server.
 
 ## Documents
 
@@ -14,8 +14,8 @@ This directory is the master for the behavior of optiCLOUD Sensor. The iOS app a
 | [configuration.md](configuration.md) | The settings, their defaults and allowed values, and what the app stores | Draft |
 | [sensors.md](sensors.md) | How sensors are found, selected, and sampled; the catalog of keys and units | Draft |
 | [favorites.md](favorites.md) | Pages of the web application in the tab Favorites | Draft |
-| [offline-queue.md](offline-queue.md) | Buffering and delivery of telemetry | Draft, journal entries follow with stage 2 |
-| [journal.md](journal.md) | Journal entries as notes | Draft |
+| [offline-queue.md](offline-queue.md) | Buffering and delivery of telemetry and journal entries | Draft |
+| [journal.md](journal.md) | Journal entries as notes, the quick note | Draft |
 | [vectors/](vectors/) | Test vectors shared by both apps | Draft |
 | [tools/](tools/) | Scripts that check data exported from optiCLOUD | Draft |
 

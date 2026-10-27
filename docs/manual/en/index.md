@@ -31,7 +31,8 @@ This lets you try optiCLOUD without connecting hardware of your own, and use a s
 - Buffer values without a network and deliver them as soon as the connection is back.
 - Accept commands from optiCLOUD and let optiCLOUD manage settings through shared attributes.
 - Count its own data volume, separately for the mobile network and Wi-Fi.
-- Open dashboards, devices, and your optiCLOUD favorites in Safari with one tap.
+- Write notes on the device, in the app or with Siri, also without a network.
+- Open dashboards, devices, and your optiCLOUD favorites in the app with one tap, already signed in.
 - Show a diagnosis log and export it.
 
 This manual describes the app for iOS. The app for Android follows.
@@ -49,8 +50,9 @@ The app is open source under the MIT license. Why we do this is explained in [Wh
 | [Background and location](background.md) | Sending with the screen locked, and location access |
 | [The device in optiCLOUD](device-in-opticloud.md) | Telemetry, attributes, and commands of the device |
 | [Data volume](data-volume.md) | How much data the app uses |
-| [Favorites](favorites.md) | Opening dashboards and devices in Safari, default dashboard |
-| [Diagnosis](diagnosis.md) | Log, queue, test values, and export |
+| [Favorites](favorites.md) | Opening dashboards and devices in the app, default dashboard |
+| [Notes](notes.md) | Writing notes in the app and with Siri, also without a network |
+| [Diagnosis](diagnosis.md) | Log, queue, notes, test values, and export |
 | [Privacy](privacy.md) | Which data the app collects and where it goes |
 
 ## Requirements

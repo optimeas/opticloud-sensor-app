@@ -37,6 +37,24 @@ public struct JournalEntry: Hashable, Codable, Sendable {
         self.latitude = latitude
         self.longitude = longitude
     }
+
+    /// The longest title taken from the text, in characters as the user sees them.
+    public static let maxTitleLength = 60
+
+    /// The text has a character other than white space, so the entry can be saved.
+    public var canBeSaved: Bool { !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
+
+    /// The title of the note: the title as typed, or else the first line of the text that is not blank, shortened
+    /// to 60 characters (see `docs/spec/journal.md`, Title from the text).
+    public var noteName: String {
+        let typed = title.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !typed.isEmpty { return typed }
+        let line = text.split(whereSeparator: \.isNewline)
+            .map { $0.trimmingCharacters(in: .whitespaces) }
+            .first { !$0.isEmpty } ?? ""
+        guard line.count > Self.maxTitleLength else { return line }
+        return line.prefix(Self.maxTitleLength - 1) + "\u{2026}"
+    }
 }
 
 /// The identifiers a note needs from the claims of the user's access token.
@@ -83,7 +101,7 @@ public struct NoteRequest: Hashable, Encodable, Sendable {
         tenantId = EntityId(entityType: "TENANT", id: claims.tenantId)
         projectId = EntityId(entityType: "PROJECT", id: claims.projectId)
         authorityDataId = EntityId(entityType: "AUTHORITY_DATA", id: claims.authorityDataId)
-        name = entry.title
+        name = entry.noteName
         text = entry.text + "\n\n" + Self.timeStamp(savedAt: entry.savedAt, utcOffsetMinutes: entry.utcOffsetMinutes)
         status = entry.status
         priority = entry.priority

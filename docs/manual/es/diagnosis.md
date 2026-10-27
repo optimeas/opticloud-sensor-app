@@ -1,8 +1,8 @@
 ---
 title: Diagnóstico
-description: Registro, cola sin conexión y valores de prueba en la pestaña Diagnóstico de la app optiCLOUD Sensor, y cómo exportar el registro.
+description: Registro, cola sin conexión, notas en espera y valores de prueba en la pestaña Diagnóstico de la app optiCLOUD Sensor, y cómo exportar el registro.
 sidebar_label: Diagnóstico
-sidebar_position: 9
+sidebar_position: 10
 image: "/img/om_social_card.png"
 keywords:
   - diagnóstico
@@ -42,6 +42,15 @@ La telemetría pasa, como cualquier valor medido, por la cola sin conexión y ll
 | **Intervalo descartado** | El periodo del que proceden las muestras descartadas |
 
 Con **Restablecer el contador de descartados** pones el contador a cero. Cómo funciona la cola se explica en [Envío](sending.md).
+
+## Notas
+
+| Fila | Significado |
+|---|---|
+| **En espera** | Cuántas notas esperan a enviarse |
+| **Rechazado** | Cuántas notas ha rechazado optiCLOUD |
+
+Debajo aparece cada nota que sigue en el teléfono, con su título y su hora, y una rechazada con el mensaje de optiCLOUD. Desliza hacia la izquierda para volver a enviar una nota rechazada con **Volver a enviar** o para eliminar una nota con **Eliminar**. Más en [Notas](notes.md).
 
 ## Registro
 

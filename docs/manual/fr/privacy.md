@@ -2,7 +2,7 @@
 title: Confidentialité
 description: Quelles données l’app optiCLOUD Sensor collecte, où elles vont et ce qui reste sur le téléphone.
 sidebar_label: Confidentialité
-sidebar_position: 10
+sidebar_position: 11
 image: "/img/om_social_card.png"
 keywords:
   - confidentialité

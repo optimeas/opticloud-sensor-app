@@ -1,8 +1,8 @@
 ---
 title: Diagnose
-description: Protokoll, Offline-Warteschlange und Testwerte im Tab Diagnose der App optiCLOUD Sensor, und wie du das Protokoll exportierst.
+description: Protokoll, Offline-Warteschlange, wartende Notizen und Testwerte im Tab Diagnose der App optiCLOUD Sensor, und wie du das Protokoll exportierst.
 sidebar_label: Diagnose
-sidebar_position: 9
+sidebar_position: 10
 image: "/img/om_social_card.png"
 keywords:
   - Diagnose
@@ -42,6 +42,15 @@ Telemetrie geht wie jeder Messwert durch die Offline-Warteschlange und kommt auc
 | **Verworfener Zeitraum** | Der Zeitraum, aus dem die verworfenen Proben stammen |
 
 Mit **Zähler „Verworfen“ zurücksetzen** setzt du den Zähler auf null. Wie die Warteschlange arbeitet, steht unter [Senden](sending.md).
+
+## Notizen
+
+| Zeile | Bedeutung |
+|---|---|
+| **Wartend** | Wie viele Notizen auf das Senden warten |
+| **Abgelehnt** | Wie viele Notizen optiCLOUD abgelehnt hat |
+
+Darunter steht jede Notiz, die noch auf dem Telefon ist, mit Titel und Zeitpunkt, eine abgelehnte mit der Meldung von optiCLOUD. Wische nach links, um eine abgelehnte Notiz mit **Erneut senden** noch einmal zu senden oder eine Notiz mit **Löschen** zu entfernen. Mehr unter [Notizen](notes.md).
 
 ## Protokoll
 

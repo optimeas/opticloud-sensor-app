@@ -1,0 +1,121 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "New ${applicationName} Note" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringSet" : {
+            "state" : "new",
+            "values" : [
+              "New ${applicationName} Note",
+              "${applicationName} Note",
+              "${applicationName} new note",
+              "New note in ${applicationName}",
+              "Write a note in ${applicationName}"
+            ]
+          }
+        },
+        "de" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Neue ${applicationName} Notiz",
+              "${applicationName} Notiz",
+              "${applicationName} neue Notiz",
+              "Neue Notiz in ${applicationName}",
+              "Notiz in ${applicationName} schreiben"
+            ]
+          }
+        },
+        "fr" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Nouvelle note ${applicationName}",
+              "${applicationName} note",
+              "${applicationName} nouvelle note",
+              "Nouvelle note dans ${applicationName}",
+              "Écrire une note dans ${applicationName}"
+            ]
+          }
+        },
+        "it" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Nuova nota ${applicationName}",
+              "${applicationName} nota",
+              "${applicationName} nuova nota",
+              "Nuova nota in ${applicationName}",
+              "Scrivi una nota in ${applicationName}"
+            ]
+          }
+        },
+        "es" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Nueva nota de ${applicationName}",
+              "${applicationName} nota",
+              "${applicationName} nueva nota",
+              "Nueva nota en ${applicationName}",
+              "Escribir una nota en ${applicationName}"
+            ]
+          }
+        }
+      }
+    },
+    "Open a new ${applicationName} Note" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringSet" : {
+            "state" : "new",
+            "values" : [
+              "Open a new ${applicationName} Note",
+              "Open a new note in ${applicationName}"
+            ]
+          }
+        },
+        "de" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Neue ${applicationName} Notiz in der App öffnen",
+              "Neue Notiz in ${applicationName} öffnen"
+            ]
+          }
+        },
+        "fr" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Ouvrir une nouvelle note ${applicationName}",
+              "Ouvrir une nouvelle note dans ${applicationName}"
+            ]
+          }
+        },
+        "it" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Apri una nuova nota ${applicationName}",
+              "Apri una nuova nota in ${applicationName}"
+            ]
+          }
+        },
+        "es" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Abrir una nueva nota de ${applicationName}",
+              "Abrir una nueva nota en ${applicationName}"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

@@ -31,7 +31,8 @@ Así puedes probar optiCLOUD sin conectar hardware propio y usar un smartphone c
 - Guardar temporalmente los valores sin red y entregarlos en cuanto vuelve la conexión.
 - Aceptar comandos de optiCLOUD y dejar que optiCLOUD gestione los ajustes mediante Shared Attributes.
 - Contar su propio volumen de datos, separado por red móvil y Wi-Fi.
-- Abrir con un toque en Safari Dashboards, dispositivos y tus favoritos de optiCLOUD.
+- Escribir notas en el dispositivo, en la app o con Siri, también sin red.
+- Abrir con un toque en la app, con la sesión iniciada, Dashboards, dispositivos y tus favoritos de optiCLOUD.
 - Mostrar y exportar un registro de diagnóstico.
 
 Este manual describe la app para iOS. La app para Android llegará más adelante.
@@ -49,8 +50,9 @@ La app es de código abierto bajo la licencia MIT. Por qué lo hacemos así se e
 | [Segundo plano y ubicación](background.md) | Enviar con la pantalla bloqueada y el permiso de ubicación |
 | [El dispositivo en optiCLOUD](device-in-opticloud.md) | Telemetría, atributos y comandos del dispositivo |
 | [Volumen de datos](data-volume.md) | Cuántos datos consume la app |
-| [Favoritos](favorites.md) | Abrir Dashboards y dispositivos en Safari, Dashboard predeterminado |
-| [Diagnóstico](diagnosis.md) | Registro, cola, valores de prueba y exportación |
+| [Favoritos](favorites.md) | Abrir Dashboards y dispositivos en la app, Dashboard predeterminado |
+| [Notas](notes.md) | Escribir notas en la app y con Siri, también sin red |
+| [Diagnóstico](diagnosis.md) | Registro, cola, notas, valores de prueba y exportación |
 | [Privacidad](privacy.md) | Qué datos recoge la app y adónde van |
 
 ## Requisitos

@@ -47,7 +47,8 @@ Spelling is exact: **optiMEAS**, **optiCLOUD**, **optiCLOUD Sensor**.
 
 - **Sensor values.** Whatever the device offers. The set differs from device to device, so the app discovers at run time what is available. This includes values measured on the body, such as heart rate and body temperature, which reach the phone from a watch or another device.
 - **Location.** Geographic position, sent with the other data.
-- **Journal entries.** Title and text written by the user, with status and priority. optiCLOUD stores them as notes of the signed-in user on the device. The time stamp of an entry is the moment the user saved it in the app, also when it is delivered later. optiCLOUD sets the time of a note itself, so the app sends the moment of saving, and the position if known, as additional information and adds the moment of saving to the text.
+- **Journal entries.** A text written by the user, with an optional title, status, and priority; without a title the first line of the text is the title. optiCLOUD stores them as notes of the signed-in user on the device. The time stamp of an entry is the moment the user saved it in the app, also when it is delivered later. optiCLOUD sets the time of a note itself, so the app sends the moment of saving, and the position if known, as additional information and adds the moment of saving to the text.
+- **Quick note.** A journal entry written in a few seconds: from a button in the live view, or through the App Shortcut "New optiCLOUD Note", which takes the text by dictation through Siri and saves it without opening the app. Details in [docs/spec/journal.md](spec/journal.md#quick-note).
 - **Photos.** Taken in the app, sent with a time stamp and, where available, the position. The app uploads them through the device storage interface; optiCLOUD stores them, and a dashboard widget shows the latest photo of a series.
 
 ### Connection and transmission
@@ -105,7 +106,7 @@ The tab Favorites opens pages of the optiCLOUD web application in a browser view
 - **Background operation shapes the design from the first commit.** Sensor collection and MQTT run in a service layer that does not depend on the user interface, with its own reconnect logic.
   - iOS has no general "keep running" mode. The workable route is the location background mode with "Always" permission. Without that permission the app transmits only while it is open. App Review checks this mode closely, so location must be a visible feature with a clear permission text.
   - Android needs a foreground service with a persistent notification. Allowed service types and time limits have tightened in recent Android versions. Check them against the current target SDK.
-- **Store and forward.** Journal entries and photos must not be lost without a network. They need a persistent queue that keeps the original time stamp. Telemetry is buffered as well while the phone is offline and is sent later with QoS 1 and its original time stamps, oldest first; the buffer holds up to 50 MB and drops the oldest samples when full. Details in [docs/spec/offline-queue.md](spec/offline-queue.md).
+- **Store and forward.** Journal entries and photos must not be lost without a network. They need a persistent queue that keeps the original time stamp. Journal entries have a queue of their own, delivered through the REST interface with the user's session; the app never discards an entry by itself. Telemetry is buffered as well while the phone is offline and is sent later with QoS 1 and its original time stamps, oldest first; the buffer holds up to 50 MB and drops the oldest samples when full. Details in [docs/spec/offline-queue.md](spec/offline-queue.md).
 - **Photos do not travel over MQTT.** The message size is limited. The app uploads them through the device storage interface, which follows the S3 protocol and signs requests with the device access token.
 - **Secrets.** The device access token, the refresh token of the user's session, and the installation identifier are stored in the Keychain (iOS) and the Keystore-backed storage (Android). The user's password is never stored.
 - **Shared test vectors.** `docs/spec/` contains example payloads and expected results as JSON. Both apps run their protocol tests against the same files.
@@ -125,7 +126,7 @@ The two apps are developed in separate working sessions, usually on separate com
 ## Stages
 
 1. **Foundation.** Sign-in and device selection through the REST API, service layer with background operation, configuration, connect and transmit as separate states, sensor selection and send rate, location, test area, favorites with the jump to optiCLOUD.
-2. **Journal entries** with the offline queue.
+2. **Journal entries** with the offline queue and the quick note. The iOS app implements it since 2026-10-27; the Android app follows.
 3. **Photos.**
 4. **Health data.** Values measured on the body, such as heart rate and body temperature, from the health store of the platform. This stage comes only after the app is in productive use and ships as a release of its own, because health data needs explicit consent, its own store statements, and a closer review by both stores.
 

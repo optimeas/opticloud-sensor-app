@@ -1,8 +1,8 @@
 ---
 title: Diagnosis
-description: Log, offline queue, and test values on the Diagnosis tab of the optiCLOUD Sensor app, and how to export the log.
+description: Log, offline queue, waiting notes, and test values on the Diagnosis tab of the optiCLOUD Sensor app, and how to export the log.
 sidebar_label: Diagnosis
-sidebar_position: 9
+sidebar_position: 10
 image: "/img/om_social_card.png"
 keywords:
   - diagnosis
@@ -42,6 +42,15 @@ Telemetry goes through the offline queue like every measured value and arrives e
 | **Discarded Range** | The period the discarded samples come from |
 
 **Reset Discarded Count** sets the count back to zero. How the queue works is in [Sending](sending.md).
+
+## Notes
+
+| Row | Meaning |
+|---|---|
+| **Waiting** | How many notes wait to be sent |
+| **Refused** | How many notes optiCLOUD refused |
+
+Below, every note still on the phone is listed with its title and time, a refused one with the message from optiCLOUD. Swipe left to send a refused note again with **Send Again** or to delete a note with **Delete**. More under [Notes](notes.md).
 
 ## Log
 

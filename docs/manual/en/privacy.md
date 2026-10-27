@@ -2,7 +2,7 @@
 title: Privacy
 description: Which data the optiCLOUD Sensor app collects, where it goes, and what stays on the phone.
 sidebar_label: Privacy
-sidebar_position: 10
+sidebar_position: 11
 image: "/img/om_social_card.png"
 keywords:
   - privacy

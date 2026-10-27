@@ -1,5 +1,5 @@
 {
-  "description": "Body of the request that creates a note from a journal entry. Input: entry (title, text, status, priority, savedAt, utcOffsetMinutes of the phone at the moment of saving, optional latitude and longitude), claims (from the access token), and deviceId. Expected: body, compared as a JSON value. See journal.md, Note and Time stamp.",
+  "description": "Body of the request that creates a note from a journal entry. Input: entry (title, text, status, priority, savedAt, utcOffsetMinutes of the phone at the moment of saving, optional latitude and longitude), claims (from the access token), and deviceId. Expected: body, compared as a JSON value. An empty title is taken from the text (see journal-title.json). See journal.md, Note and Time stamp.",
   "cases": [
     {
       "name": "entry with defaults and position",
@@ -214,6 +214,49 @@
         "text": "All fine.\n\n2025-10-09 14:23 +05:30",
         "status": "CREATED",
         "priority": "MEDIUM",
+        "additionalInfo": {
+          "source": "optiCLOUD Sensor App",
+          "savedAt": 1760000000000
+        }
+      }
+    },
+    {
+      "name": "entry without title",
+      "entry": {
+        "title": "",
+        "text": "Signal failure near the station.\nTrain waits.",
+        "status": "CREATED",
+        "priority": "HIGH",
+        "savedAt": 1760000000000,
+        "utcOffsetMinutes": 120
+      },
+      "claims": {
+        "tenantId": "11111111-1111-1111-1111-111111111111",
+        "projectId": "22222222-2222-2222-2222-222222222222",
+        "authorityDataId": "33333333-3333-3333-3333-333333333333"
+      },
+      "deviceId": "44444444-4444-4444-4444-444444444444",
+      "body": {
+        "entityId": {
+          "entityType": "DEVICE",
+          "id": "44444444-4444-4444-4444-444444444444"
+        },
+        "tenantId": {
+          "entityType": "TENANT",
+          "id": "11111111-1111-1111-1111-111111111111"
+        },
+        "projectId": {
+          "entityType": "PROJECT",
+          "id": "22222222-2222-2222-2222-222222222222"
+        },
+        "authorityDataId": {
+          "entityType": "AUTHORITY_DATA",
+          "id": "33333333-3333-3333-3333-333333333333"
+        },
+        "name": "Signal failure near the station.",
+        "text": "Signal failure near the station.\nTrain waits.\n\n2025-10-09 10:53 +02:00",
+        "status": "CREATED",
+        "priority": "HIGH",
         "additionalInfo": {
           "source": "optiCLOUD Sensor App",
           "savedAt": 1760000000000
