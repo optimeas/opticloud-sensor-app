@@ -1,0 +1,16 @@
+{
+  "description": "Address of a favorite page. Input: address, the address of the web application; path, the path of the favorite. Expected: url, the address the app opens; null means the favorite is left out. See favorites.md, Address of a page.",
+  "cases": [
+    { "name": "dashboard", "address": "https://dashboard.opticloud.io", "path": "/dashboards/0f6c3a8e-2b1d-4c5e-9a7f-1d2e3f4a5b6c", "url": "https://dashboard.opticloud.io/dashboards/0f6c3a8e-2b1d-4c5e-9a7f-1d2e3f4a5b6c" },
+    { "name": "home view", "address": "https://dashboard.opticloud.io", "path": "/home", "url": "https://dashboard.opticloud.io/home" },
+    { "name": "query and fragment are kept", "address": "https://dashboard.opticloud.io", "path": "/dashboards/abc?state=W3siaWQiOiJkZWZhdWx0In1d&hideToolbar=true#top", "url": "https://dashboard.opticloud.io/dashboards/abc?state=W3siaWQiOiJkZWZhdWx0In1d&hideToolbar=true#top" },
+    { "name": "address with a port", "address": "https://opticloud.example.com:8443", "path": "/devices/42", "url": "https://opticloud.example.com:8443/devices/42" },
+    { "name": "complete https address", "address": "https://dashboard.opticloud.io", "path": "https://www.optimeas.de/", "url": "https://www.optimeas.de/" },
+    { "name": "complete http address", "address": "https://dashboard.opticloud.io", "path": "http://example.com/page", "url": "http://example.com/page" },
+    { "name": "scheme in capitals", "address": "https://dashboard.opticloud.io", "path": "HTTPS://example.com/", "url": "HTTPS://example.com/" },
+    { "name": "other scheme is left out", "address": "https://dashboard.opticloud.io", "path": "javascript:alert(1)", "url": null },
+    { "name": "mail address is left out", "address": "https://dashboard.opticloud.io", "path": "mailto:info@example.com", "url": null },
+    { "name": "relative path without slash is left out", "address": "https://dashboard.opticloud.io", "path": "dashboards/abc", "url": null },
+    { "name": "empty path is left out", "address": "https://dashboard.opticloud.io", "path": "", "url": null }
+  ]
+}

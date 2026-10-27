@@ -20,7 +20,7 @@ This document lists the settings of the app, their defaults, and their allowed v
 - `https://dashboard.opticloud.io` is the official optiCLOUD server of optiMEAS. Other installations are entered by hand.
 - The tenant, the project, and the device are offered only after sign-in. Until a device is picked, the app cannot connect.
 - The send modes are described in [sensors.md](sensors.md#sending-on-change).
-- Without a default dashboard, the jump to optiCLOUD opens the home view (`/home`). With one, it opens `/dashboards/<identifier>`.
+- The default dashboard is the first entry of the tab Favorites (see [favorites.md](favorites.md)). Without one, that entry opens the home view (`/home`). With one, it opens `/dashboards/<identifier>`.
 - A setting whose shared attribute exists is managed by optiCLOUD and locked on the phone (see [messages.md](messages.md#changes-of-shared-attributes)). A command that would change a managed setting is answered with `managed setting`.
 - A value outside the allowed values is refused: on the phone the user cannot enter it, from optiCLOUD it is ignored and shown in the test area.
 

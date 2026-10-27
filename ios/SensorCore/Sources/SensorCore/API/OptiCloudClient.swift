@@ -146,6 +146,21 @@ public actor OptiCloudClient {
         return pair
     }
 
+    /// A second session of the same user and role for the web application, so that a page opens without a new
+    /// sign-in. The app keeps its own session; refresh tokens stay valid when they are used (see
+    /// `docs/spec/favorites.md`, Opening a page).
+    public func webSession() async throws -> TokenPair {
+        guard let refreshToken = tokens?.refreshToken else { throw OptiCloudError.notSignedIn }
+        let response: LoginResponse = try await send("POST", "/api/auth/token", body: ["refreshToken": refreshToken])
+        return try response.tokens()
+    }
+
+    /// The roles of the signed-in user, in the same form as before sign-in (see `docs/spec/sign-in.md`, The session).
+    public func roles() async throws -> [Role] {
+        guard let userId = claims?.userId else { throw OptiCloudError.unexpectedAnswer }
+        return try await authorized("GET", "/api/auth/user/\(userId)/authorities")
+    }
+
     // MARK: Projects
 
     /// The project tree of the role.
@@ -161,8 +176,9 @@ public actor OptiCloudClient {
 
     // MARK: Devices
 
-    /// All devices of the project of the session, of every type. Filter with `Device.isSensorAppDevice`.
-    public func devices(tenantId: String, projectId: String, textSearch: String? = nil) async throws -> [Device] {
+    /// All devices of a project, of every type, without those of its sub-projects. Filter with
+    /// `Device.isSensorAppDevice`. `textSearch` matches the start of the name with regard to case.
+    public func devices(projectId: String, textSearch: String? = nil) async throws -> [Device] {
         var devices: [Device] = []
         var page = 0
         while true {
@@ -174,7 +190,7 @@ public actor OptiCloudClient {
             if let textSearch, !textSearch.isEmpty {
                 query.append(URLQueryItem(name: "textSearch", value: textSearch))
             }
-            let result: Page<Device> = try await authorized("GET", "/api/tenants/\(tenantId)/devices", query: query)
+            let result: Page<Device> = try await authorized("GET", "/api/devices", query: query)
             devices += result.data
             guard result.hasNext else { return devices }
             page += 1
@@ -188,6 +204,38 @@ public actor OptiCloudClient {
 
     public func credentials(deviceId: String) async throws -> DeviceCredentials {
         try await authorized("GET", "/api/device/\(deviceId)/credentials")
+    }
+
+    // MARK: Favorites
+
+    /// The favorites the user keeps in the web application (see `docs/spec/favorites.md`).
+    public func webFavorites() async throws -> [Favorite] {
+        let user: JSONValue = try await authorized("GET", "/api/auth/user")
+        return WebFavorites.favorites(inUser: user)
+    }
+
+    /// All dashboards of a project.
+    public func dashboards(projectId: String, textSearch: String? = nil) async throws -> [DashboardInfo] {
+        var dashboards: [DashboardInfo] = []
+        var page = 0
+        while true {
+            var query = [
+                URLQueryItem(name: "projectId", value: projectId),
+                URLQueryItem(name: "limit", value: "100"),
+                URLQueryItem(name: "page", value: String(page)),
+            ]
+            if let textSearch, !textSearch.isEmpty {
+                query.append(URLQueryItem(name: "textSearch", value: textSearch))
+            }
+            let result: Page<DashboardInfo> = try await authorized("GET", "/api/dashboards", query: query)
+            dashboards += result.data
+            guard result.hasNext else { return dashboards }
+            page += 1
+        }
+    }
+
+    public func dashboard(id: String) async throws -> DashboardInfo {
+        try await authorized("GET", "/api/dashboard/info/\(id)")
     }
 
     // MARK: Attributes

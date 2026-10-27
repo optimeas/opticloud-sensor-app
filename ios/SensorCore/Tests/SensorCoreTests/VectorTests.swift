@@ -129,6 +129,22 @@ struct VectorTests {
         }
     }
 
+    // MARK: favorite-url.json
+
+    struct FavoriteURLCase: Decodable, CustomTestStringConvertible {
+        let name: String
+        let address: String
+        let path: String
+        let url: String?
+        var testDescription: String { name }
+    }
+
+    @Test(arguments: try TestVectors.cases("favorite-url", as: FavoriteURLCase.self))
+    func favoriteURL(_ vector: FavoriteURLCase) throws {
+        let address = try #require(ServerAddress(parsing: vector.address))
+        #expect(address.pageURL(path: vector.path)?.absoluteString == vector.url)
+    }
+
     // MARK: mqtt-packet-size.json
 
     struct PacketSizeCase: Decodable, CustomTestStringConvertible {

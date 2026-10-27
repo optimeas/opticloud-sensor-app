@@ -2,7 +2,7 @@
 title: Diagnostic
 description: Journal, file hors ligne et valeurs de test dans l’onglet Diagnostic de l’app optiCLOUD Sensor, et comment exporter le journal.
 sidebar_label: Diagnostic
-sidebar_position: 8
+sidebar_position: 9
 image: "/img/om_social_card.png"
 keywords:
   - diagnostic

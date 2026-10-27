@@ -11,7 +11,7 @@ keywords:
   - Shared Attributes
   - RPC
 last_update:
-  date: 2026-10-25
+  date: 2026-10-27
   author: optiMEAS GmbH
 license: CC-BY-4.0
 copyright: © 2026 optiMEAS GmbH und optiMEAS Switzerland GmbH
@@ -44,12 +44,13 @@ Tras cada conexión y con cada cambio, la app comunica qué es el teléfono y qu
 
 ## Ajustes desde optiCLOUD
 
-Puedes fijar dos ajustes de la app en optiCLOUD mediante Shared Attributes del dispositivo:
+Puedes fijar tres ajustes de la app en optiCLOUD mediante Shared Attributes del dispositivo:
 
 | Shared Attribute | Tipo | Ajuste |
 |---|---|---|
 | `sendRate` | Número | Frecuencia de envío en segundos, de 1 a 3600 |
 | `sensors` | Texto | Selección de sensores, por ejemplo `motion,location` |
+| `dashboard` | Texto | Dashboard predeterminado en la pestaña [Favoritos](favorites.md), el ID del Dashboard |
 
 - Si el Shared Attribute existe, la app adopta su valor y muestra el ajuste como gestionado. En ese caso no se puede cambiar en el teléfono.
 - Si borras el Shared Attribute, la app conserva el último valor y el ajuste vuelve a poder cambiarse en el teléfono.

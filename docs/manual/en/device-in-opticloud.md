@@ -11,7 +11,7 @@ keywords:
   - shared attributes
   - RPC
 last_update:
-  date: 2026-10-25
+  date: 2026-10-27
   author: optiMEAS GmbH
 license: CC-BY-4.0
 copyright: © 2026 optiMEAS GmbH und optiMEAS Switzerland GmbH
@@ -44,12 +44,13 @@ After every connect and with every change, the app reports what the phone is and
 
 ## Settings from optiCLOUD
 
-You can set two settings of the app in optiCLOUD through shared attributes of the device:
+You can set three settings of the app in optiCLOUD through shared attributes of the device:
 
 | Shared attribute | Type | Setting |
 |---|---|---|
 | `sendRate` | number | Send rate in seconds, 1 to 3600 |
 | `sensors` | text | Sensor selection, for example `motion,location` |
+| `dashboard` | text | Default dashboard on the [Favorites](favorites.md) tab, the ID of the dashboard |
 
 - When the shared attribute exists, the app takes over its value and shows the setting as managed. It can then not be changed on the phone.
 - When you delete the shared attribute, the app keeps the last value, and the setting can be changed on the phone again.

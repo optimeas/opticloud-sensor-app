@@ -2,7 +2,7 @@
 
 This directory is the master for the behavior of optiCLOUD Sensor. The iOS app and the Android app both implement it. Neither app is the reference for the other.
 
-**Status: draft.** The specification is being worked out. Both apps pass the shared test vectors. The iOS app implements sign-in, device selection, the connection, the offline queue, commands, the sensor selection, the data volume, transmission of all sensor groups of stage 1, also in the background, and the test area without alarms. The Android app implements sign-in and device selection. Protocol facts were read from the optiCLOUD source; each document says which parts were tested against an optiCLOUD test server.
+**Status: draft.** The specification is being worked out. Both apps pass the shared test vectors. The iOS app implements sign-in, device selection, the connection, the offline queue, commands, the sensor selection, the data volume, transmission of all sensor groups of stage 1, also in the background, the test area without alarms, and the favorites. The Android app implements sign-in and device selection. Protocol facts were read from the optiCLOUD source; each document says which parts were tested against an optiCLOUD test server.
 
 ## Documents
 
@@ -13,6 +13,7 @@ This directory is the master for the behavior of optiCLOUD Sensor. The iOS app a
 | [messages.md](messages.md) | MQTT topics and payloads: telemetry, attributes, RPC, alarms | Draft |
 | [configuration.md](configuration.md) | The settings, their defaults and allowed values, and what the app stores | Draft |
 | [sensors.md](sensors.md) | How sensors are found, selected, and sampled; the catalog of keys and units | Draft |
+| [favorites.md](favorites.md) | Pages of the web application in the tab Favorites | Draft |
 | [offline-queue.md](offline-queue.md) | Buffering and delivery of telemetry | Draft, journal entries follow with stage 2 |
 | [journal.md](journal.md) | Journal entries as notes | Draft |
 | [vectors/](vectors/) | Test vectors shared by both apps | Draft |
@@ -47,6 +48,7 @@ Numbers are compared as numbers: `0`, `0.0`, and `-0.0` are equal. A description
 | [orientation.json](vectors/orientation.json) | Roll, pitch, and yaw from gravity and the magnetic field |
 | [sound-level.json](vectors/sound-level.json) | Estimated sound level from the microphone samples |
 | [test-signal.json](vectors/test-signal.json) | The sine of the test group from the time stamp |
+| [favorite-url.json](vectors/favorite-url.json) | Address of a favorite page |
 | [mqtt-packet-size.json](vectors/mqtt-packet-size.json) | Size of the MQTT packets counted for the data volume |
 | [data-volume.json](vectors/data-volume.json) | Data volume per day and per period |
 | [queue-batching.json](vectors/queue-batching.json) | Division of the offline queue into telemetry messages |

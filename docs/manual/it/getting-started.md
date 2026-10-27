@@ -11,7 +11,7 @@ keywords:
   - dispositivo
   - Access Token
 last_update:
-  date: 2026-10-25
+  date: 2026-10-27
   author: optiMEAS GmbH
 license: CC-BY-4.0
 copyright: © 2026 optiMEAS GmbH und optiMEAS Switzerland GmbH
@@ -60,6 +60,7 @@ Con **Interrompi invio** smetti di inviare.
 | Tab | Contenuto |
 |---|---|
 | **Live** | Avviare e interrompere l’invio, i valori attuali |
+| **Preferiti** | Aprire pagine di optiCLOUD in Safari (vedi [Preferiti](favorites.md)) |
 | **Diagnostica** | Registro, coda offline, invio di valori di prova (vedi [Diagnostica](diagnosis.md)) |
 | **Impostazioni** | Dispositivo, Connessione, Invio, Sensori, Volume dati, Account, Informazioni |
 

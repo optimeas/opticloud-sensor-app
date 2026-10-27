@@ -54,6 +54,81 @@ struct OptiCloudClientTests {
 
     let validToken = jwt(["tenantId": "t1", "projectId": "p1", "userId": "u1", "authorityDataId": "a1", "exp": 1_760_003_600])
 
+    @Test func webFavoritesLeaveOutIncompleteEntries() async throws {
+        let transport = MockTransport([.init(status: 200, body: """
+            {"id":{"id":"u1"},"email":"user@example.com","additionalInfo":{"lang":"de","favoritePages":[
+              {"title":"Overview","icon":"dashboard","path":"/dashboards/d1","isLandingPage":true},
+              {"title":"","icon":"star","path":"/devices"},
+              {"title":"No path","icon":"star"},
+              {"title":"Website","icon":"open_in_new","path":"https://www.example.com/"}
+            ]}}
+            """)])
+        let client = OptiCloudClient(address: address, tokens: TokenPair(token: validToken, refreshToken: "r"), transport: transport, now: { now })
+        let favorites = try await client.webFavorites()
+        #expect(favorites == [Favorite(title: "Overview", path: "/dashboards/d1"), Favorite(title: "Website", path: "https://www.example.com/")])
+        #expect(favorites.map(\.kind) == [.dashboard, .external])
+        #expect(favorites.first?.dashboardId == "d1")
+        #expect(transport.requests.first?.url?.path() == "/api/auth/user")
+    }
+
+    @Test func webFavoritesMayBeMissing() async throws {
+        let transport = MockTransport([.init(status: 200, body: #"{"id":{"id":"u1"},"additionalInfo":null}"#)])
+        let client = OptiCloudClient(address: address, tokens: TokenPair(token: validToken, refreshToken: "r"), transport: transport, now: { now })
+        #expect(try await client.webFavorites().isEmpty)
+    }
+
+    @Test func dashboardsAreReadPageByPage() async throws {
+        let transport = MockTransport([
+            .init(status: 200, body: #"{"data":[{"id":{"entityType":"DASHBOARD","id":"d1"},"title":"One","projectIds":[]}],"hasNext":true}"#),
+            .init(status: 200, body: #"{"data":[{"id":{"entityType":"DASHBOARD","id":"d2"},"title":"Two"}],"hasNext":false}"#),
+        ])
+        let client = OptiCloudClient(address: address, tokens: TokenPair(token: validToken, refreshToken: "r"), transport: transport, now: { now })
+        let dashboards = try await client.dashboards(projectId: "p1")
+        #expect(dashboards.map(\.id) == ["d1", "d2"])
+        #expect(dashboards.map(\.title) == ["One", "Two"])
+        let query = transport.requests.map { URLComponents(url: $0.url!, resolvingAgainstBaseURL: false)!.queryItems ?? [] }
+        #expect(query[1].contains(URLQueryItem(name: "page", value: "1")))
+        #expect(query[0].contains(URLQueryItem(name: "projectId", value: "p1")))
+        #expect(transport.requests[0].url?.path() == "/api/dashboards")
+    }
+
+    @Test func favoriteKinds() {
+        #expect(Favorite(title: "", path: "/home").kind == .home)
+        #expect(Favorite(title: "", path: "/dashboards").kind == .dashboardList)
+        #expect(Favorite(title: "", path: "/dashboards?x=1").kind == .dashboardList)
+        #expect(Favorite(title: "", path: "/dashboards/d1?state=abc").dashboardId == "d1")
+        #expect(Favorite(title: "", path: "/devices").kind == .deviceList)
+        #expect(Favorite(title: "", path: "/devices/x/telemetry").kind == .device)
+        #expect(Favorite(title: "", path: "/notes").kind == .page)
+        #expect(Favorite(title: "", path: "https://example.com").kind == .external)
+    }
+
+    @Test func rolesOfTheSession() async throws {
+        let transport = MockTransport([.init(status: 200, body: """
+            [{"authorityId":{"id":"a1"},"authority":"TENANT_USER","tenant":{"id":"t1","name":"Example"},"enabled":true}]
+            """)])
+        let client = OptiCloudClient(address: address, tokens: TokenPair(token: validToken, refreshToken: "r"), transport: transport, now: { now })
+        let roles = try await client.roles()
+        #expect(roles.map(\.tenantName) == ["Example"])
+        #expect(transport.requests.first?.url?.path() == "/api/auth/user/u1/authorities")
+    }
+
+    @Test func webSessionLeavesTheSessionOfTheApp() async throws {
+        let browserToken = jwt(["exp": 1_760_007_200])
+        let browserRefresh = jwt(["exp": 1_760_600_000])
+        let transport = MockTransport([.init(status: 200, body: #"{"token":"\#(browserToken)","refreshToken":"\#(browserRefresh)"}"#)])
+        let client = OptiCloudClient(address: address, tokens: TokenPair(token: validToken, refreshToken: "r"), transport: transport, now: { now })
+        let session = try await client.webSession()
+        #expect(session == TokenPair(token: browserToken, refreshToken: browserRefresh))
+        #expect(try body(of: transport.requests[0]) == .object(["refreshToken": .string("r")]))
+        #expect(await client.claims?.userId == "u1", "the app keeps its own token")
+        let entries = WebSessionStorage.entries(for: session)
+        #expect(entries["jwt_token"] == browserToken)
+        #expect(entries["refresh_token"] == browserRefresh)
+        #expect(entries["jwt_token_expiration"] == "1760007200000")
+        #expect(entries["refresh_token_expiration"] == "1760600000000")
+    }
+
     @Test func addressNeedsHTTPS() {
         #expect(ServerAddress(parsing: "http://cloud.example.com") == nil)
         #expect(ServerAddress(parsing: "cloud.example.com") == nil)
@@ -98,10 +173,10 @@ struct OptiCloudClientTests {
         let client = OptiCloudClient(
             address: address, tokens: TokenPair(token: validToken, refreshToken: "r"), transport: transport, now: { now }
         )
-        _ = try await client.devices(tenantId: "t1", projectId: "p1")
+        _ = try await client.devices(projectId: "p1")
         let request = try #require(transport.requests.first)
         #expect(request.value(forHTTPHeaderField: "X-Authorization") == "Bearer \(validToken)")
-        #expect(request.url?.absoluteString == "https://cloud.example.com/api/tenants/t1/devices?projectId=p1&limit=100&page=0")
+        #expect(request.url?.absoluteString == "https://cloud.example.com/api/devices?projectId=p1&limit=100&page=0")
     }
 
     @Test func devicesAreReadPageByPage() async throws {
@@ -112,7 +187,7 @@ struct OptiCloudClientTests {
         let client = OptiCloudClient(
             address: address, tokens: TokenPair(token: validToken, refreshToken: "r"), transport: transport, now: { now }
         )
-        let devices = try await client.devices(tenantId: "t1", projectId: "p1")
+        let devices = try await client.devices(projectId: "p1")
         #expect(devices.map(\.id) == ["d1", "d2"])
         #expect(devices.map(\.isSensorAppDevice) == [true, false])
         #expect(transport.requests.last?.url?.query()?.contains("page=1") == true)

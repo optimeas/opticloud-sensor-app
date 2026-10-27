@@ -64,10 +64,16 @@ final class SignInModel {
         ServerAddress(parsing: addressText) != nil && !email.isEmpty && !password.isEmpty && !isWorking
     }
 
-    /// Starts the flow. With a running session it goes straight to the project.
+    /// Starts the flow. With a running session it goes straight to the project, and reads the role of the session
+    /// for the name of its tenant.
     func start() async {
         guard let client = app.client, await client.isSignedIn else { return }
-        await run { try await self.loadProjects(client) }
+        await run {
+            try await self.loadProjects(client)
+            // Only after the projects: `cancel()` ends a session that has a role but no projects yet.
+            let authorityId = await client.claims?.authorityDataId
+            self.role = try? await client.roles().first { $0.id == authorityId }
+        }
     }
 
     // MARK: Steps
@@ -190,10 +196,10 @@ final class SignInModel {
     }
 
     private func loadDevices(_ client: OptiCloudClient) async throws {
-        guard let claims = await client.claims, let tenantId = claims.tenantId, let projectId = claims.projectId else {
+        guard let projectId = await client.claims?.projectId else {
             throw OptiCloudError.unexpectedAnswer
         }
-        let devices = try await client.devices(tenantId: tenantId, projectId: projectId).filter(\.isSensorAppDevice)
+        let devices = try await client.devices(projectId: projectId).filter(\.isSensorAppDevice)
         let installationId = app.installationId
         self.devices = await withTaskGroup(of: DeviceRow.self) { group in
             for device in devices {
@@ -237,7 +243,7 @@ final class SignInModel {
 
         let projectName = projects.flatMap(\.flattened).first { $0.id == projectId }?.name ?? ""
         app.select(
-            SelectedDevice(id: device.id, name: device.name, tenantName: role?.tenantName ?? "", projectName: projectName),
+            SelectedDevice(id: device.id, name: device.name, tenantName: role?.tenantName ?? app.device?.tenantName ?? "", projectName: projectName),
             token: token
         )
         isFinished = true

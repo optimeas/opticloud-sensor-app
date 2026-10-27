@@ -11,7 +11,7 @@ keywords:
   - device
   - access token
 last_update:
-  date: 2026-10-25
+  date: 2026-10-27
   author: optiMEAS GmbH
 license: CC-BY-4.0
 copyright: © 2026 optiMEAS GmbH und optiMEAS Switzerland GmbH
@@ -60,6 +60,7 @@ From now on the **Live** tab shows the measured values, and they arrive in optiC
 | Tab | Content |
 |---|---|
 | **Live** | Start and stop sending, the current values |
+| **Favorites** | Opening pages of optiCLOUD in Safari (see [Favorites](favorites.md)) |
 | **Diagnosis** | Log, offline queue, sending test values (see [Diagnosis](diagnosis.md)) |
 | **Settings** | Device, connection, transmission, sensors, data volume, account, about the app |
 

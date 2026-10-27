@@ -11,7 +11,7 @@ keywords:
   - smartphone
   - sensor
 last_update:
-  date: 2026-10-25
+  date: 2026-10-27
   author: optiMEAS GmbH
 license: CC-BY-4.0
 copyright: © 2026 optiMEAS GmbH und optiMEAS Switzerland GmbH
@@ -31,6 +31,7 @@ Así puedes probar optiCLOUD sin conectar hardware propio y usar un smartphone c
 - Guardar temporalmente los valores sin red y entregarlos en cuanto vuelve la conexión.
 - Aceptar comandos de optiCLOUD y dejar que optiCLOUD gestione los ajustes mediante Shared Attributes.
 - Contar su propio volumen de datos, separado por red móvil y Wi-Fi.
+- Abrir con un toque en Safari Dashboards, dispositivos y tus favoritos de optiCLOUD.
 - Mostrar y exportar un registro de diagnóstico.
 
 Este manual describe la app para iOS. La app para Android llegará más adelante.
@@ -48,6 +49,7 @@ La app es de código abierto bajo la licencia MIT. Por qué lo hacemos así se e
 | [Segundo plano y ubicación](background.md) | Enviar con la pantalla bloqueada y el permiso de ubicación |
 | [El dispositivo en optiCLOUD](device-in-opticloud.md) | Telemetría, atributos y comandos del dispositivo |
 | [Volumen de datos](data-volume.md) | Cuántos datos consume la app |
+| [Favoritos](favorites.md) | Abrir Dashboards y dispositivos en Safari, Dashboard predeterminado |
 | [Diagnóstico](diagnosis.md) | Registro, cola, valores de prueba y exportación |
 | [Privacidad](privacy.md) | Qué datos recoge la app y adónde van |
 

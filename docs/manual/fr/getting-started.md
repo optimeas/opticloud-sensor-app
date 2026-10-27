@@ -11,7 +11,7 @@ keywords:
   - appareil
   - Access Token
 last_update:
-  date: 2026-10-25
+  date: 2026-10-27
   author: optiMEAS GmbH
 license: CC-BY-4.0
 copyright: © 2026 optiMEAS GmbH und optiMEAS Switzerland GmbH
@@ -60,6 +60,7 @@ Avec **Arrêter l’envoi**, vous cessez d’envoyer.
 | Onglet | Contenu |
 |---|---|
 | **Live** | Démarrer et arrêter l’envoi, les valeurs actuelles |
+| **Favoris** | Ouvrir des pages d’optiCLOUD dans Safari (voir [Favoris](favorites.md)) |
 | **Diagnostic** | Journal, file hors ligne, envoi de valeurs de test (voir [Diagnostic](diagnosis.md)) |
 | **Réglages** | Appareil, connexion, envoi, capteurs, volume de données, compte, à propos de l’app |
 

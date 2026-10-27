@@ -2,7 +2,7 @@
 title: Diagnose
 description: Protokoll, Offline-Warteschlange und Testwerte im Tab Diagnose der App optiCLOUD Sensor, und wie du das Protokoll exportierst.
 sidebar_label: Diagnose
-sidebar_position: 8
+sidebar_position: 9
 image: "/img/om_social_card.png"
 keywords:
   - Diagnose

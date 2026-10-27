@@ -15,6 +15,9 @@ struct ContentView: View {
                     Tab("Live", systemImage: "dot.radiowaves.left.and.right", value: "live") {
                         LiveView()
                     }
+                    Tab("Favorites", systemImage: "star", value: "favorites") {
+                        FavoritesView()
+                    }
                     Tab("Diagnosis", systemImage: "stethoscope", value: "diagnosis") {
                         NavigationStack { TestAreaView() }
                     }

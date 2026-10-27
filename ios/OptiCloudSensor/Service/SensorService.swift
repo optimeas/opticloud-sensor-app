@@ -116,6 +116,12 @@ final class SensorService {
         filter.mode = mode
     }
 
+    /// Sets or removes the default dashboard. Not possible while optiCLOUD manages it.
+    func setDefaultDashboard(_ id: String?) {
+        guard !settings.managed.contains("dashboard") else { return }
+        settings.dashboard = id
+    }
+
     /// The item keys this phone offers.
     let offered: Set<String> = DeviceSampler.offered
         .union(["dataVolume"])
