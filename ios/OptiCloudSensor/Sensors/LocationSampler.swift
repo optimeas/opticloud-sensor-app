@@ -79,6 +79,17 @@ final class LocationSampler: NSObject {
         return values
     }
 
+    /// The position for a journal entry (see `docs/spec/journal.md`, Entry): the latest of the running updates, or
+    /// else one asked for once. Nil without the permission, or when none comes within `timeout`. Does not ask for the
+    /// permission.
+    func position(timeout: Duration = .seconds(5)) async -> CLLocation? {
+        guard authorization == .authorizedAlways || authorization == .authorizedWhenInUse else { return nil }
+        if let latest, latest.horizontalAccuracy >= 0, Date().timeIntervalSince(latest.timestamp) <= 10 {
+            return latest
+        }
+        return await OneLocation().request(timeout: timeout)
+    }
+
     private func startUpdates() {
         guard !updating else { return }
         updating = true
@@ -138,5 +149,40 @@ extension LocationSampler: CLLocationManagerDelegate {
         guard (error as? CLError)?.code != .locationUnknown else { return }
         let text = error.localizedDescription
         Task { @MainActor in self.logged?(.problem, String(localized: "Location problem"), text) }
+    }
+}
+
+/// A single position from Core Location, with a time limit.
+private final class OneLocation: NSObject, CLLocationManagerDelegate {
+    private let manager = CLLocationManager()
+    private var continuation: CheckedContinuation<CLLocation?, Never>?
+
+    func request(timeout: Duration) async -> CLLocation? {
+        await withCheckedContinuation { continuation in
+            self.continuation = continuation
+            manager.delegate = self
+            manager.desiredAccuracy = kCLLocationAccuracyBest
+            manager.requestLocation()
+            Task { [weak self] in
+                try? await Task.sleep(for: timeout)
+                self?.finish(nil)
+            }
+        }
+    }
+
+    private func finish(_ location: CLLocation?) {
+        guard let continuation else { return }
+        self.continuation = nil
+        manager.delegate = nil
+        continuation.resume(returning: location)
+    }
+
+    nonisolated func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let location = locations.last
+        Task { @MainActor in self.finish(location) }
+    }
+
+    nonisolated func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
+        Task { @MainActor in self.finish(nil) }
     }
 }

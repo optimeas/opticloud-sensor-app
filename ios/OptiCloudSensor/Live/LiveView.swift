@@ -6,12 +6,18 @@ import SwiftUI
 struct LiveView: View {
     @Environment(AppModel.self) private var app
     @Environment(SensorService.self) private var service
+    @Environment(JournalService.self) private var journal
 
     var body: some View {
         NavigationStack {
             List {
                 Section {
                     StatusCard()
+                }
+                if !journal.waiting.isEmpty || !journal.setAside.isEmpty {
+                    Section {
+                        NotesStatus()
+                    }
                 }
                 if service.settings.transmitting {
                     ForEach(selectedGroups) { group in
@@ -26,6 +32,11 @@ struct LiveView: View {
             }
             .navigationTitle(app.device?.name ?? "optiCLOUD Sensor")
             .navigationSubtitle(app.device.map { "\($0.tenantName) · \($0.projectName)" } ?? "")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("New Note", systemImage: "square.and.pencil") { journal.isComposing = true }
+                }
+            }
         }
     }
 
@@ -212,6 +223,28 @@ enum ValueFormat {
         switch item.unit {
         case "", "count", "string", "boolean", "B": ""
         default: item.unit
+        }
+    }
+}
+
+/// The notes that are not delivered yet.
+private struct NotesStatus: View {
+    @Environment(JournalService.self) private var journal
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            if !journal.waiting.isEmpty {
+                Label("\(journal.waiting.count) notes waiting to be sent", systemImage: "tray.and.arrow.up")
+            }
+            if !journal.setAside.isEmpty {
+                Label("\(journal.setAside.count) notes refused by optiCLOUD", systemImage: "exclamationmark.triangle")
+                    .foregroundStyle(.red)
+            }
+            if let reason = journal.stop.reason, !journal.waiting.isEmpty {
+                Text(reason)
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            }
         }
     }
 }

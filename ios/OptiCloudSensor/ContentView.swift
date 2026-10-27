@@ -4,6 +4,7 @@ import SwiftUI
 /// The root of the app: without a device it leads to sign-in; with one it shows the tabs.
 struct ContentView: View {
     @Environment(AppModel.self) private var app
+    @Environment(JournalService.self) private var journal
     @State private var isSigningIn = false
     /// The tab opens again where the user left it.
     @AppStorage("selectedTab") private var selectedTab = "live"
@@ -42,6 +43,13 @@ struct ContentView: View {
         }
         .sheet(isPresented: $isSigningIn) {
             SignInView(app: app)
+        }
+        .sheet(isPresented: Bindable(journal).isComposing) {
+            QuickNoteView()
+        }
+        // Notes that waited for a session go out after a sign-in.
+        .onChange(of: app.isSignedIn) { _, signedIn in
+            if signedIn { journal.deliver() }
         }
     }
 }
@@ -119,7 +127,9 @@ extension CatalogGroup {
 
 #Preview {
     let app = AppModel()
+    let service = SensorService(app: app)
     ContentView()
         .environment(app)
-        .environment(SensorService(app: app))
+        .environment(service)
+        .environment(JournalService(app: app, location: service.location, log: service.log))
 }

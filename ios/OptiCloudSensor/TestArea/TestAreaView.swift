@@ -11,6 +11,7 @@ struct TestAreaView: View {
         List {
             SendValueSection()
             QueueSection()
+            JournalQueueSection()
             LogSection(log: service.log)
         }
         .navigationTitle("Diagnosis")
@@ -191,6 +192,7 @@ private extension TestLog.Entry.Kind {
         case .sent: "arrow.up.circle"
         case .location: "location"
         case .app: "app"
+        case .journal: "note.text"
         }
     }
 }

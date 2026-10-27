@@ -238,6 +238,13 @@ public actor OptiCloudClient {
         try await authorized("GET", "/api/dashboard/info/\(id)")
     }
 
+    // MARK: Journal
+
+    /// Creates a note on a device (see `docs/spec/journal.md`, Note). The answer, the stored note, is not needed.
+    public func createNote(_ request: NoteRequest) async throws {
+        let _: Empty = try await authorized("POST", "/api/notes", body: request)
+    }
+
     // MARK: Attributes
 
     public func sharedAttributes(deviceId: String) async throws -> [AttributeEntry] {

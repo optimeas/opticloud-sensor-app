@@ -1,0 +1,65 @@
+{
+  "description": "Title of the note from the title the user typed and the text. Input: title and text of the entry. Expected: expected, the `name` of the note. Lengths are counted in extended grapheme clusters. See journal.md, Title from the text.",
+  "cases": [
+    {
+      "name": "title as typed",
+      "title": "Brake check",
+      "text": "Brake test at the depot passed.",
+      "expected": "Brake check"
+    },
+    {
+      "name": "title trimmed",
+      "title": "  Brake check \n",
+      "text": "Brake test passed.",
+      "expected": "Brake check"
+    },
+    {
+      "name": "empty title takes the first line",
+      "title": "",
+      "text": "Brake test passed.\nAll four wheels.",
+      "expected": "Brake test passed."
+    },
+    {
+      "name": "title of white space takes the first line",
+      "title": " \t",
+      "text": "Delay",
+      "expected": "Delay"
+    },
+    {
+      "name": "first line with white space only is skipped",
+      "title": "",
+      "text": "\n   \n  Signal failure  \nNear the station.",
+      "expected": "Signal failure"
+    },
+    {
+      "name": "line of exactly 60 characters is kept",
+      "title": "",
+      "text": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "expected": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    {
+      "name": "line of 61 characters is shortened",
+      "title": "",
+      "text": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "expected": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA…"
+    },
+    {
+      "name": "grapheme clusters count as one character",
+      "title": "",
+      "text": "ééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééx",
+      "expected": "ééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé…"
+    },
+    {
+      "name": "emoji with modifier counts as one character",
+      "title": "",
+      "text": "👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽",
+      "expected": "👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽…"
+    },
+    {
+      "name": "carriage return ends a line",
+      "title": "",
+      "text": "First line\r\nSecond line",
+      "expected": "First line"
+    }
+  ]
+}

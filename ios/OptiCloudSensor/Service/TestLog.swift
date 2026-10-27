@@ -3,7 +3,7 @@ import Observation
 
 /// What the test area shows about the communication: commands and their answers, changes of shared attributes,
 /// values the app could not use, the reasons of the connection state, the location updates, the starts of the app,
-/// and the times it went to the background or was paused.
+/// the notes of the journal, and the times it went to the background or was paused.
 ///
 /// The log is kept in a file, so that it survives a new start of the app, for example after iOS ended it in the
 /// background. Each entry is one line of JSON, appended as it happens; a line cut off by a crash is skipped.
@@ -18,6 +18,7 @@ final class TestLog {
             case sent
             case location
             case app
+            case journal
         }
 
         var id = UUID()

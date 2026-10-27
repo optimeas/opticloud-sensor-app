@@ -1,8 +1,8 @@
 ---
 title: Diagnostic
-description: Journal, file hors ligne et valeurs de test dans l’onglet Diagnostic de l’app optiCLOUD Sensor, et comment exporter le journal.
+description: Journal, file hors ligne, notes en attente et valeurs de test dans l’onglet Diagnostic de l’app optiCLOUD Sensor, et comment exporter le journal.
 sidebar_label: Diagnostic
-sidebar_position: 9
+sidebar_position: 10
 image: "/img/om_social_card.png"
 keywords:
   - diagnostic
@@ -42,6 +42,15 @@ La télémétrie passe, comme toute mesure, par la file hors ligne et arrive mê
 | **Période rejetée** | La période d’où proviennent les échantillons rejetés |
 
 Avec **Réinitialiser le compteur de rejets**, vous remettez le compteur à zéro. Le fonctionnement de la file est décrit sous [Envoi](sending.md).
+
+## Notes
+
+| Ligne | Signification |
+|---|---|
+| **En attente** | Combien de notes attendent d’être envoyées |
+| **Refusé** | Combien de notes optiCLOUD a refusées |
+
+En dessous figure chaque note encore sur le téléphone, avec son titre et son heure, une note refusée avec le message d’optiCLOUD. Balayez vers la gauche pour renvoyer une note refusée avec **Renvoyer** ou pour supprimer une note avec **Supprimer**. Plus d’informations sous [Notes](notes.md).
 
 ## Journal
 

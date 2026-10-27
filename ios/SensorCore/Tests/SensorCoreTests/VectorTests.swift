@@ -304,4 +304,20 @@ struct VectorTests {
         let request = NoteRequest(entry: vector.entry, claims: vector.claims, deviceId: vector.deviceId)
         #expect(try jsonValue(request) == vector.body)
     }
+
+    // MARK: journal-title.json
+
+    struct JournalTitleCase: Decodable, CustomTestStringConvertible {
+        let name: String
+        let title: String
+        let text: String
+        let expected: String
+        var testDescription: String { name }
+    }
+
+    @Test(arguments: try TestVectors.cases("journal-title", as: JournalTitleCase.self))
+    func journalTitle(_ vector: JournalTitleCase) {
+        let entry = JournalEntry(title: vector.title, text: vector.text, savedAt: 0, utcOffsetMinutes: 0)
+        #expect(entry.noteName == vector.expected)
+    }
 }

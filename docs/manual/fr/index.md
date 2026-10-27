@@ -31,7 +31,8 @@ Vous pouvez ainsi essayer optiCLOUD sans raccorder votre propre matériel, et ut
 - Mettre les valeurs en mémoire tampon en l’absence de réseau et les livrer dès que la connexion est rétablie.
 - Accepter des commandes provenant d’optiCLOUD et laisser optiCLOUD gérer des réglages au moyen de Shared Attributes.
 - Compter son propre volume de données, séparément pour le réseau cellulaire et le Wi-Fi.
-- Ouvrir d’un geste dans Safari des Dashboards, des appareils et vos favoris optiCLOUD.
+- Écrire des notes sur l’appareil, dans l’app ou avec Siri, même sans réseau.
+- Ouvrir d’un geste dans l’app, déjà connecté, des Dashboards, des appareils et vos favoris optiCLOUD.
 - Afficher et exporter un journal de diagnostic.
 
 Ce manuel décrit l’app pour iOS. L’app pour Android suivra.
@@ -49,8 +50,9 @@ L’app est open source sous licence MIT. Pourquoi nous faisons ce choix est exp
 | [Arrière-plan et localisation](background.md) | L’envoi lorsque l’écran est verrouillé et l’autorisation de localisation |
 | [L’appareil dans optiCLOUD](device-in-opticloud.md) | Télémétrie, attributs et commandes de l’appareil |
 | [Volume de données](data-volume.md) | Combien de données l’app consomme |
-| [Favoris](favorites.md) | Ouvrir des Dashboards et des appareils dans Safari, Dashboard par défaut |
-| [Diagnostic](diagnosis.md) | Journal, file d’attente, valeurs de test et export |
+| [Favoris](favorites.md) | Ouvrir des Dashboards et des appareils dans l’app, Dashboard par défaut |
+| [Notes](notes.md) | Écrire des notes dans l’app et avec Siri, même sans réseau |
+| [Diagnostic](diagnosis.md) | Journal, file d’attente, notes, valeurs de test et export |
 | [Confidentialité](privacy.md) | Quelles données l’app collecte et où elles vont |
 
 ## Prérequis

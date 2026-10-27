@@ -1,8 +1,8 @@
 ---
 title: Diagnostica
-description: Registro, coda offline e valori di prova nel tab Diagnostica dell’app optiCLOUD Sensor, e come esportare il registro.
+description: Registro, coda offline, note in attesa e valori di prova nel tab Diagnostica dell’app optiCLOUD Sensor, e come esportare il registro.
 sidebar_label: Diagnostica
-sidebar_position: 9
+sidebar_position: 10
 image: "/img/om_social_card.png"
 keywords:
   - diagnostica
@@ -42,6 +42,15 @@ La telemetria passa, come ogni valore misurato, dalla coda offline e arriva anch
 | **Intervallo scartato** | Il periodo da cui provengono i campioni scartati |
 
 Con **Azzera il contatore degli scartati** riporti il contatore a zero. Come funziona la coda è descritto in [Invio](sending.md).
+
+## Note
+
+| Riga | Significato |
+|---|---|
+| **In attesa** | Quante note attendono di essere inviate |
+| **Rifiutato** | Quante note optiCLOUD ha rifiutato |
+
+Sotto trovi ogni nota ancora sul telefono, con titolo e ora, una rifiutata con il messaggio di optiCLOUD. Scorri verso sinistra per inviare di nuovo una nota rifiutata con **Invia di nuovo** o per eliminare una nota con **Elimina**. Altro in [Note](notes.md).
 
 ## Registro
 
