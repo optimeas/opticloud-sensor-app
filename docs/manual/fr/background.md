@@ -11,7 +11,7 @@ keywords:
   - iOS
   - batterie
 last_update:
-  date: 2026-10-25
+  date: 2026-10-28
   author: optiMEAS GmbH
 license: CC-BY-4.0
 copyright: © 2026 optiMEAS GmbH und optiMEAS Switzerland GmbH
@@ -41,9 +41,17 @@ Vous voyez l’état actuel sous **Réglages → Envoi → Accès à la localisa
 
 Tant que l’app utilise la localisation, iOS affiche une flèche dans la barre d’état à côté de l’heure. C’est voulu : vous voyez ainsi toujours que l’app mesure. Si vous arrêtez l’envoi, la flèche disparaît.
 
+## Sur l’écran verrouillé et dans le centre de contrôle
+
+Tant que l’app envoie, elle affiche une **activité en direct** sur l’écran verrouillé et dans la Dynamic Island : le nuage de l’app avec l’état, l’appareil, depuis combien de temps elle envoie et combien de valeurs attendent encore. Le nuage est vert tant que l’app envoie, orange tant qu’elle attend une connexion, et rouge quand optiCLOUD a refusé l’appareil. **Arrêter** met fin à l’envoi sans ouvrir l’app.
+
+La commande **Envoyer à optiCLOUD** démarre et arrête l’envoi depuis le centre de contrôle, l’écran verrouillé ou le bouton Action. Ajoutez-la dans le centre de contrôle avec **+** → **Ajouter une commande**. Pour démarrer l’envoi, elle ouvre brièvement l’app, car iOS ne démarre l’activité en direct que depuis l’app ouverte.
+
+iOS met fin à une activité en direct après huit heures. L’envoi continue ; la prochaine fois que vous ouvrez l’app, elle en affiche une nouvelle.
+
 ## Arrêter l’envoi en arrière-plan
 
-Arrêtez l’envoi dans l’onglet **Live** avec **Arrêter l’envoi**.
+Arrêtez l’envoi dans l’onglet **Live** avec **Arrêter l’envoi**, avec **Arrêter** dans l’activité en direct ou avec la commande **Envoyer à optiCLOUD**.
 
 Balayer l’app vers le haut dans le sélecteur d’apps ne suffit **pas**. L’envoi est un réglage qui survit à un redémarrage de l’app : lorsque l’app redémarre, elle continue d’envoyer. C’est intentionnel, car un point de mesure ne doit pas tomber en panne simplement parce que l’app a été fermée entre-temps.
 

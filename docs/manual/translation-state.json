@@ -1,7 +1,7 @@
 {
   "pages": {
     "es": {
-      "background.md": "8032655e88942e80ae3ed436fe097df84dc056984b1cb0edd2ecd1d275230bca",
+      "background.md": "1684c23081144861fc69601ab9d5a425f5c668a60ab19aeab87b506b68693580",
       "data-volume.md": "11305d0185ce51788d333b8e5587f6825bed93e2ae949a972ca970b10daedece",
       "device-in-opticloud.md": "8735538d46578b838bee7c01fd2bb0b749b6ecfc71b71710cadd803b17dd21d7",
       "diagnosis.md": "68c29b7c04694b157cfebd4721c646a70bc12ed4223045644954efce853b5201",
@@ -13,10 +13,10 @@
       "privacy.md": "df1cafc871212a9bdc3b94568ea6c36f6b1ec3d06fea1f84970ea857859695ef",
       "sending.md": "375056b8046eff1b96906a0eece172c4aff89e0c1a42d4f7803ebf77aeee3c98",
       "sensors.md": "4d67a93db12644921ddde5569fc2b3e37724254217b8bbf10a360780731a678f",
-      "whats-new.md": "4ae8f0aaa8c19d05703035b9806c3f6e72b768342d90fb03f410531b53a29b5f"
+      "whats-new.md": "cc36fed932b753e4ac2fdc93e4081a03e9cfc63ade6b2704aa8cf95a5f8868e2"
     },
     "fr": {
-      "background.md": "8032655e88942e80ae3ed436fe097df84dc056984b1cb0edd2ecd1d275230bca",
+      "background.md": "1684c23081144861fc69601ab9d5a425f5c668a60ab19aeab87b506b68693580",
       "data-volume.md": "11305d0185ce51788d333b8e5587f6825bed93e2ae949a972ca970b10daedece",
       "device-in-opticloud.md": "8735538d46578b838bee7c01fd2bb0b749b6ecfc71b71710cadd803b17dd21d7",
       "diagnosis.md": "68c29b7c04694b157cfebd4721c646a70bc12ed4223045644954efce853b5201",
@@ -28,10 +28,10 @@
       "privacy.md": "df1cafc871212a9bdc3b94568ea6c36f6b1ec3d06fea1f84970ea857859695ef",
       "sending.md": "375056b8046eff1b96906a0eece172c4aff89e0c1a42d4f7803ebf77aeee3c98",
       "sensors.md": "4d67a93db12644921ddde5569fc2b3e37724254217b8bbf10a360780731a678f",
-      "whats-new.md": "4ae8f0aaa8c19d05703035b9806c3f6e72b768342d90fb03f410531b53a29b5f"
+      "whats-new.md": "cc36fed932b753e4ac2fdc93e4081a03e9cfc63ade6b2704aa8cf95a5f8868e2"
     },
     "it": {
-      "background.md": "8032655e88942e80ae3ed436fe097df84dc056984b1cb0edd2ecd1d275230bca",
+      "background.md": "1684c23081144861fc69601ab9d5a425f5c668a60ab19aeab87b506b68693580",
       "data-volume.md": "11305d0185ce51788d333b8e5587f6825bed93e2ae949a972ca970b10daedece",
       "device-in-opticloud.md": "8735538d46578b838bee7c01fd2bb0b749b6ecfc71b71710cadd803b17dd21d7",
       "diagnosis.md": "68c29b7c04694b157cfebd4721c646a70bc12ed4223045644954efce853b5201",
@@ -43,7 +43,7 @@
       "privacy.md": "df1cafc871212a9bdc3b94568ea6c36f6b1ec3d06fea1f84970ea857859695ef",
       "sending.md": "375056b8046eff1b96906a0eece172c4aff89e0c1a42d4f7803ebf77aeee3c98",
       "sensors.md": "4d67a93db12644921ddde5569fc2b3e37724254217b8bbf10a360780731a678f",
-      "whats-new.md": "4ae8f0aaa8c19d05703035b9806c3f6e72b768342d90fb03f410531b53a29b5f"
+      "whats-new.md": "cc36fed932b753e4ac2fdc93e4081a03e9cfc63ade6b2704aa8cf95a5f8868e2"
     }
   },
   "source": "de"

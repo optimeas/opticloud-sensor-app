@@ -10,7 +10,7 @@ keywords:
   - registro de cambios
   - bienvenida
 last_update:
-  date: 2026-10-27
+  date: 2026-10-28
   author: optiMEAS GmbH
 license: CC-BY-4.0
 copyright: © 2026 optiMEAS GmbH y optiMEAS Switzerland GmbH
@@ -25,6 +25,13 @@ Esta página lista todas las versiones de la app para iOS, la más reciente prim
 - En el primer inicio, la app te recibe con una **pantalla de bienvenida**. Muestra en pocos puntos lo que hace la app. Con **Empezar** pasas al inicio de sesión.
 - Después de una actualización, la app muestra una vez **Novedades de optiCLOUD Sensor** con los cambios más importantes de la versión. Con **Continuar** cierras la pantalla. Los builds nuevos de la misma versión no la vuelven a mostrar.
 - Encuentras las dos pantallas en cualquier momento en **Ajustes** → **Acerca de optiCLOUD Sensor**: **Bienvenida** e **Historial de versiones**. En el historial, cada cambio está marcado como nuevo (✦), mejorado (↑) o corregido (llave).
+
+## Versión 0.9.0
+
+28 de octubre de 2026
+
+- **Nuevo:** mientras la app envía, una Actividad en Vivo en la pantalla bloqueada y en la Dynamic Island muestra el estado, el dispositivo y los valores en espera, con un botón para detener. Consulta [Segundo plano y ubicación](background.md).
+- **Nuevo:** el control «Enviar a optiCLOUD» inicia y detiene el envío desde el centro de control, la pantalla bloqueada o el botón de acción.
 
 ## Versión 0.8.0
 

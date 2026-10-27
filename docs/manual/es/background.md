@@ -11,7 +11,7 @@ keywords:
   - iOS
   - batería
 last_update:
-  date: 2026-10-25
+  date: 2026-10-28
   author: optiMEAS GmbH
 license: CC-BY-4.0
 copyright: © 2026 optiMEAS GmbH und optiMEAS Switzerland GmbH
@@ -41,9 +41,17 @@ El estado actual lo ves en **Ajustes → Envío → Acceso a la ubicación** mie
 
 Mientras la app usa la ubicación, iOS muestra una flecha en la barra de estado, junto a la hora. Es intencionado: así ves siempre que la app está midiendo. Si detienes el envío, la flecha desaparece.
 
+## En la pantalla bloqueada y en el centro de control
+
+Mientras la app envía, muestra una **Actividad en Vivo** en la pantalla bloqueada y en la Dynamic Island: la nube de la app con el estado, el dispositivo, cuánto tiempo lleva enviando y cuántos valores siguen esperando. La nube es verde mientras la app envía, naranja mientras espera una conexión y roja cuando optiCLOUD ha rechazado el dispositivo. Con **Detener** terminas el envío sin abrir la app.
+
+El control **Enviar a optiCLOUD** inicia y detiene el envío desde el centro de control, la pantalla bloqueada o el botón de acción. Añádelo en el centro de control con **+** → **Añadir un control**. Para iniciar el envío abre brevemente la app, porque iOS solo inicia la Actividad en Vivo desde la app abierta.
+
+iOS termina una Actividad en Vivo a las ocho horas. El envío continúa; la próxima vez que abras la app, muestra una nueva.
+
 ## Detener el envío en segundo plano
 
-Detén el envío en la pestaña **Live** con **Detener envío**.
+Detén el envío en la pestaña **Live** con **Detener envío**, con **Detener** en la Actividad en Vivo o con el control **Enviar a optiCLOUD**.
 
 Deslizar la app hacia arriba en el selector de apps **no** basta. El envío es un ajuste que se mantiene aunque la app se reinicie: cuando la app vuelve a iniciarse, sigue enviando. Es a propósito, porque un punto de medición no debe fallar solo porque la app se haya cerrado entretanto.
 

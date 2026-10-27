@@ -35,6 +35,25 @@ enum ReleaseNotes {
 
     static let all: [Release] = [
         Release(
+            version: "0.9.0", build: nil, date: day(2026, 10, 28),
+            highlights: [
+                Highlight(
+                    symbol: "lock.iphone",
+                    title: LocalizedStringResource("Sending at a Glance", comment: "Highlight of version 0.9"),
+                    text: LocalizedStringResource("On the Lock Screen and in the Dynamic Island you see whether the app sends and how many values wait. One tap stops it.", comment: "Highlight of version 0.9")
+                ),
+                Highlight(
+                    symbol: "switch.2",
+                    title: LocalizedStringResource("In Control Center", comment: "Highlight of version 0.9"),
+                    text: LocalizedStringResource("Start and stop sending from Control Center, the Lock Screen, or the Action button.", comment: "Highlight of version 0.9")
+                ),
+            ],
+            changes: [
+                Change(.new, LocalizedStringResource("While the app sends, a Live Activity on the Lock Screen and in the Dynamic Island shows the state, the device, and the waiting values, with a button to stop.", comment: "Change in version 0.9")),
+                Change(.new, LocalizedStringResource("The control “Send to optiCLOUD” starts and stops sending from Control Center, the Lock Screen, or the Action button.", comment: "Change in version 0.9")),
+            ]
+        ),
+        Release(
             version: "0.8.0", build: nil, date: day(2026, 10, 27),
             highlights: [
                 Highlight(

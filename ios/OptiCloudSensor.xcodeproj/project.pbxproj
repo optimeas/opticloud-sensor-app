@@ -9,19 +9,55 @@
 /* Begin PBXBuildFile section */
 		AA0000000000000000000012 /* SensorCore in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000011 /* SensorCore */; };
 		AA0000000000000000000018 /* DeviceLink in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000017 /* DeviceLink */; };
+		AA0000000000000000000026 /* OptiCloudSensorWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AA000000000000000000001B /* OptiCloudSensorWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AA0000000000000000000024 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA0000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA000000000000000000001C;
+			remoteInfo = OptiCloudSensorWidgets;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AA0000000000000000000025 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				AA0000000000000000000026 /* OptiCloudSensorWidgets.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		AA0000000000000000000004 /* OptiCloudSensor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OptiCloudSensor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA0000000000000000000013 /* Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
 		AA0000000000000000000015 /* SensorCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SensorCore; sourceTree = "<group>"; };
 		AA0000000000000000000016 /* Local.xcconfig.example */ = {isa = PBXFileReference; lastKnownFileType = text; path = Local.xcconfig.example; sourceTree = "<group>"; };
+		AA000000000000000000001B /* OptiCloudSensorWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OptiCloudSensorWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		AA0000000000000000000005 /* OptiCloudSensor */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = OptiCloudSensor;
+			sourceTree = "<group>";
+		};
+		AA0000000000000000000019 /* OptiCloudSensorWidgets */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = OptiCloudSensorWidgets;
+			sourceTree = "<group>";
+		};
+		AA000000000000000000001A /* Shared */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -36,6 +72,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AA000000000000000000001E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -43,6 +86,8 @@
 			isa = PBXGroup;
 			children = (
 				AA0000000000000000000005 /* OptiCloudSensor */,
+				AA0000000000000000000019 /* OptiCloudSensorWidgets */,
+				AA000000000000000000001A /* Shared */,
 				AA0000000000000000000015 /* SensorCore */,
 				AA0000000000000000000014 /* Config */,
 				AA0000000000000000000003 /* Products */,
@@ -53,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				AA0000000000000000000004 /* OptiCloudSensor.app */,
+				AA000000000000000000001B /* OptiCloudSensorWidgets.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -76,13 +122,16 @@
 				AA0000000000000000000007 /* Sources */,
 				AA0000000000000000000008 /* Frameworks */,
 				AA0000000000000000000009 /* Resources */,
+				AA0000000000000000000025 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				AA0000000000000000000023 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				AA0000000000000000000005 /* OptiCloudSensor */,
+				AA000000000000000000001A /* Shared */,
 			);
 			name = OptiCloudSensor;
 			packageProductDependencies = (
@@ -92,6 +141,27 @@
 			productName = OptiCloudSensor;
 			productReference = AA0000000000000000000004 /* OptiCloudSensor.app */;
 			productType = "com.apple.product-type.application";
+		};
+		AA000000000000000000001C /* OptiCloudSensorWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA0000000000000000000020 /* Build configuration list for PBXNativeTarget "OptiCloudSensorWidgets" */;
+			buildPhases = (
+				AA000000000000000000001D /* Sources */,
+				AA000000000000000000001E /* Frameworks */,
+				AA000000000000000000001F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				AA0000000000000000000019 /* OptiCloudSensorWidgets */,
+				AA000000000000000000001A /* Shared */,
+			);
+			name = OptiCloudSensorWidgets;
+			productName = OptiCloudSensorWidgets;
+			productReference = AA000000000000000000001B /* OptiCloudSensorWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -104,6 +174,9 @@
 				LastUpgradeCheck = 2710;
 				TargetAttributes = {
 					AA0000000000000000000006 = {
+						CreatedOnToolsVersion = 27.1;
+					};
+					AA000000000000000000001C = {
 						CreatedOnToolsVersion = 27.1;
 					};
 				};
@@ -130,12 +203,20 @@
 			projectRoot = "";
 			targets = (
 				AA0000000000000000000006 /* OptiCloudSensor */,
+				AA000000000000000000001C /* OptiCloudSensorWidgets */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		AA0000000000000000000009 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA000000000000000000001F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -152,7 +233,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AA000000000000000000001D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AA0000000000000000000023 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA000000000000000000001C /* OptiCloudSensorWidgets */;
+			targetProxy = AA0000000000000000000024 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		AA000000000000000000000B /* Debug */ = {
@@ -176,6 +272,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 0.9.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -200,6 +297,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 0.9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -212,8 +310,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AA0000000000000000000013 /* Base.xcconfig */;
 			buildSettings = {
+				APP_GROUP = group.ch.optimeas.opticloudsensor.dev;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Dev";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Config/OptiCloudSensor.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
@@ -225,6 +325,7 @@
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "optiCLOUD Sensor sends the position, altitude, speed, and course of this phone to your optiCLOUD device when location is selected for transmission.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "optiCLOUD Sensor measures the sound level when it is selected for transmission. Only the level is sent; no audio is recorded.";
 				INFOPLIST_KEY_NSMotionUsageDescription = "optiCLOUD Sensor sends your steps, your kind of activity, and the air pressure to your optiCLOUD device when they are selected for transmission.";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -233,7 +334,6 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ch.optimeas.opticloudsensor.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -247,8 +347,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AA0000000000000000000013 /* Base.xcconfig */;
 			buildSettings = {
+				APP_GROUP = group.ch.optimeas.opticloudsensor;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Config/OptiCloudSensor.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
@@ -260,6 +362,7 @@
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "optiCLOUD Sensor sends the position, altitude, speed, and course of this phone to your optiCLOUD device when location is selected for transmission.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "optiCLOUD Sensor measures the sound level when it is selected for transmission. Only the level is sent; no audio is recorded.";
 				INFOPLIST_KEY_NSMotionUsageDescription = "optiCLOUD Sensor sends your steps, your kind of activity, and the air pressure to your optiCLOUD device when they are selected for transmission.";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -268,9 +371,62 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ch.optimeas.opticloudsensor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		AA0000000000000000000021 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AA0000000000000000000013 /* Base.xcconfig */;
+			buildSettings = {
+				APP_GROUP = group.ch.optimeas.opticloudsensor.dev;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Config/Widgets.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Config/Widgets-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "optiCLOUD Sensor Dev";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ch.optimeas.opticloudsensor.dev.widgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		AA0000000000000000000022 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AA0000000000000000000013 /* Base.xcconfig */;
+			buildSettings = {
+				APP_GROUP = group.ch.optimeas.opticloudsensor;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Config/Widgets.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Config/Widgets-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "optiCLOUD Sensor";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ch.optimeas.opticloudsensor.widgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -295,6 +451,15 @@
 			buildConfigurations = (
 				AA000000000000000000000E /* Debug */,
 				AA000000000000000000000F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA0000000000000000000020 /* Build configuration list for PBXNativeTarget "OptiCloudSensorWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA0000000000000000000021 /* Debug */,
+				AA0000000000000000000022 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

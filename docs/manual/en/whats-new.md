@@ -10,7 +10,7 @@ keywords:
   - changelog
   - welcome
 last_update:
-  date: 2026-10-27
+  date: 2026-10-28
   author: optiMEAS GmbH
 license: CC-BY-4.0
 copyright: © 2026 optiMEAS GmbH and optiMEAS Switzerland GmbH
@@ -25,6 +25,13 @@ This page lists every version of the app for iOS, newest first.
 - At its first start, the app greets you with a **welcome screen**. It shows in a few points what the app can do. **Get Started** takes you on to the sign-in.
 - After an update, the app shows **What’s New in optiCLOUD Sensor** once, with the most important changes of the version. **Continue** closes the screen. New builds of the same version do not show it again.
 - You find both screens at any time under **Settings** → **About optiCLOUD Sensor**: **Welcome** and **Version History**. In the version history, each change is marked as new (✦), improved (↑), or fixed (wrench).
+
+## Version 0.9.0
+
+October 28, 2026
+
+- **New:** While the app sends, a Live Activity on the Lock Screen and in the Dynamic Island shows the state, the device, and the waiting values, with a button to stop. See [Background and location](background.md).
+- **New:** The control “Send to optiCLOUD” starts and stops sending from Control Center, the Lock Screen, or the Action button.
 
 ## Version 0.8.0
 

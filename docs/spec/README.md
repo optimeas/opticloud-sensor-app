@@ -9,7 +9,7 @@ This directory is the master for the behavior of optiCLOUD Sensor. The iOS app a
 | Document | Content | Status |
 | --- | --- | --- |
 | [sign-in.md](sign-in.md) | Sign-in of the user, tenant, project, device selection, binding of the device to the phone | Draft |
-| [connection.md](connection.md) | Endpoint, sign-on of the device, the two states "connected" and "transmitting", reconnecting | Draft |
+| [connection.md](connection.md) | Endpoint, sign-on of the device, the two states "connected" and "transmitting", reconnecting, the status outside the app | Draft |
 | [messages.md](messages.md) | MQTT topics and payloads: telemetry, attributes, RPC, alarms | Draft |
 | [configuration.md](configuration.md) | The settings, their defaults and allowed values, and what the app stores | Draft |
 | [sensors.md](sensors.md) | How sensors are found, selected, and sampled; the catalog of keys and units | Draft |

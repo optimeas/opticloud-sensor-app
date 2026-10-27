@@ -58,6 +58,7 @@ These are two separate states with separate controls:
 
 - **Connected** means the MQTT session is up. The test area works, and RPC commands and shared attributes arrive.
 - **Transmitting** means the configured sensor values are being sent at the configured rate. It needs a connection but is started and stopped on its own.
+- **Status outside the app.** While transmitting, the phone shows it on the Lock Screen with a button to stop, and a system control switches transmission on and off. Details in [docs/spec/connection.md](spec/connection.md#status-outside-the-app). The iOS app has it since version 0.9.0 (Live Activity and a control for Control Center); the Android app follows.
 
 ### Test area
 

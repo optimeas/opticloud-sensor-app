@@ -2,6 +2,13 @@
 
 Every version of the iOS app, newest first, in the format of [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The app shows the same changes in its version history (`OptiCloudSensor/WhatsNew/ReleaseNotes.swift`), and the user manual on the page [What's New](../docs/manual/en/whats-new.md). A change to one goes into all three. The behavior of the screens is in [docs/spec/whats-new.md](../docs/spec/whats-new.md).
 
+## 0.9.0 – 2026-10-28
+
+### Added
+
+- Live Activity on the Lock Screen and in the Dynamic Island while the app sends: the state, the device, the time since sending started, and the waiting values, with a button to stop.
+- Control "Send to optiCLOUD" for Control Center, the Lock Screen, and the Action button.
+
 ## 0.8.0 – 2026-10-27
 
 ### Added
