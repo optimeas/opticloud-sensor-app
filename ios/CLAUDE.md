@@ -10,7 +10,7 @@ The iOS app leads (see the [project brief](../docs/project-brief.md#decisions)).
 - Xcode, current stable release. The SwiftUI app life cycle (Xcode 27 requires the UIKit scene life cycle, which SwiftUI covers).
 - Deployment target: **iOS 26** since 2026-10-25, because the test device runs it. Build with the newest SDK; use APIs that are new in iOS 27 only behind an availability check. The test device is an iPhone 16 Pro Max with iOS 26.7.1. A change of the deployment target is recorded in the project brief.
 - Dependencies through Swift Package Manager only. No CocoaPods, no Carthage. Only permissive licenses (MIT, BSD, Apache 2.0); check the license of every transitive dependency before adding a package.
-- Bundle identifier: `ch.optimeas.opticloudsensor` (proposal, to be confirmed with the Apple Developer account of optiMEAS before the first release). The development team, signing settings, and provisioning profiles stay out of the repository; use a local, ignored configuration file for them.
+- Bundle identifier: `ch.optimeas.opticloudsensor`, registered in the Apple Developer account of optiMEAS with the app in App Store Connect since the first TestFlight build on 2026-10-26; the widget extension is `ch.optimeas.opticloudsensor.widgets`. Store texts are in `AppStore/`. The development team, signing settings, and provisioning profiles stay out of the repository; use a local, ignored configuration file for them.
 
 ## Project layout
 
