@@ -183,6 +183,7 @@ Read from the optiCLOUD source. Each one still needs a test against a running se
 - The privacy declarations for both stores must list location, photos, user-written text, and health data.
 - The app needs a screen with the open-source license notices.
 - External testers and the store listing need a privacy policy URL; the privacy page of the user manual can serve once it is published.
+- The texts for public TestFlight and the steps in App Store Connect are in [ios/AppStore/testflight.md](../ios/AppStore/testflight.md). Public TestFlight is planned for the release after 0.9.0, the App Store soon after.
 
 ## Answers from the optiCLOUD source
 
